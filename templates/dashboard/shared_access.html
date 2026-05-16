@@ -1,40 +1,202 @@
 ﻿{% extends "dashboard/panel_base.html" %}
-
 {% block content %}
-<div class="panel-section">
-    <h1>Acceso compartido</h1>
-    <p>Genera enlaces para que socios, gestores o contables puedan acceder a la información de tus taxis.</p>
 
-    <div class="card" style="padding:20px; margin-bottom:25px;">
-        <h2>Crear enlace de invitación</h2>
+<style>
+.share-card {
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(96, 165, 250, 0.18);
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 20px 40px rgba(2, 6, 23, 0.35);
+}
 
-        <form method="post">
-            {% csrf_token %}
+.share-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
 
-            <label>Empresa</label>
-            <select name="company_id" required>
-                {% for company in companies %}
-                    <option value="{{ company.id }}">{{ company.name }}</option>
-                {% endfor %}
-            </select>
+.share-subtitle {
+    color: #94a3b8;
+    margin-bottom: 24px;
+}
 
-            <label>Rol</label>
-            <select name="role">
-                {% for value, label in roles %}
-                    <option value="{{ value }}">{{ label }}</option>
-                {% endfor %}
-            </select>
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
 
-            <label>Número máximo de usos</label>
-            <input type="number" name="max_uses" value="1" min="1">
+.form-grid label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
 
-            <button type="submit">Crear enlace</button>
-        </form>
+.form-grid input,
+.form-grid select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(30, 41, 59, 0.95);
+    color: #fff;
+}
+
+.btn-premium {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-weight: 800;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+}
+
+.table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 18px;
+}
+
+.table-wrap table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+}
+
+.table-wrap th,
+.table-wrap td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    vertical-align: top;
+}
+
+.table-wrap th {
+    color: #cbd5e1;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.link-box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    min-width: 320px;
+}
+
+.link-box input {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    background: rgba(30, 41, 59, 0.95);
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.status-active {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+}
+
+.status-closed {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+}
+
+@media (max-width: 768px) {
+    .share-card {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .share-title {
+        font-size: 1.6rem;
+    }
+
+    .link-box {
+        flex-direction: column;
+        align-items: stretch;
+        min-width: 280px;
+    }
+
+    .link-box input {
+        min-width: 100%;
+    }
+
+    .btn-premium {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+
+<div class="share-card">
+    <div class="share-title">🤝 Acceso compartido</div>
+    <div class="share-subtitle">
+        Genera enlaces seguros para socios, gestores y contables.
     </div>
+</div>
 
-    <div class="card" style="padding:20px; margin-bottom:25px;">
-        <h2>Enlaces creados</h2>
+<div class="share-card">
+    <h2>🔗 Crear enlace de invitación</h2>
+    <br>
 
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-grid">
+            <div>
+                <label>🏢 Empresa</label>
+                <select name="company_id" required>
+                    {% for company in companies %}
+                    <option value="{{ company.id }}">{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label>👤 Rol</label>
+                <select name="role" required>
+                    {% for value, label in roles %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label>🔢 Número máximo de usos</label>
+                <input type="number" name="max_uses" value="1" min="1">
+            </div>
+        </div>
+
+        <br>
+        <button type="submit" class="btn-premium">
+            ✨ Crear enlace
+        </button>
+    </form>
+</div>
+
+<div class="share-card">
+    <h2>📋 Enlaces creados</h2>
+    <br>
+
+    <div class="table-wrap">
         <table>
             <thead>
                 <tr>
@@ -52,69 +214,45 @@
                     <td>{{ invite.company.name }}</td>
                     <td>{{ invite.get_role_display }}</td>
                     <td>{{ invite.used_count }}/{{ invite.max_uses }}</td>
-                    <td>{% if invite.is_active %}Activo{% else %}Cerrado{% endif %}</td>
                     <td>
-                        <div style="display:flex; gap:8px;">
-                            <input id="invite-{{ invite.id }}" style="width:100%;" readonly value="{{ request.scheme }}://{{ request.get_host }}/invite/{{ invite.token }}/">
-                            <button type="button" onclick="copiarInvitacion('invite-{{ invite.id }}')">Copiar</button>
+                        {% if invite.is_active %}
+                        <span class="status-badge status-active">Activo</span>
+                        {% else %}
+                        <span class="status-badge status-closed">Cerrado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="link-box">
+                            <input
+                                id="invite-{{ invite.id }}"
+                                readonly
+                                value="{{ request.scheme }}://{{ request.get_host }}/invite/{{ invite.token }}/">
+                            <button
+                                type="button"
+                                class="btn-premium"
+                                onclick="copiarInvitacion('invite-{{ invite.id }}')">
+                                📋 Copiar
+                            </button>
                         </div>
                     </td>
                     <td>
                         {% if invite.is_active %}
-                        <form method="post" action="/panel/shared-access/invite/{{ invite.id }}/deactivate/" onsubmit="return confirm('¿Desactivar esta invitación?');">
+                        <form method="post"
+                              action="/panel/shared-access/invite/{{ invite.id }}/deactivate/"
+                              onsubmit="return confirm('¿Desactivar esta invitación?');">
                             {% csrf_token %}
-                            <button type="submit">Desactivar</button>
+                            <button type="submit" class="btn-premium">
+                                🚫 Desactivar
+                            </button>
                         </form>
                         {% else %}
-                            Cerrado
+                        Cerrado
                         {% endif %}
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6">Todavía no hay invitaciones.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="card" style="padding:20px;">
-        <h2>Socios con acceso</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>Usuario</th>
-                    <th>Rol</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for member in members %}
-                <tr>
-                    <td>{{ member.company.name }}</td>
-                    <td>{{ member.user.username }}</td>
-                    <td>{{ member.get_role_display }}</td>
-                    <td>{% if member.is_active %}Activo{% else %}Inactivo{% endif %}</td>
-                    <td>{{ member.created_at|date:"d/m/Y H:i" }}</td>
-                    <td>
-                        {% if member.is_active %}
-                        <form method="post" action="/panel/shared-access/member/{{ member.id }}/remove/" onsubmit="return confirm('¿Quitar el acceso a este socio?');">
-                            {% csrf_token %}
-                            <button type="submit">Quitar acceso</button>
-                        </form>
-                        {% else %}
-                            Sin acceso
-                        {% endif %}
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6">Todavía no hay socios vinculados.</td>
+                    <td colspan="6">No hay enlaces creados todavía.</td>
                 </tr>
                 {% endfor %}
             </tbody>
