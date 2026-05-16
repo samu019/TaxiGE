@@ -1,0 +1,46 @@
+﻿from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
+from config.admin_site import PlatformOwnerAdminSite
+
+from accounts.admin import CustomUserAdmin, AdminRequestAdmin
+from accounts.models import User, AdminRequest
+
+from companies.admin import CompanyAdmin
+from companies.models import Company
+
+from vehicles.admin import VehicleAdmin
+from vehicles.models import Vehicle
+
+from drivers.admin import DriverAdmin
+from drivers.models import Driver
+
+from payments.admin import DriverPaymentAdmin
+from payments.models import DriverPayment
+
+from damages.admin import VehicleDamageAdmin
+from damages.models import VehicleDamage
+
+from audits.admin import AuditLogAdmin
+from audits.models import AuditLog
+
+
+platform_admin_site = PlatformOwnerAdminSite(name='platform_admin')
+
+platform_admin_site.register(User, CustomUserAdmin)
+platform_admin_site.register(AdminRequest, AdminRequestAdmin)
+platform_admin_site.register(Company, CompanyAdmin)
+platform_admin_site.register(Vehicle, VehicleAdmin)
+platform_admin_site.register(Driver, DriverAdmin)
+platform_admin_site.register(DriverPayment, DriverPaymentAdmin)
+platform_admin_site.register(VehicleDamage, VehicleDamageAdmin)
+platform_admin_site.register(AuditLog, AuditLogAdmin)
+
+
+urlpatterns = [
+    path('admin/', platform_admin_site.urls),
+    path('panel/', include('dashboard.urls')),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

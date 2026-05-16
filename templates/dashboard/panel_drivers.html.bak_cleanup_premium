@@ -1,0 +1,51 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}Mis conductores - TaxiGE{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <div>
+        <h1 class="page-title">Mis conductores</h1>
+        <p class="page-subtitle">Conductores asignados a tu empresa.</p>
+    </div>
+
+    <a href="/panel/drivers/create/" style="background:#111827; color:white; padding:12px 16px; border-radius:10px; text-decoration:none; font-weight:bold;">
+        Registrar conductor
+    </a>
+</div>
+
+{% if drivers %}
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Taxi asignado</th>
+            <th>Pago diario</th>
+            <th>Día de pago</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for driver in drivers %}
+            <tr>
+                <td>{{ driver.full_name }}</td>
+                <td>{{ driver.phone }}</td>
+                <td>{% if driver.assigned_vehicle %}{{ driver.assigned_vehicle.plate_number }}{% else %}Sin taxi{% endif %}</td>
+                <td>{{ driver.daily_payment_amount }} XAF</td>
+                <td>{{ driver.payment_day }}</td>
+                <td><span class="badge">{{ driver.get_status_display }}</span></td>
+                <td>
+                    <a href="/panel/drivers/{{ driver.id }}/edit/" style="font-weight:bold; color:#111827;">
+                        Editar
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">Todavía no tienes conductores registrados.</p>
+{% endif %}
+{% endblock %}

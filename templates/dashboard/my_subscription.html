@@ -1,0 +1,370 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block content %}
+<style>
+.subscription-page {
+    display: grid;
+    gap: 24px;
+}
+
+.subscription-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    padding: 28px;
+    background:
+        radial-gradient(circle at top right, rgba(37,99,235,.35), transparent 35%),
+        linear-gradient(135deg, rgba(15,23,42,.96), rgba(30,41,59,.92));
+    border: 1px solid rgba(148,163,184,.22);
+    box-shadow: 0 24px 70px rgba(15,23,42,.20);
+    color: #f8fafc;
+}
+
+.subscription-hero h1 {
+    margin: 0 0 8px;
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: -0.04em;
+}
+
+.subscription-hero p {
+    margin: 0;
+    max-width: 720px;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
+.subscription-hero-actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.subscription-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 18px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-weight: 800;
+    border: 1px solid transparent;
+}
+
+.subscription-btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.subscription-btn-soft {
+    background: rgba(255,255,255,.10);
+    color: #f8fafc;
+    border-color: rgba(255,255,255,.16);
+}
+
+.subscription-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.subscription-card {
+    border-radius: 24px;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(148,163,184,.22);
+    box-shadow: 0 14px 36px rgba(15,23,42,.08);
+}
+
+.subscription-card span {
+    display: block;
+    font-size: 13px;
+    opacity: .72;
+    margin-bottom: 8px;
+}
+
+.subscription-card strong {
+    display: block;
+    font-size: 21px;
+    letter-spacing: -0.02em;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 900;
+    font-size: 13px;
+    background: rgba(34,197,94,.12);
+    color: #22c55e;
+    border: 1px solid rgba(34,197,94,.25);
+}
+
+.subscription-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 18px;
+}
+
+.subscription-panel {
+    border-radius: 26px;
+    padding: 22px;
+    background: rgba(15, 23, 42, 0.94);
+    border: 1px solid rgba(148,163,184,.22);
+    box-shadow: 0 18px 48px rgba(15,23,42,.08);
+}
+
+.subscription-panel h2 {
+    margin: 0 0 16px;
+    font-size: 22px;
+}
+
+.payment-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(148,163,184,.18);
+}
+
+.payment-line:last-child {
+    border-bottom: none;
+}
+
+.payment-line span {
+    opacity: .72;
+}
+
+.payment-line strong,
+.payment-line a {
+    font-weight: 800;
+}
+
+.subscription-table-wrap {
+    overflow-x: auto;
+}
+
+.subscription-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.subscription-table th {
+    text-align: left;
+    font-size: 13px;
+    opacity: .68;
+    padding: 0 12px;
+}
+
+.subscription-table td {
+    padding: 14px 12px;
+    background: rgba(148,163,184,.08);
+    border-top: 1px solid rgba(148,163,184,.16);
+    border-bottom: 1px solid rgba(148,163,184,.16);
+}
+
+.subscription-table td:first-child {
+    border-left: 1px solid rgba(148,163,184,.16);
+    border-radius: 16px 0 0 16px;
+}
+
+.subscription-table td:last-child {
+    border-right: 1px solid rgba(148,163,184,.16);
+    border-radius: 0 16px 16px 0;
+}
+
+.payment-status {
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 12px;
+    background: rgba(37,99,235,.12);
+    color: #2563eb;
+}
+
+.empty-subscription {
+    padding: 26px;
+    border-radius: 24px;
+    background: rgba(245,158,11,.10);
+    border: 1px solid rgba(245,158,11,.25);
+}
+
+@media (max-width: 1000px) {
+    .subscription-grid,
+    .subscription-layout {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .subscription-grid,
+    .subscription-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .subscription-hero {
+        padding: 22px;
+    }
+}
+.subscription-card,
+.subscription-panel,
+.subscription-table td,
+.subscription-table th,
+.subscription-panel h2,
+.subscription-card strong,
+.subscription-card span,
+.payment-line,
+.payment-line span,
+.payment-line strong,
+.payment-line a,
+.subscription-table,
+.subscription-table td a {
+    color: #f8fafc !important;
+}
+
+.subscription-card span,
+.payment-line span,
+.subscription-table th {
+    color: #94a3b8 !important;
+}
+
+.subscription-table td {
+    background: rgba(30, 41, 59, 0.85) !important;
+}
+
+.subscription-table td a {
+    color: #60a5fa !important;
+    font-weight: 700;
+}
+
+.payment-status {
+    background: rgba(37, 99, 235, 0.15) !important;
+    color: #60a5fa !important;
+    border: 1px solid rgba(96, 165, 250, 0.20);
+}
+
+.empty-subscription {
+    background: rgba(30, 41, 59, 0.92) !important;
+    color: #f8fafc !important;
+}
+</style>
+
+<section class="subscription-page">
+    <div class="subscription-hero">
+        <h1>Mi suscripción SaaS</h1>
+        <p>
+            Consulta el estado de tu acceso mensual, la fecha de vencimiento, el último comprobante enviado
+            y el historial de pagos asociados a tu cuenta de TaxiGE Platform.
+        </p>
+
+        <div class="subscription-hero-actions">
+            <a href="/panel/subscription/renew/" class="subscription-btn subscription-btn-primary">
+                Renovar suscripción
+            </a>
+            <a href="/panel/notifications/" class="subscription-btn subscription-btn-soft">
+                Ver notificaciones
+            </a>
+        </div>
+    </div>
+
+    {% if subscription %}
+        <div class="subscription-grid">
+            <div class="subscription-card">
+                <span>Estado actual</span>
+                <strong><span class="status-badge">{{ subscription.get_status_display }}</span></strong>
+            </div>
+
+            <div class="subscription-card">
+                <span>Fecha de inicio</span>
+                <strong>{{ subscription.start_date|date:"d/m/Y" }}</strong>
+            </div>
+
+            <div class="subscription-card">
+                <span>Fecha de vencimiento</span>
+                <strong>{{ subscription.end_date|date:"d/m/Y" }}</strong>
+            </div>
+
+            <div class="subscription-card">
+                <span>Cuota mensual</span>
+                <strong>{{ subscription.monthly_fee }} XAF</strong>
+            </div>
+        </div>
+
+        <div class="subscription-layout">
+            <div class="subscription-panel">
+                <h2>Último pago registrado</h2>
+
+                <div class="payment-line">
+                    <span>Referencia</span>
+                    <strong>{{ subscription.last_payment_reference|default:"No registrada" }}</strong>
+                </div>
+
+                <div class="payment-line">
+                    <span>Comprobante</span>
+                    {% if subscription.last_payment_receipt %}
+                        <a href="{{ subscription.last_payment_receipt.url }}" target="_blank">Ver archivo</a>
+                    {% else %}
+                        <strong>No registrado</strong>
+                    {% endif %}
+                </div>
+
+                <div class="payment-line">
+                    <span>Notas</span>
+                    <strong>{{ subscription.notes|default:"Sin notas" }}</strong>
+                </div>
+            </div>
+
+            <div class="subscription-panel">
+                <h2>Historial de pagos SaaS</h2>
+
+                {% if payments %}
+                    <div class="subscription-table-wrap">
+                        <table class="subscription-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                    <th>Referencia</th>
+                                    <th>Estado</th>
+                                    <th>Comprobante</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for payment in payments %}
+                                    <tr>
+                                        <td>{{ payment.created_at|date:"d/m/Y H:i" }}</td>
+                                        <td>{{ payment.amount }} XAF</td>
+                                        <td>{{ payment.reference }}</td>
+                                        <td><span class="payment-status">{{ payment.get_status_display }}</span></td>
+                                        <td>
+                                            {% if payment.receipt %}
+                                                <a href="{{ payment.receipt.url }}" target="_blank">Ver</a>
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No hay pagos registrados todavía.</p>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-subscription">
+            <h2>No tienes una suscripción registrada</h2>
+            <p>Contacta con administración para activar tu cuenta SaaS.</p>
+            <a href="/panel/subscription/renew/" class="subscription-btn subscription-btn-primary">
+                Solicitar renovación
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
+
+

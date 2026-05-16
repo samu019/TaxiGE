@@ -1,0 +1,37 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}Mis conductores - TaxiGE{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Mis conductores</h1>
+<p class="page-subtitle">Conductores asignados a tu empresa.</p>
+
+{% if drivers %}
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Taxi asignado</th>
+            <th>Pago diario</th>
+            <th>Día de pago</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for driver in drivers %}
+            <tr>
+                <td>{{ driver.full_name }}</td>
+                <td>{{ driver.phone }}</td>
+                <td>{% if driver.assigned_vehicle %}{{ driver.assigned_vehicle.plate_number }}{% else %}Sin taxi{% endif %}</td>
+                <td>{{ driver.daily_payment_amount }} XAF</td>
+                <td>{{ driver.payment_day }}</td>
+                <td><span class="badge">{{ driver.get_status_display }}</span></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">Todavía no tienes conductores registrados.</p>
+{% endif %}
+{% endblock %}

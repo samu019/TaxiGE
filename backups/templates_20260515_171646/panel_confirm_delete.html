@@ -1,0 +1,28 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}{{ title }} - TaxiGE{% endblock %}
+
+{% block content %}
+<div class="section" style="max-width:680px;margin:0 auto;">
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-subtitle">
+        Esta acción no se puede deshacer. Confirma que deseas eliminar este registro.
+    </p>
+
+    <div style="background:#fee2e2;color:#991b1b;padding:18px;border-radius:18px;margin:20px 0;font-weight:900;">
+        Vas a eliminar: {{ object_name }}
+    </div>
+
+    <form method="post" style="display:flex;gap:12px;flex-wrap:wrap;">
+        {% csrf_token %}
+
+        <button type="submit" class="btn" style="background:#dc2626;">
+            Eliminar definitivamente
+        </button>
+
+        <a href="{{ cancel_url }}" class="btn btn-secondary">
+            Cancelar
+        </a>
+    </form>
+</div>
+{% endblock %}

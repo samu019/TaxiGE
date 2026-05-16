@@ -1,0 +1,46 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block content %}
+<div class="panel-section">
+    <h1>Notificaciones</h1>
+    <p>Centro de avisos importantes de tu empresa de taxis.</p>
+
+    <div class="card" style="padding:20px; margin-bottom:20px;">
+        <strong>No leídas:</strong> {{ unread_count }}
+
+        <form method="post" action="/panel/notifications/read-all/" style="margin-top:12px;">
+            {% csrf_token %}
+            <button type="submit">Marcar todas como leídas</button>
+        </form>
+    </div>
+
+    <div class="card" style="padding:20px;">
+        {% for n in notifications %}
+            <div style="padding:14px; margin-bottom:12px; border-radius:12px; border:1px solid rgba(255,255,255,.12); {% if not n.is_read %}background:rgba(255,255,255,.06);{% endif %}">
+                <div style="display:flex; justify-content:space-between; gap:12px;">
+                    <strong>{{ n.title }}</strong>
+                    <small>{{ n.created_at|date:"d/m/Y H:i" }}</small>
+                </div>
+
+                <p style="margin:8px 0;">{{ n.message }}</p>
+
+                <small>Nivel: {{ n.get_level_display }}</small>
+
+                <div style="margin-top:10px;">
+                    {% if not n.is_read %}
+                        <a href="/panel/notifications/{{ n.id }}/read/">Marcar como leída</a>
+                    {% else %}
+                        <span>Leída</span>
+                    {% endif %}
+
+                    {% if n.link %}
+                        | <a href="{{ n.link }}">Abrir</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p>No tienes notificaciones todavía.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

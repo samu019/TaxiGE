@@ -1,0 +1,177 @@
+﻿REVISION DE CONSULTAS TAXIGE - ACCESO COMPARTIDO
+Fecha: 20260513_212552
+
+
+==============================
+PATRON: owner=request.user
+==============================
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:166: vehicles = Vehicle.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:228: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:253: drivers = Driver.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:318: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:343: payments = DriverPayment.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:413: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:445: damages = VehicleDamage.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:512: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:540: vehicle = get_object_or_404(Vehicle, id=vehicle_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:559: driver = get_object_or_404(Driver, id=driver_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:578: payment = get_object_or_404(DriverPayment, id=payment_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:597: damage = get_object_or_404(VehicleDamage, id=damage_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:663: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:688: drivers = Driver.objects.filter(company__owner=request.user).select_related('assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:712: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-payment_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:737: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-damage_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:776: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:807: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:838: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:869: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:1012: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:1039: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:1066: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:1093: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:166: vehicles = Vehicle.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:228: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:253: drivers = Driver.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:318: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:343: payments = DriverPayment.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:413: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:445: damages = VehicleDamage.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:512: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:540: vehicle = get_object_or_404(Vehicle, id=vehicle_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:559: driver = get_object_or_404(Driver, id=driver_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:578: payment = get_object_or_404(DriverPayment, id=payment_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:597: damage = get_object_or_404(VehicleDamage, id=damage_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:663: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:688: drivers = Driver.objects.filter(company__owner=request.user).select_related('assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:712: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-payment_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:737: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-damage_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:776: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:807: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:838: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:869: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:1012: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:1039: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:1066: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:1093: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\venv\Lib\site-packages\rest_framework\serializers.py:193: "For example: 'serializer.save(owner=request.user)'.'"
+C:\Users\Samuel\Desktop\taxige_platform\venv\Lib\site-packages\rest_framework\serializers.py:759: "For example: 'serializer.save(owner=request.user)'.'"
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:14: "vehicles = Vehicle.objects.filter(company__owner=request.user)",
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:15: """vehicles = Vehicle.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:32: "drivers = Driver.objects.filter(company__owner=request.user)",
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:33: """drivers = Driver.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:51: "payments = DriverPayment.objects.filter(company__owner=request.user)",
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:52: """payments = DriverPayment.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:68: "damages = VehicleDamage.objects.filter(company__owner=request.user)",
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:69: """damages = VehicleDamage.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_csv_exports.py:42: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_csv_exports.py:73: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_csv_exports.py:104: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_csv_exports.py:135: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_delete_views.py:14: vehicle = get_object_or_404(Vehicle, id=vehicle_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_delete_views.py:33: driver = get_object_or_404(Driver, id=driver_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_delete_views.py:52: payment = get_object_or_404(DriverPayment, id=payment_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_delete_views.py:71: damage = get_object_or_404(VehicleDamage, id=damage_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_edit_payment_damage.py:53: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\add_edit_payment_damage.py:125: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\add_panel_api.py:54: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_panel_api.py:79: drivers = Driver.objects.filter(company__owner=request.user).select_related('assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_panel_api.py:103: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-payment_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\add_panel_api.py:128: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-damage_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\add_pdf_exports.py:75: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_pdf_exports.py:102: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_pdf_exports.py:129: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_pdf_exports.py:156: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+
+==============================
+PATRON: owner = request.user
+==============================
+
+==============================
+PATRON: company__owner=request.user
+==============================
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:166: vehicles = Vehicle.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:228: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:253: drivers = Driver.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:318: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:343: payments = DriverPayment.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:413: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:445: damages = VehicleDamage.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:512: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:540: vehicle = get_object_or_404(Vehicle, id=vehicle_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:559: driver = get_object_or_404(Driver, id=driver_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:578: payment = get_object_or_404(DriverPayment, id=payment_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:597: damage = get_object_or_404(VehicleDamage, id=damage_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:663: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:688: drivers = Driver.objects.filter(company__owner=request.user).select_related('assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:712: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-payment_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:737: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-damage_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:776: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:807: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:838: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:869: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:1012: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:1039: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:1066: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\backups\dashboard_views_20260513_212218.py:1093: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:166: vehicles = Vehicle.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:228: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:253: drivers = Driver.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:318: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:343: payments = DriverPayment.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:413: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:445: damages = VehicleDamage.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:512: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:540: vehicle = get_object_or_404(Vehicle, id=vehicle_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:559: driver = get_object_or_404(Driver, id=driver_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:578: payment = get_object_or_404(DriverPayment, id=payment_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:597: damage = get_object_or_404(VehicleDamage, id=damage_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:663: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:688: drivers = Driver.objects.filter(company__owner=request.user).select_related('assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:712: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-payment_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:737: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-damage_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:776: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:807: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:838: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:869: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:1012: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:1039: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:1066: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\dashboard\views.py:1093: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:14: "vehicles = Vehicle.objects.filter(company__owner=request.user)",
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:15: """vehicles = Vehicle.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:32: "drivers = Driver.objects.filter(company__owner=request.user)",
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:33: """drivers = Driver.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:51: "payments = DriverPayment.objects.filter(company__owner=request.user)",
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:52: """payments = DriverPayment.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:68: "damages = VehicleDamage.objects.filter(company__owner=request.user)",
+C:\Users\Samuel\Desktop\taxige_platform\add_backend_filters.py:69: """damages = VehicleDamage.objects.filter(company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_csv_exports.py:42: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_csv_exports.py:73: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_csv_exports.py:104: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_csv_exports.py:135: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_delete_views.py:14: vehicle = get_object_or_404(Vehicle, id=vehicle_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_delete_views.py:33: driver = get_object_or_404(Driver, id=driver_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_delete_views.py:52: payment = get_object_or_404(DriverPayment, id=payment_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_delete_views.py:71: damage = get_object_or_404(VehicleDamage, id=damage_id, company__owner=request.user)
+C:\Users\Samuel\Desktop\taxige_platform\add_edit_payment_damage.py:53: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\add_edit_payment_damage.py:125: company__owner=request.user
+C:\Users\Samuel\Desktop\taxige_platform\add_panel_api.py:54: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_panel_api.py:79: drivers = Driver.objects.filter(company__owner=request.user).select_related('assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_panel_api.py:103: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-payment_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\add_panel_api.py:128: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('driver', 'vehicle').order_by('-damage_date', '-created_at')[:100]
+C:\Users\Samuel\Desktop\taxige_platform\add_pdf_exports.py:75: vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_pdf_exports.py:102: drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle').order_by('-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_pdf_exports.py:129: payments = DriverPayment.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-payment_date', '-created_at')
+C:\Users\Samuel\Desktop\taxige_platform\add_pdf_exports.py:156: damages = VehicleDamage.objects.filter(company__owner=request.user).select_related('company', 'driver', 'vehicle').order_by('-damage_date', '-created_at')
+
+==============================
+PATRON: company__owner = request.user
+==============================
+
+==============================
+PATRON: vehicle__company__owner=request.user
+==============================
+
+==============================
+PATRON: driver__company__owner=request.user
+==============================

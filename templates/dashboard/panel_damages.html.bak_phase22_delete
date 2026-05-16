@@ -1,0 +1,51 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}Daños - TaxiGE{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <div>
+        <h1 class="page-title">Daños</h1>
+        <p class="page-subtitle">Daños registrados en tus taxis.</p>
+    </div>
+
+    <a href="/panel/damages/create/" style="background:#111827; color:white; padding:12px 16px; border-radius:10px; text-decoration:none; font-weight:bold;">
+        Registrar daño
+    </a>
+</div>
+
+{% if damages %}
+<div class="table-wrap">
+<table>
+    <thead>
+        <tr>
+            <th>Taxi</th>
+            <th>Conductor</th>
+            <th>Daño</th>
+            <th>Fecha</th>
+            <th>Costo estimado</th>
+            <th>Costo final</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for damage in damages %}
+            <tr>
+                <td>{{ damage.vehicle.plate_number }}</td>
+                <td>{% if damage.driver %}{{ damage.driver.full_name }}{% else %}Sin conductor{% endif %}</td>
+                <td>{{ damage.title }}</td>
+                <td>{{ damage.damage_date }}</td>
+                <td>{{ damage.estimated_cost }} XAF</td>
+                <td>{{ damage.final_cost }} XAF</td>
+                <td><span class="badge">{{ damage.get_status_display }}</span></td>
+                <td><a href="/panel/damages/{{ damage.id }}/edit/" class="btn btn-secondary btn-small">Editar</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<p class="empty">Todavía no hay daños registrados.</p>
+{% endif %}
+{% endblock %}

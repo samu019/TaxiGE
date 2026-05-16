@@ -1,0 +1,50 @@
+﻿from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
+
+from companies.models import Company
+from vehicles.models import Vehicle
+from drivers.models import Driver
+from payments.models import DriverPayment
+from damages.models import VehicleDamage
+
+
+def user_can_access_panel(user):
+    return bool(
+        user.is_authenticated
+        and user.is_active
+        and user.role == 'admin'
+        and user.admin_approved
+    )
+
+
+@login_required
+def panel_home(request):
+    user = request.user
+
+    if user.is_superuser and user.is_platform_owner:
+        return redirect('/admin/')
+
+    if not user_can_access_panel(user):
+        return HttpResponseForbidden(
+            'Acceso denegado. Tu cuenta aún no está aprobada como dueño de taxi.'
+        )
+
+    companies = Company.objects.filter(owner=user)
+
+    vehicles = Vehicle.objects.filter(company__owner=user)
+    drivers = Driver.objects.filter(company__owner=user)
+    payments = DriverPayment.objects.filter(company__owner=user)
+    damages = VehicleDamage.objects.filter(company__owner=user)
+
+    context = {
+        'companies_count': companies.count(),
+        'vehicles_count': vehicles.count(),
+        'drivers_count': drivers.count(),
+        'payments_count': payments.count(),
+        'damages_count': damages.count(),
+        'recent_payments': payments.order_by('-payment_date', '-created_at')[:5],
+        'recent_damages': damages.order_by('-damage_date', '-created_at')[:5],
+    }
+
+    return render(request, 'dashboard/panel_home.html', context)

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitud enviada - TaxiGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: white;
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            max-width: 520px;
+            background: white;
+            color: #111827;
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0,0,0,.35);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 18px;
+            background: #111827;
+            color: white;
+            padding: 13px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Solicitud enviada</h1>
+    <p>Tu solicitud fue enviada correctamente. El superusuario revisará tus datos y, si todo está correcto, activará tu panel privado.</p>
+    <a href="/accounts/logout/">Salir</a>
+</div>
+
+</body>
+</html>

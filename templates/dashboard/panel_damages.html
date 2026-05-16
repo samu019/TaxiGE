@@ -1,0 +1,96 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}Daños - TaxiGE
+<div style="display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:22px;">
+    {% if damages.has_previous %}
+        <a href="?page={{ damages.previous_page_number }}" style="padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.08); color:inherit; text-decoration:none;">Anterior</a>
+    {% endif %}
+
+    {% if damages.paginator.num_pages > 1 %}
+        <span style="opacity:.8;">Página {{ damages.number }} de {{ damages.paginator.num_pages }}</span>
+    {% endif %}
+
+    {% if damages.has_next %}
+        <a href="?page={{ damages.next_page_number }}" style="padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.08); color:inherit; text-decoration:none;">Siguiente</a>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <div>
+        
+<div class="page-head">
+    <div class="page-head-text">
+        <h1 class="page-title">Daños</h1>
+        <p class="page-subtitle">Daños registrados en tus taxis.</p>
+    </div>
+
+    
+    <div class="page-actions">
+        <a href="/panel/reports/damages.csv" class="btn btn-secondary">Exportar CSV</a>
+        <a href="/panel/reports/damages.pdf" class="btn btn-secondary">Exportar PDF</a>
+        <a href="/panel/damages/create/" class="btn">Registrar daño</a>
+    </div>
+
+</div>
+
+</div>
+
+    <a
+        <a href="/panel/damages/create/" style="background:#111827; color:white; padding:12px 16px; border-radius:10px; text-decoration:none; font-weight:bold;">
+        Registrar daño
+    </a>
+</div>
+
+{% if damages %}
+<div class="table-wrap">
+<table>
+    <thead>
+        <tr>
+            <th>Taxi</th>
+            <th>Conductor</th>
+            <th>Daño</th>
+            <th>Fecha</th>
+            <th>Costo estimado</th>
+            <th>Costo final</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for damage in damages %}
+            <tr>
+                <td>{{ damage.vehicle.plate_number }}</td>
+                <td>{% if damage.driver %}{{ damage.driver.full_name }}{% else %}Sin conductor{% endif %}</td>
+                <td>{{ damage.title }}</td>
+                <td>{{ damage.damage_date }}</td>
+                <td>{{ damage.estimated_cost }} XAF</td>
+                <td>{{ damage.final_cost }} XAF</td>
+                <td><span class="badge">{{ damage.get_status_display }}</span></td>
+                <td><a href="/panel/damages/{{ damage.id }}/edit/" class="btn btn-secondary btn-small">Editar</a> <a href="/panel/damages/{{ damage.id }}/delete/" class="btn btn-small" style="background:#dc2626;">Eliminar</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<p class="empty">Todavía no hay daños registrados.</p>
+{% endif %}
+
+<div style="display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:22px;">
+    {% if damages.has_previous %}
+        <a href="?page={{ damages.previous_page_number }}" style="padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.08); color:inherit; text-decoration:none;">Anterior</a>
+    {% endif %}
+
+    {% if damages.paginator.num_pages > 1 %}
+        <span style="opacity:.8;">Página {{ damages.number }} de {{ damages.paginator.num_pages }}</span>
+    {% endif %}
+
+    {% if damages.has_next %}
+        <a href="?page={{ damages.next_page_number }}" style="padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.08); color:inherit; text-decoration:none;">Siguiente</a>
+    {% endif %}
+</div>
+
+{% endblock %}

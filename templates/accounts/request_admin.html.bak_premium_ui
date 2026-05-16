@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitar acceso de dueño de taxi - TaxiGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #111827;
+        }
+
+        .top {
+            background: #111827;
+            color: white;
+            padding: 24px 36px;
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 18px 45px rgba(15,23,42,.12);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 15px 0 6px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 24px;
+            padding: 14px 18px;
+            border: 0;
+            border-radius: 13px;
+            background: #111827;
+            color: white;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .notice {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 14px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #991b1b;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top">
+    <h2>TaxiGE Platform</h2>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h1>Solicitar acceso como dueño de taxi</h1>
+        <p>Completa esta solicitud. El equipo de TaxiGE revisará tu información antes de activar tu panel privado.</p>
+
+        {% if existing_request %}
+            <div class="notice">
+                Ya tienes una solicitud pendiente. Debes esperar revisión.
+            </div>
+        {% else %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                {% endfor %}
+
+                <button type="submit">Enviar solicitud</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

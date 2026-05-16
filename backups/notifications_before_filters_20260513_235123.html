@@ -1,0 +1,201 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block content %}
+<style>
+.notifications-page {
+    display: grid;
+    gap: 22px;
+}
+
+.notifications-hero {
+    padding: 24px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(59,130,246,.16), rgba(16,185,129,.10));
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.notifications-hero h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+.notifications-hero p {
+    margin: 0;
+    opacity: .8;
+}
+
+.notification-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.notification-stat {
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.notification-stat strong {
+    display: block;
+    font-size: 26px;
+    margin-top: 8px;
+}
+
+.notification-card {
+    padding: 18px;
+    margin-bottom: 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.04);
+}
+
+.notification-card.unread {
+    background: rgba(59,130,246,.10);
+    border-color: rgba(59,130,246,.35);
+}
+
+.notification-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.notification-title {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.notification-date {
+    font-size: 12px;
+    opacity: .7;
+    white-space: nowrap;
+}
+
+.notification-message {
+    margin: 10px 0;
+    opacity: .9;
+}
+
+.notification-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    background: rgba(255,255,255,.08);
+}
+
+.notification-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.notification-actions a,
+.notification-actions button {
+    border: 0;
+    padding: 9px 13px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    background: rgba(255,255,255,.10);
+    color: inherit;
+}
+
+.empty-notifications {
+    text-align: center;
+    padding: 46px 20px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.04);
+    border: 1px dashed rgba(255,255,255,.16);
+}
+
+.empty-notifications strong {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 760px) {
+    .notification-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .notification-top {
+        flex-direction: column;
+    }
+}
+</style>
+
+<div class="notifications-page">
+    <section class="notifications-hero">
+        <h1>Notificaciones</h1>
+        <p>Centro de avisos importantes sobre pagos, daños, socios, invitaciones y actividad de tu empresa.</p>
+    </section>
+
+    <section class="notification-stats">
+        <div class="notification-stat">
+            <span>Total</span>
+            <strong>{{ notifications|length }}</strong>
+        </div>
+
+        <div class="notification-stat">
+            <span>No leídas</span>
+            <strong>{{ unread_count }}</strong>
+        </div>
+
+        <div class="notification-stat">
+            <span>Estado</span>
+            <strong>{% if unread_count > 0 %}Pendiente{% else %}Al día{% endif %}</strong>
+        </div>
+    </section>
+
+    <section class="card" style="padding:20px;">
+        <div style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; align-items:center; margin-bottom:18px;">
+            <div>
+                <h2 style="margin:0;">Bandeja de notificaciones</h2>
+                <p style="margin:6px 0 0; opacity:.75;">Revisa y gestiona los avisos recientes.</p>
+            </div>
+
+            <form method="post" action="/panel/notifications/read-all/">
+                {% csrf_token %}
+                <button type="submit">Marcar todas como leídas</button>
+            </form>
+        </div>
+
+        {% for n in notifications %}
+            <article class="notification-card {% if not n.is_read %}unread{% endif %}">
+                <div class="notification-top">
+                    <div>
+                        <div class="notification-title">{{ n.title }}</div>
+                        <span class="notification-badge">{{ n.get_level_display }}</span>
+                    </div>
+                    <div class="notification-date">{{ n.created_at|date:"d/m/Y H:i" }}</div>
+                </div>
+
+                <p class="notification-message">{{ n.message }}</p>
+
+                <div class="notification-actions">
+                    {% if not n.is_read %}
+                        <a href="/panel/notifications/{{ n.id }}/read/">Marcar como leída</a>
+                    {% else %}
+                        <span class="notification-badge">Leída</span>
+                    {% endif %}
+
+                    {% if n.link %}
+                        <a href="{{ n.link }}">Abrir detalle</a>
+                    {% endif %}
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-notifications">
+                <strong>No tienes notificaciones todavía</strong>
+                <p>Cuando haya deudas, daños pendientes, invitaciones aceptadas o alertas importantes, aparecerán aquí.</p>
+            </div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

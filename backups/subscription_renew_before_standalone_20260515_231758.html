@@ -1,0 +1,67 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 40px auto; padding: 24px;">
+    <div style="padding: 28px; border-radius: 24px; background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.25);">
+        <h1 style="font-size: 30px; margin-bottom: 10px;">Suscripción no activa</h1>
+
+        <p style="font-size: 16px; line-height: 1.6; opacity: .85;">
+            Tu acceso al panel de TaxiGE está limitado porque tu suscripción SaaS está suspendida,
+            expirada o pendiente de renovación.
+        </p>
+
+        {% if subscription %}
+            <div style="margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+                <div style="padding: 16px; border-radius: 16px; background: rgba(255,255,255,.08);">
+                    <small>Estado</small>
+                    <strong style="display:block;">{{ subscription.get_status_display }}</strong>
+                </div>
+                <div style="padding: 16px; border-radius: 16px; background: rgba(255,255,255,.08);">
+                    <small>Vence</small>
+                    <strong style="display:block;">{{ subscription.end_date }}</strong>
+                </div>
+                <div style="padding: 16px; border-radius: 16px; background: rgba(255,255,255,.08);">
+                    <small>Cuota mensual</small>
+                    <strong style="display:block;">{{ subscription.monthly_fee }} XAF</strong>
+                </div>
+            </div>
+        {% endif %}
+
+        <div style="margin-top: 28px; padding: 20px; border-radius: 18px; background: rgba(59,130,246,.10); border: 1px solid rgba(59,130,246,.25);">
+            <h2 style="margin-bottom: 12px;">Cómo renovar</h2>
+
+            {% if payment_settings %}
+                <p>Realiza el pago mensual usando una de estas cuentas:</p>
+
+                <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 14px;">
+                    <div style="padding: 16px; border-radius: 16px; background: rgba(255,255,255,.08);">
+                        <strong>{{ payment_settings.primary_bank_name }}</strong><br>
+                        Titular: {{ payment_settings.primary_account_holder }}<br>
+                        Cuenta: {{ payment_settings.primary_account_number }}
+                    </div>
+
+                    <div style="padding: 16px; border-radius: 16px; background: rgba(255,255,255,.08);">
+                        <strong>{{ payment_settings.secondary_bank_name }}</strong><br>
+                        Titular: {{ payment_settings.secondary_account_holder }}<br>
+                        Cuenta: {{ payment_settings.secondary_account_number }}
+                    </div>
+                </div>
+            {% else %}
+                <p>Contacta con administración para recibir los datos de pago.</p>
+            {% endif %}
+        </div>
+
+        <div style="margin-top: 26px; display:flex; gap: 12px; flex-wrap: wrap;">
+            <a href="/accounts/register/owner/"
+               style="padding: 13px 18px; border-radius: 14px; background: #2563eb; color: white; text-decoration: none; font-weight: 700;">
+                Subir comprobante / renovar
+            </a>
+
+            <a href="/accounts/logout/"
+               style="padding: 13px 18px; border-radius: 14px; background: rgba(255,255,255,.12); color: inherit; text-decoration: none; font-weight: 700;">
+                Cerrar sesión
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

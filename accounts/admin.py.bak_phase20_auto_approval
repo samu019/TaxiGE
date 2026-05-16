@@ -1,0 +1,196 @@
+﻿from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.utils import timezone
+from .models import User, AdminRequest
+
+
+@admin.register(User)
+class CustomUserAdmin(UserAdmin):
+    list_display = (
+        'id',
+        'username',
+        'email',
+        'phone',
+        'role',
+        'admin_approved',
+        'is_platform_owner',
+        'is_staff',
+        'is_active',
+        'date_joined',
+    )
+
+    list_filter = (
+        'role',
+        'admin_approved',
+        'is_platform_owner',
+        'is_staff',
+        'is_active',
+        'date_joined',
+    )
+
+    search_fields = (
+        'username',
+        'email',
+        'phone',
+        'first_name',
+        'last_name',
+    )
+
+    fieldsets = UserAdmin.fieldsets + (
+        ('Datos de TaxiGE Platform', {
+            'fields': (
+                'role',
+                'phone',
+                'avatar',
+                'is_platform_owner',
+                'admin_approved',
+            )
+        }),
+    )
+
+
+@admin.register(AdminRequest)
+class AdminRequestAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'company_name',
+        'owner_full_name',
+        'user',
+        'phone',
+        'city',
+        'taxi_count',
+        'main_taxi_plate',
+        'status',
+        'created_at',
+    )
+
+    list_filter = (
+        'status',
+        'city',
+        'created_at',
+    )
+
+    search_fields = (
+        'company_name',
+        'owner_full_name',
+        'phone',
+        'user__username',
+        'user__email',
+        'main_taxi_plate',
+        'identity_number',
+    )
+
+    readonly_fields = (
+        'user',
+        'owner_full_name',
+        'phone',
+        'city',
+        'address',
+        'identity_number',
+        'identity_document',
+        'selfie_photo',
+
+        'company_name',
+        'taxi_count',
+
+        'main_taxi_brand',
+        'main_taxi_model',
+        'main_taxi_plate',
+        'main_taxi_color',
+
+        'taxi_registration_document',
+        'taxi_license_document',
+        'ownership_proof_document',
+
+        'message',
+        'created_at',
+        'updated_at',
+        'reviewed_by',
+        'reviewed_at',
+    )
+
+    fieldsets = (
+        ('Estado de revisión', {
+            'fields': (
+                'status',
+                'review_note',
+                'reviewed_by',
+                'reviewed_at',
+            )
+        }),
+        ('Usuario solicitante', {
+            'fields': (
+                'user',
+            )
+        }),
+        ('Datos del propietario', {
+            'fields': (
+                'owner_full_name',
+                'phone',
+                'city',
+                'address',
+                'identity_number',
+                'identity_document',
+                'selfie_photo',
+            )
+        }),
+        ('Empresa o flota', {
+            'fields': (
+                'company_name',
+                'taxi_count',
+            )
+        }),
+        ('Taxi principal de verificación', {
+            'fields': (
+                'main_taxi_brand',
+                'main_taxi_model',
+                'main_taxi_plate',
+                'main_taxi_color',
+                'taxi_registration_document',
+                'taxi_license_document',
+                'ownership_proof_document',
+            )
+        }),
+        ('Mensaje y fechas', {
+            'fields': (
+                'message',
+                'created_at',
+                'updated_at',
+            )
+        }),
+    )
+
+    actions = ['approve_requests', 'reject_requests']
+
+    def approve_requests(self, request, queryset):
+        for admin_request in queryset.filter(status='pending'):
+            user = admin_request.user
+            user.role = User.ROLE_ADMIN
+            user.admin_approved = True
+            user.is_staff = False
+            user.is_superuser = False
+            user.save()
+
+            admin_request.status = AdminRequest.STATUS_APPROVED
+            admin_request.reviewed_by = request.user
+            admin_request.reviewed_at = timezone.now()
+            if not admin_request.review_note:
+                admin_request.review_note = 'Solicitud KYC aprobada desde el panel principal.'
+            admin_request.save()
+
+        self.message_user(request, 'Solicitudes KYC aprobadas correctamente.')
+
+    approve_requests.short_description = 'Aprobar solicitudes KYC seleccionadas'
+
+    def reject_requests(self, request, queryset):
+        for admin_request in queryset.filter(status='pending'):
+            admin_request.status = AdminRequest.STATUS_REJECTED
+            admin_request.reviewed_by = request.user
+            admin_request.reviewed_at = timezone.now()
+            if not admin_request.review_note:
+                admin_request.review_note = 'Solicitud KYC rechazada desde el panel principal.'
+            admin_request.save()
+
+        self.message_user(request, 'Solicitudes KYC rechazadas correctamente.')
+
+    reject_requests.short_description = 'Rechazar solicitudes KYC seleccionadas'

@@ -1,0 +1,371 @@
+﻿from pathlib import Path
+
+p = Path("templates/dashboard/panel_home.html")
+
+html = r'''{% extends 'dashboard/panel_base.html' %}
+
+{% block title %}Panel ejecutivo - TaxiGE{% endblock %}
+
+{% block content %}
+
+<style>
+.dashboard-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.metric-card {
+    background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,250,252,.96));
+    border: 1px solid rgba(148,163,184,.35);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 18px 45px rgba(15,23,42,.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 5px;
+    background: linear-gradient(90deg, #f59e0b, #22c55e);
+}
+
+.metric-label {
+    font-size: 13px;
+    font-weight: 900;
+    color: #475569;
+    margin-bottom: 10px;
+}
+
+.metric-value {
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 1000;
+    color: #020617;
+    word-break: break-word;
+}
+
+.metric-note {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.filter-panel {
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(148,163,184,.35);
+    border-radius: 24px;
+    padding: 18px;
+    margin-bottom: 22px;
+    box-shadow: 0 18px 45px rgba(15,23,42,.07);
+}
+
+.filter-bar {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.filter-bar select,
+.filter-bar input {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 0 14px;
+    font-weight: 800;
+}
+
+.btn-filter {
+    min-height: 48px;
+    border: none;
+    border-radius: 16px;
+    padding: 0 20px;
+    background: linear-gradient(135deg, #f59e0b, #facc15);
+    color: #111827;
+    font-weight: 1000;
+    cursor: pointer;
+}
+
+.premium-section {
+    background: rgba(255,255,255,.96);
+    border: 1px solid rgba(148,163,184,.35);
+    border-radius: 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 18px 45px rgba(15,23,42,.08);
+    overflow: hidden;
+}
+
+.premium-section summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 1000;
+    color: #020617;
+}
+
+.premium-section summary::-webkit-details-marker {
+    display: none;
+}
+
+.premium-section summary::after {
+    content: "⌄";
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: #0f172a;
+    font-size: 24px;
+    transition: .2s ease;
+}
+
+.premium-section[open] summary::after {
+    transform: rotate(180deg);
+}
+
+.section-body {
+    padding: 0 22px 22px;
+}
+
+.compact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+@media (max-width: 1200px) {
+    .metric-grid,
+    .compact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .dashboard-hero {
+        flex-direction: column;
+    }
+
+    .metric-grid,
+    .compact-grid,
+    .filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-value {
+        font-size: 24px;
+    }
+
+    .premium-section summary {
+        font-size: 18px;
+        padding: 18px;
+    }
+}
+</style>
+
+<div class="dashboard-hero">
+    <div>
+        <h1 class="page-title">Dashboard ejecutivo</h1>
+        <p class="page-subtitle">Resumen financiero, mensual y operativo de tu empresa de taxis.</p>
+    </div>
+</div>
+
+<div class="filter-panel">
+    <form method="get" class="filter-bar">
+        <select name="filter">
+            <option value="month" {% if active_filter == 'month' %}selected{% endif %}>Este mes</option>
+            <option value="today" {% if active_filter == 'today' %}selected{% endif %}>Hoy</option>
+            <option value="week" {% if active_filter == 'week' %}selected{% endif %}>Últimos 7 días</option>
+            <option value="custom" {% if active_filter == 'custom' %}selected{% endif %}>Personalizado</option>
+        </select>
+
+        <input type="date" name="start_date" value="{{ start_date }}">
+        <input type="date" name="end_date" value="{{ end_date }}">
+
+        <button type="submit" class="btn-filter">Aplicar filtro</button>
+    </form>
+</div>
+
+<div class="metric-grid">
+    <div class="metric-card">
+        <div class="metric-label">Ingresos cobrados</div>
+        <div class="metric-value">{{ total_paid }} XAF</div>
+        <div class="metric-note">Total recibido</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-label">Deuda pendiente</div>
+        <div class="metric-value">{{ total_debt }} XAF</div>
+        <div class="metric-note">Por cobrar</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-label">Costo daños</div>
+        <div class="metric-value">{{ damages_cost }} XAF</div>
+        <div class="metric-note">Gastos estimados</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-label">Beneficio neto</div>
+        <div class="metric-value">{{ net_profit }} XAF</div>
+        <div class="metric-note">Ingresos menos daños</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-label">Ratio de cobro</div>
+        <div class="metric-value">{{ collection_rate }}%</div>
+        <div class="metric-note">Rendimiento financiero</div>
+    </div>
+</div>
+
+<details class="premium-section" open>
+    <summary>Resumen mensual - 05/2026</summary>
+    <div class="section-body">
+        <div class="compact-grid">
+            <div class="metric-card">
+                <div class="metric-label">Ingresos del mes</div>
+                <div class="metric-value">{{ total_paid }} XAF</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Deuda del mes</div>
+                <div class="metric-value">{{ total_debt }} XAF</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Daños del mes</div>
+                <div class="metric-value">{{ damages_cost }} XAF</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Neto mensual</div>
+                <div class="metric-value">{{ net_profit }} XAF</div>
+            </div>
+        </div>
+    </div>
+</details>
+
+<details class="premium-section" open>
+    <summary>Operación actual</summary>
+    <div class="section-body">
+        <div class="compact-grid">
+            <div class="metric-card">
+                <div class="metric-label">Empresas</div>
+                <div class="metric-value">{{ companies_count }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Taxis activos</div>
+                <div class="metric-value">{{ active_vehicles }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Conductores activos</div>
+                <div class="metric-value">{{ active_drivers }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Pagos registrados</div>
+                <div class="metric-value">{{ payments_count }}</div>
+            </div>
+        </div>
+    </div>
+</details>
+
+<details class="premium-section">
+    <summary>Últimos pagos</summary>
+    <div class="section-body">
+        {% if recent_payments %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Conductor</th>
+                            <th>Taxi</th>
+                            <th>Fecha</th>
+                            <th>Esperado</th>
+                            <th>Pagado</th>
+                            <th>Deuda</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in recent_payments %}
+                            <tr>
+                                <td>{{ payment.driver.full_name }}</td>
+                                <td>{{ payment.vehicle.plate_number }}</td>
+                                <td>{{ payment.payment_date }}</td>
+                                <td>{{ payment.expected_amount }} XAF</td>
+                                <td>{{ payment.paid_amount }} XAF</td>
+                                <td>{{ payment.debt_amount }} XAF</td>
+                                <td><span class="badge">{{ payment.get_status_display }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="empty">No hay pagos registrados.</p>
+        {% endif %}
+    </div>
+</details>
+
+<details class="premium-section">
+    <summary>Últimos daños</summary>
+    <div class="section-body">
+        {% if recent_damages %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Taxi</th>
+                            <th>Conductor</th>
+                            <th>Daño</th>
+                            <th>Fecha</th>
+                            <th>Costo estimado</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for damage in recent_damages %}
+                            <tr>
+                                <td>{{ damage.vehicle.plate_number }}</td>
+                                <td>{{ damage.driver.full_name }}</td>
+                                <td>{{ damage.title }}</td>
+                                <td>{{ damage.damage_date }}</td>
+                                <td>{{ damage.estimated_cost }} XAF</td>
+                                <td><span class="badge">{{ damage.get_status_display }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="empty">No hay daños registrados.</p>
+        {% endif %}
+    </div>
+</details>
+
+{% endblock %}
+'''
+
+p.write_text(html, encoding="utf-8")
+print("OK: dashboard premium aplicado")

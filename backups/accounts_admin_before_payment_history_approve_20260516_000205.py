@@ -1,0 +1,613 @@
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.utils import timezone
+from datetime import timedelta
+from .models import User, AdminRequest, SaaSPaymentSettings, SaaSSubscription, SaaSPaymentHistory
+from companies.models import Company
+from vehicles.models import Vehicle
+from notifications.models import Notification
+
+
+@admin.register(User)
+class CustomUserAdmin(UserAdmin):
+    list_display = (
+        'id',
+        'username',
+        'email',
+        'phone',
+        'role',
+        'admin_approved',
+        'is_platform_owner',
+        'is_staff',
+        'is_active',
+        'date_joined',
+    )
+
+    list_filter = (
+        'role',
+        'admin_approved',
+        'is_platform_owner',
+        'is_staff',
+        'is_active',
+        'date_joined',
+    )
+
+    search_fields = (
+        'username',
+        'email',
+        'phone',
+        'first_name',
+        'last_name',
+    )
+
+    fieldsets = UserAdmin.fieldsets + (
+        ('Datos de TaxiGE Platform', {
+            'fields': (
+                'role',
+                'phone',
+                'avatar',
+                'is_platform_owner',
+                'admin_approved',
+            )
+        }),
+    )
+
+
+@admin.register(AdminRequest)
+class AdminRequestAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'company_name',
+        'owner_full_name',
+        'user',
+        'phone',
+        'city',
+        'taxi_count',
+        'main_taxi_plate',
+        'status',
+        'payment_verified',
+        'activation_fee',
+        'created_at',
+    )
+
+    list_filter = (
+        'status',
+        'city',
+        'created_at',
+    )
+
+    search_fields = (
+        'company_name',
+        'owner_full_name',
+        'phone',
+        'user__username',
+        'user__email',
+        'main_taxi_plate',
+        'identity_number',
+        'payment_reference',
+    )
+
+    readonly_fields = (
+        'user',
+        'owner_full_name',
+        'phone',
+        'city',
+        'address',
+        'identity_number',
+        'identity_document',
+        'selfie_photo',
+
+        'company_name',
+        'taxi_count',
+
+        'main_taxi_brand',
+        'main_taxi_model',
+        'main_taxi_plate',
+        'main_taxi_color',
+
+        'taxi_registration_document',
+        'taxi_license_document',
+        'ownership_proof_document',
+
+        'message',
+        'created_at',
+        'updated_at',
+        'reviewed_by',
+        'reviewed_at',
+    )
+
+    fieldsets = (
+        ('Estado de revisión', {
+            'fields': (
+                'status',
+                'review_note',
+                'reviewed_by',
+                'reviewed_at',
+            )
+        }),
+        ('Usuario solicitante', {
+            'fields': ('user',)
+        }),
+        ('Datos del propietario', {
+            'fields': (
+                'owner_full_name',
+                'phone',
+                'city',
+                'address',
+                'identity_number',
+                'identity_document',
+                'selfie_photo',
+            )
+        }),
+        ('Empresa o flota', {
+            'fields': (
+                'company_name',
+                'taxi_count',
+            )
+        }),
+        ('Taxi principal de verificación', {
+            'fields': (
+                'main_taxi_brand',
+                'main_taxi_model',
+                'main_taxi_plate',
+                'main_taxi_color',
+                'taxi_registration_document',
+                'taxi_license_document',
+                'ownership_proof_document',
+            )
+        }),
+        ('Pago de activación SaaS', {
+            'fields': (
+                'activation_fee',
+                'payment_reference',
+                'payment_receipt',
+                'payment_verified',
+                'payment_verified_at',
+                'payment_note',
+            )
+        }),
+        ('Mensaje y fechas', {
+            'fields': (
+                'message',
+                'created_at',
+                'updated_at',
+            )
+        }),
+    )
+
+    actions = ['approve_requests', 'reject_requests']
+
+
+    def create_user_notification(self, user, title, message, level='info', link='/panel/'):
+        try:
+            Notification.objects.create(
+                user=user,
+                title=title,
+                message=message,
+                level=level,
+                link=link,
+            )
+        except Exception:
+            pass
+
+    def save_model(self, request, obj, form, change):
+        if obj.status == 'approved' and not obj.payment_verified:
+            self.message_user(
+                request,
+                'No se puede aprobar la solicitud porque el pago aún no ha sido verificado.',
+                level='error'
+            )
+            obj.status = AdminRequest.STATUS_PENDING
+
+        previous_status = None
+
+        if change and obj.pk:
+            try:
+                previous_status = AdminRequest.objects.get(pk=obj.pk).status
+            except AdminRequest.DoesNotExist:
+                previous_status = None
+
+        payment_was_verified_now = False
+
+        if obj.payment_verified and not obj.payment_verified_at:
+            obj.payment_verified_at = timezone.now()
+            payment_was_verified_now = True
+
+        super().save_model(request, obj, form, change)
+
+        if payment_was_verified_now:
+            self.create_user_notification(
+                obj.user,
+                'Pago de activación verificado',
+                f'Tu pago de activación para {obj.company_name} fue verificado correctamente. Tu solicitud KYC ya puede ser aprobada.',
+                'success',
+                '/panel/'
+            )
+
+        if obj.status == AdminRequest.STATUS_APPROVED and previous_status != AdminRequest.STATUS_APPROVED:
+            user = obj.user
+            user.role = User.ROLE_ADMIN
+            user.admin_approved = True
+            user.is_staff = False
+            user.is_superuser = False
+            user.is_active = True
+            user.save()
+
+            self.create_company_and_vehicle(obj, request.user)
+            subscription = self.create_or_renew_subscription(user, obj)
+
+            obj.reviewed_by = request.user
+            obj.reviewed_at = timezone.now()
+
+            if not obj.review_note:
+                obj.review_note = (
+                    'Solicitud KYC aprobada manualmente desde el formulario. '
+                    'Empresa y taxi inicial creados automáticamente.'
+                )
+
+            self.create_user_notification(
+                obj.user,
+                'Solicitud KYC aprobada',
+                f'Tu cuenta de propietario para {obj.company_name} fue aprobada. Tu suscripción SaaS está activa hasta {subscription.end_date}.',
+                'success',
+                '/panel/'
+            )
+
+            super().save_model(request, obj, form, change)
+
+
+    def create_or_renew_subscription(self, user, admin_request):
+        from django.utils import timezone
+        from datetime import timedelta
+
+        today = timezone.localdate()
+        end_date = today + timedelta(days=30)
+
+        subscription, created = SaaSSubscription.objects.get_or_create(
+            user=user,
+            defaults={
+                'monthly_fee': admin_request.activation_fee,
+                'start_date': today,
+                'end_date': end_date,
+                'status': SaaSSubscription.STATUS_ACTIVE,
+                'last_payment_reference': admin_request.payment_reference,
+                'last_payment_receipt': admin_request.payment_receipt,
+                'notes': f'Suscripción creada automáticamente al aprobar KYC ID {admin_request.id}.',
+            }
+        )
+
+        if not created:
+            subscription.monthly_fee = admin_request.activation_fee
+            subscription.start_date = today
+            subscription.end_date = end_date
+            subscription.status = SaaSSubscription.STATUS_ACTIVE
+            subscription.last_payment_reference = admin_request.payment_reference
+            subscription.last_payment_receipt = admin_request.payment_receipt
+            subscription.notes = f'Suscripción renovada automáticamente al aprobar KYC ID {admin_request.id}.'
+            subscription.save()
+
+        return subscription
+
+    def create_company_and_vehicle(self, admin_request, reviewer):
+        user = admin_request.user
+
+        company, created = Company.objects.get_or_create(
+            owner=user,
+            name=admin_request.company_name,
+            defaults={
+                'legal_name': admin_request.company_name,
+                'phone': admin_request.phone,
+                'email': user.email,
+                'city': admin_request.city,
+                'address': admin_request.address,
+                'status': Company.STATUS_ACTIVE,
+                'notes': (
+                    'Empresa creada automáticamente al aprobar solicitud KYC. '
+                    f'Solicitud ID: {admin_request.id}'
+                ),
+                'created_by': reviewer,
+            }
+        )
+
+        if admin_request.main_taxi_plate:
+            Vehicle.objects.get_or_create(
+                plate_number=admin_request.main_taxi_plate,
+                defaults={
+                    'company': company,
+                    'internal_code': f'TX-{admin_request.id}',
+                    'brand': admin_request.main_taxi_brand or 'No especificada',
+                    'model': admin_request.main_taxi_model or '',
+                    'color': admin_request.main_taxi_color or '',
+                    'daily_target_amount': 0,
+                    'status': Vehicle.STATUS_ACTIVE,
+                    'registration_document': admin_request.taxi_registration_document,
+                    'insurance_document': admin_request.taxi_license_document,
+                    'notes': (
+                        'Taxi creado automáticamente desde solicitud KYC. '
+                        f'Solicitud ID: {admin_request.id}'
+                    ),
+                    'created_by': reviewer,
+                }
+            )
+
+        return company
+
+    def approve_requests(self, request, queryset):
+        approved_count = 0
+
+        blocked_count = 0
+
+        for admin_request in queryset.filter(status=AdminRequest.STATUS_PENDING):
+            if not admin_request.payment_verified:
+                blocked_count += 1
+                continue
+
+            user = admin_request.user
+
+            user.role = User.ROLE_ADMIN
+            user.admin_approved = True
+            user.is_staff = False
+            user.is_superuser = False
+            user.is_active = True
+            user.save()
+
+            self.create_company_and_vehicle(admin_request, request.user)
+            self.create_or_renew_subscription(user, admin_request)
+
+            admin_request.status = AdminRequest.STATUS_APPROVED
+            admin_request.reviewed_by = request.user
+            admin_request.reviewed_at = timezone.now()
+
+            if not admin_request.review_note:
+                admin_request.review_note = (
+                    'Solicitud KYC aprobada. Usuario activado como propietario, '
+                    'empresa creada automáticamente y taxi principal registrado si fue indicado.'
+                )
+
+            admin_request.save()
+            approved_count += 1
+
+        if blocked_count:
+            self.message_user(
+                request,
+                f'{blocked_count} solicitud(es) no fueron aprobadas porque el pago no está verificado.',
+                level='error'
+            )
+
+        if approved_count > 0:
+            self.message_user(
+                request,
+                f'{approved_count} solicitud(es) KYC aprobada(s). Empresa y taxi inicial creados automáticamente.'
+            )
+        else:
+            self.message_user(
+                request,
+                'No había solicitudes pendientes para aprobar.',
+                level='warning'
+            )
+
+    approve_requests.short_description = 'Aprobar KYC y crear empresa/taxi'
+
+    def reject_requests(self, request, queryset):
+        rejected_count = 0
+
+        for admin_request in queryset.filter(status=AdminRequest.STATUS_PENDING):
+            admin_request.status = AdminRequest.STATUS_REJECTED
+            admin_request.reviewed_by = request.user
+            admin_request.reviewed_at = timezone.now()
+
+            if not admin_request.review_note:
+                admin_request.review_note = 'Solicitud KYC rechazada desde el panel principal.'
+
+            admin_request.save()
+
+            self.create_user_notification(
+                admin_request.user,
+                'Solicitud KYC rechazada',
+                f'Tu solicitud KYC para {admin_request.company_name} fue rechazada. Revisa las observaciones o contacta con soporte.',
+                'danger',
+                '/accounts/register/owner/'
+            )
+
+            rejected_count += 1
+
+        self.message_user(
+            request,
+            f'{rejected_count} solicitud(es) KYC rechazada(s).'
+        )
+
+    reject_requests.short_description = 'Rechazar solicitudes KYC seleccionadas'
+
+
+@admin.register(SaaSPaymentSettings)
+class SaaSPaymentSettingsAdmin(admin.ModelAdmin):
+    app_label = 'accounts'
+    app_label = 'accounts'
+    list_display = (
+        'id',
+        'activation_fee',
+        'primary_bank_name',
+        'primary_account_holder',
+        'primary_account_number',
+        'secondary_bank_name',
+        'secondary_account_holder',
+        'secondary_account_number',
+        'is_active',
+        'updated_at',
+    )
+
+    list_filter = (
+        'is_active',
+        'primary_bank_name',
+        'secondary_bank_name',
+    )
+
+    fieldsets = (
+        ('Importe de activación', {
+            'fields': (
+                'activation_fee',
+                'is_active',
+            )
+        }),
+        ('Banco principal', {
+            'fields': (
+                'primary_bank_name',
+                'primary_account_holder',
+                'primary_account_number',
+            )
+        }),
+        ('Banco alternativo', {
+            'fields': (
+                'secondary_bank_name',
+                'secondary_account_holder',
+                'secondary_account_number',
+            )
+        }),
+        ('Instrucciones visibles para el solicitante', {
+            'fields': (
+                'payment_instructions',
+            )
+        }),
+    )
+
+
+@admin.register(SaaSSubscription)
+class SaaSSubscriptionAdmin(admin.ModelAdmin):
+
+    def save_model(self, request, obj, form, change):
+        previous_status = None
+
+        if change and obj.pk:
+            try:
+                previous_status = SaaSSubscription.objects.get(pk=obj.pk).status
+            except SaaSSubscription.DoesNotExist:
+                previous_status = None
+
+        if obj.status == SaaSSubscription.STATUS_ACTIVE and previous_status != SaaSSubscription.STATUS_ACTIVE:
+            today = timezone.localdate()
+            obj.start_date = today
+            obj.end_date = today + timedelta(days=30)
+
+            if not obj.notes:
+                obj.notes = 'Suscripción reactivada manualmente desde administración.'
+            else:
+                obj.notes += '\nSuscripción reactivada manualmente desde administración.'
+
+        super().save_model(request, obj, form, change)
+
+        if obj.status == SaaSSubscription.STATUS_ACTIVE and previous_status != SaaSSubscription.STATUS_ACTIVE:
+            try:
+                Notification.objects.create(
+                    user=obj.user,
+                    title='Suscripción SaaS reactivada',
+                    message=f'Tu suscripción SaaS fue reactivada correctamente hasta {obj.end_date}. Ya puedes acceder al panel.',
+                    level='success',
+                    link='/panel/'
+                )
+            except Exception:
+                pass
+
+    list_display = (
+        'id',
+        'user',
+        'monthly_fee',
+        'start_date',
+        'end_date',
+        'status',
+        'updated_at',
+    )
+
+    list_filter = (
+        'status',
+        'start_date',
+        'end_date',
+    )
+
+    search_fields = (
+        'user__username',
+        'user__email',
+        'last_payment_reference',
+    )
+
+    fieldsets = (
+        ('Propietario', {
+            'fields': (
+                'user',
+            )
+        }),
+        ('Periodo de suscripción', {
+            'fields': (
+                'monthly_fee',
+                'start_date',
+                'end_date',
+                'status',
+            )
+        }),
+        ('Último pago', {
+            'fields': (
+                'last_payment_reference',
+                'last_payment_receipt',
+            )
+        }),
+        ('Notas', {
+            'fields': (
+                'notes',
+            )
+        }),
+    )
+
+
+@admin.register(SaaSPaymentHistory)
+class SaaSPaymentHistoryAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'user',
+        'amount',
+        'reference',
+        'status',
+        'created_at',
+        'reviewed_by',
+        'reviewed_at',
+    )
+
+    list_filter = (
+        'status',
+        'created_at',
+        'reviewed_at',
+    )
+
+    search_fields = (
+        'user__username',
+        'user__email',
+        'reference',
+    )
+
+    readonly_fields = (
+        'subscription',
+        'user',
+        'amount',
+        'reference',
+        'receipt',
+        'created_at',
+    )
+
+    fieldsets = (
+        ('Pago recibido', {
+            'fields': (
+                'subscription',
+                'user',
+                'amount',
+                'reference',
+                'receipt',
+                'created_at',
+            )
+        }),
+        ('Revisión administrativa', {
+            'fields': (
+                'status',
+                'reviewed_by',
+                'reviewed_at',
+                'admin_note',
+            )
+        }),
+    )

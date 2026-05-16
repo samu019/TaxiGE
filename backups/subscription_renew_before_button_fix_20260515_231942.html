@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Renovar suscripción - TaxiGE Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(37,99,235,.22), transparent 35%),
+                linear-gradient(135deg, #020617, #0f172a);
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .renew-card {
+            width: 100%;
+            max-width: 980px;
+            border-radius: 28px;
+            padding: 30px;
+            background: rgba(15,23,42,.88);
+            border: 1px solid rgba(148,163,184,.22);
+            box-shadow: 0 30px 80px rgba(0,0,0,.45);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .brand-logo {
+            width: 46px;
+            height: 46px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: #2563eb;
+            color: white;
+            font-weight: 900;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: clamp(28px, 4vw, 42px);
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 26px;
+        }
+
+        .status-grid,
+        .bank-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .bank-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .box {
+            padding: 17px;
+            border-radius: 18px;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.10);
+        }
+
+        .box small {
+            display: block;
+            color: #94a3b8;
+            margin-bottom: 6px;
+        }
+
+        .box strong {
+            font-size: 17px;
+        }
+
+        .warning {
+            margin-top: 22px;
+            padding: 18px;
+            border-radius: 20px;
+            background: rgba(239,68,68,.12);
+            border: 1px solid rgba(239,68,68,.30);
+            color: #fecaca;
+        }
+
+        .payment {
+            margin-top: 24px;
+            padding: 22px;
+            border-radius: 22px;
+            background: rgba(37,99,235,.13);
+            border: 1px solid rgba(96,165,250,.28);
+        }
+
+        .actions {
+            margin-top: 26px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 18px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 800;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-muted {
+            background: rgba(255,255,255,.10);
+            color: #f8fafc;
+        }
+
+        @media (max-width: 760px) {
+            .status-grid,
+            .bank-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .renew-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="renew-card">
+        <div class="brand">
+            <div class="brand-logo">TG</div>
+            <div>
+                <strong>TaxiGE Platform</strong><br>
+                <small style="color:#94a3b8;">Renovación de suscripción SaaS</small>
+            </div>
+        </div>
+
+        <h1>Tu suscripción necesita renovación</h1>
+
+        <p class="subtitle">
+            Tu cuenta está identificada correctamente, pero el acceso al panel de gestión está limitado porque
+            tu suscripción está suspendida, expirada o pendiente de revisión. Para recuperar el acceso,
+            realiza el pago mensual y sube el comprobante.
+        </p>
+
+        {% if subscription %}
+            <div class="status-grid">
+                <div class="box">
+                    <small>Estado actual</small>
+                    <strong>{{ subscription.get_status_display }}</strong>
+                </div>
+                <div class="box">
+                    <small>Fecha de vencimiento</small>
+                    <strong>{{ subscription.end_date }}</strong>
+                </div>
+                <div class="box">
+                    <small>Cuota mensual</small>
+                    <strong>{{ subscription.monthly_fee }} XAF</strong>
+                </div>
+            </div>
+        {% else %}
+            <div class="warning">
+                No se encontró una suscripción activa asociada a tu cuenta. Contacta con administración o realiza el pago de activación.
+            </div>
+        {% endif %}
+
+        <section class="payment">
+            <h2 style="margin-top:0;">Datos para renovar</h2>
+
+            {% if payment_settings %}
+                <p style="color:#cbd5e1;">
+                    Realiza el pago mensual usando una de estas cuentas:
+                </p>
+
+                <div class="bank-grid">
+                    <div class="box">
+                        <small>Banco principal</small>
+                        <strong>{{ payment_settings.primary_bank_name }}</strong><br><br>
+                        Titular: {{ payment_settings.primary_account_holder }}<br>
+                        Cuenta: {{ payment_settings.primary_account_number }}
+                    </div>
+
+                    <div class="box">
+                        <small>Banco alternativo</small>
+                        <strong>{{ payment_settings.secondary_bank_name }}</strong><br><br>
+                        Titular: {{ payment_settings.secondary_account_holder }}<br>
+                        Cuenta: {{ payment_settings.secondary_account_number }}
+                    </div>
+                </div>
+            {% else %}
+                <p>Contacta con administración para recibir los datos de pago.</p>
+            {% endif %}
+        </section>
+
+        <div class="actions">
+            <a class="btn btn-primary" href="/accounts/register/owner/">Subir comprobante de renovación</a>
+            <a class="btn btn-muted" href="/accounts/logout/">Cerrar sesión</a>
+        </div>
+    </main>
+</body>
+</html>

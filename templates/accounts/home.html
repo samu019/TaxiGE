@@ -1,0 +1,449 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TaxiGE Platform - Gestión inteligente de taxis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        :root {
+            --dark: #020617;
+            --dark2: #0f172a;
+            --gold: #f59e0b;
+            --gold2: #facc15;
+            --muted: #94a3b8;
+            --white: #ffffff;
+            --card: rgba(255,255,255,0.08);
+            --border: rgba(255,255,255,0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(245,158,11,.25), transparent 28%),
+                radial-gradient(circle at 80% 20%, rgba(59,130,246,.18), transparent 28%),
+                linear-gradient(135deg, #020617 0%, #0f172a 45%, #111827 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .nav {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 22px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            font-size: 22px;
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, var(--gold), var(--gold2));
+            color: #111827;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            box-shadow: 0 10px 28px rgba(245,158,11,.35);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 18px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 900;
+            border: 1px solid var(--border);
+            color: white;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold2));
+            color: #111827;
+            border: 0;
+            box-shadow: 0 18px 38px rgba(245,158,11,.24);
+        }
+
+        .hero {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 46px;
+            align-items: center;
+            padding: 58px 0 70px;
+        }
+
+        .badge {
+            display: inline-flex;
+            padding: 9px 13px;
+            border-radius: 999px;
+            background: rgba(245,158,11,.15);
+            border: 1px solid rgba(245,158,11,.35);
+            color: #fde68a;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(42px, 6vw, 74px);
+            line-height: .95;
+            letter-spacing: -0.07em;
+            margin: 0 0 24px;
+        }
+
+        .hero p {
+            font-size: 19px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            max-width: 690px;
+            margin-bottom: 30px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            max-width: 640px;
+        }
+
+        .stat {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+            backdrop-filter: blur(12px);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 28px;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .mockup {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            border-radius: 34px;
+            padding: 22px;
+            box-shadow: 0 30px 90px rgba(0,0,0,.35);
+            backdrop-filter: blur(16px);
+        }
+
+        .screen {
+            background: #f8fafc;
+            color: #111827;
+            border-radius: 26px;
+            padding: 24px;
+            min-height: 430px;
+        }
+
+        .screen-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .screen-title {
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        .chip {
+            background: #111827;
+            color: white;
+            padding: 8px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .mini-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .mini-card {
+            background: white;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 10px 24px rgba(15,23,42,.08);
+        }
+
+        .mini-card span {
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .mini-card strong {
+            display: block;
+            font-size: 28px;
+            margin-top: 6px;
+        }
+
+        .rows {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 24px rgba(15,23,42,.08);
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .row:last-child {
+            border-bottom: 0;
+        }
+
+        .row small {
+            color: #64748b;
+        }
+
+        .features {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 20px 0 70px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .feature {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+        }
+
+        .feature h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .feature p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        @media (max-width: 950px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 34px;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .nav-actions {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 12px;
+            }
+
+            .stats,
+            .features,
+            .mini-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .screen {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="brand">
+        <div class="logo">TG</div>
+        TaxiGE Platform
+    </div>
+
+    <div class="nav-actions">
+        <a class="btn" href="/accounts/login/">Iniciar sesión</a>
+        <a class="btn btn-primary" href="/accounts/register/">Crear cuenta</a>
+    </div>
+</nav>
+
+<main class="hero">
+    <section>
+        <div class="badge">Gestión inteligente de taxis para Guinea Ecuatorial</div>
+
+        <h1>Controla taxis, conductores, pagos y daños desde una sola plataforma.</h1>
+
+        <p>
+            TaxiGE Platform ayuda a dueños de taxis a registrar vehículos, controlar conductores,
+            revisar pagos diarios, reportar daños y mantener una auditoría clara del negocio.
+        </p>
+
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="/accounts/register/">Empezar ahora</a>
+            <a class="btn" href="/accounts/login/">Entrar al panel</a>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <strong>24/7</strong>
+                <span>Control disponible</span>
+            </div>
+            <div class="stat">
+                <strong>XAF</strong>
+                <span>Pagos diarios</span>
+            </div>
+            <div class="stat">
+                <strong>100%</strong>
+                <span>Panel privado</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="mockup">
+        <div class="screen">
+            <div class="screen-top">
+                <div class="screen-title">Panel del dueño</div>
+                <div class="chip">Premium</div>
+            </div>
+
+            <div class="mini-cards">
+                <div class="mini-card">
+                    <span>Taxis</span>
+                    <strong>12</strong>
+                </div>
+                <div class="mini-card">
+                    <span>Conductores</span>
+                    <strong>12</strong>
+                </div>
+                <div class="mini-card">
+                    <span>Pagos</span>
+                    <strong>45</strong>
+                </div>
+                <div class="mini-card">
+                    <span>Daños</span>
+                    <strong>03</strong>
+                </div>
+            </div>
+
+            <div class="rows">
+                <div class="row">
+                    <div>
+                        <strong>Pago diario recibido</strong><br>
+                        <small>Toyota Corolla · GE-MB-001</small>
+                    </div>
+                    <strong>15.000 XAF</strong>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <strong>Daño reportado</strong><br>
+                        <small>Parachoques delantero</small>
+                    </div>
+                    <strong>8.000 XAF</strong>
+                </div>
+
+                <div class="row">
+                    <div>
+                        <strong>Nuevo conductor</strong><br>
+                        <small>Registro verificado</small>
+                    </div>
+                    <strong>Activo</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<section class="features">
+    <div class="feature">
+        <h3>Registro de taxis</h3>
+        <p>Controla matrícula, marca, modelo, estado, documentos y objetivo diario de cada taxi.</p>
+    </div>
+
+    <div class="feature">
+        <h3>Conductores</h3>
+        <p>Gestiona datos personales, licencias, asignación de vehículo y estado laboral.</p>
+    </div>
+
+    <div class="feature">
+        <h3>Pagos diarios</h3>
+        <p>Registra dinero esperado, dinero pagado, deuda pendiente y estado automático.</p>
+    </div>
+
+    <div class="feature">
+        <h3>Daños y reparaciones</h3>
+        <p>Reporta daños con costos, conductor responsable, fecha y estado de reparación.</p>
+    </div>
+</section>
+
+<footer class="footer">
+    TaxiGE Platform — Tecnología para modernizar el transporte en Guinea Ecuatorial.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+﻿from django import forms
+from vehicles.models import Vehicle
+
+
+class VehicleForm(forms.ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = [
+            'internal_code',
+            'plate_number',
+            'brand',
+            'model',
+            'color',
+            'year',
+            'daily_target_amount',
+            'status',
+            'photo',
+            'registration_document',
+            'insurance_document',
+            'notes',
+        ]
+
+        widgets = {
+            'notes': forms.Textarea(attrs={'rows': 4}),
+        }

@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear cuenta - TaxiGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(245, 158, 11, 0.20), transparent 30%),
+                linear-gradient(135deg, #020617, #111827);
+            color: #111827;
+        }
+
+        .wrapper {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 460px;
+        }
+
+        .hero {
+            color: white;
+            padding: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: 54px;
+            line-height: 1;
+            margin: 0 0 20px;
+        }
+
+        .hero p {
+            font-size: 19px;
+            color: #cbd5e1;
+            max-width: 620px;
+        }
+
+        .card-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 25px 70px rgba(0,0,0,.35);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 14px 0 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            border: 0;
+            border-radius: 13px;
+            background: #111827;
+            color: white;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .link {
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .link a {
+            color: #111827;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #991b1b;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 36px 24px 12px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .card-wrap {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <section class="hero">
+        <h1>TaxiGE Platform</h1>
+        <p>La plataforma profesional para registrar taxis, conductores, pagos, daños y control de flotas en Guinea Ecuatorial.</p>
+    </section>
+
+    <section class="card-wrap">
+        <div class="card">
+            <h2>Crear cuenta</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+
+                <button type="submit">Crear cuenta</button>
+            </form>
+
+            <div class="link">
+                ¿Ya tienes cuenta? <a href="/accounts/login/">Iniciar sesión</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

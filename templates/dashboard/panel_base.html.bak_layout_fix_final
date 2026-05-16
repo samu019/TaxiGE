@@ -1,0 +1,1059 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TaxiGE Panel{% endblock %}</title>
+
+    <style>
+        :root {
+            --dark: #0f172a;
+            --dark-2: #111827;
+            --muted: #64748b;
+            --border: #e5e7eb;
+            --bg: #f3f6fb;
+            --card: #ffffff;
+            --accent: #f59e0b;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --radius: 18px;
+            --shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(245, 158, 11, 0.16), transparent 32%),
+                linear-gradient(180deg, #eef2f7 0%, #f8fafc 45%, #f3f6fb 100%);
+            color: var(--dark);
+        }
+
+        .topbar {
+            background: rgba(15, 23, 42, 0.96);
+            color: white;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.22);
+        }
+
+        .brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #f59e0b, #facc15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111827;
+            font-weight: 900;
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
+        }
+
+        .brand {
+            font-weight: 900;
+            font-size: 21px;
+            line-height: 1;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-pill {
+            background: rgba(255,255,255,0.09);
+            border: 1px solid rgba(255,255,255,0.14);
+            padding: 10px 14px;
+            border-radius: 999px;
+            color: #e5e7eb;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            color: #111827;
+            background: #facc15;
+            padding: 10px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: calc(100vh - 74px);
+        }
+
+        .sidebar {
+            padding: 24px;
+        }
+
+        .sidebar-inner {
+            background: rgba(255,255,255,0.86);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226,232,240,0.9);
+            border-radius: 24px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 98px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 10px 12px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 14px;
+            margin-bottom: 8px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 800;
+            transition: all .18s ease;
+        }
+
+        .sidebar a:hover {
+            background: #f8fafc;
+            transform: translateX(2px);
+        }
+
+        .sidebar a.active {
+            background: linear-gradient(135deg, #111827, #0f172a);
+            color: white;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22);
+        }
+
+        .mobile-nav {
+            display: none;
+            padding: 12px 14px;
+            gap: 8px;
+            overflow-x: auto;
+            background: rgba(255,255,255,0.86);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 74px;
+            z-index: 15;
+        }
+
+        .mobile-nav a {
+            white-space: nowrap;
+            color: var(--dark);
+            text-decoration: none;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 10px 13px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .mobile-nav a.active {
+            background: #111827;
+            color: white;
+            border-color: #111827;
+        }
+
+        .content {
+            padding: 28px 32px 50px;
+        }
+
+        .content-shell {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+        }
+
+        .page-subtitle {
+            color: var(--muted);
+            margin-top: 8px;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .card, .section {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(226,232,240,0.95);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .card {
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            right: -35px;
+            top: -35px;
+            width: 90px;
+            height: 90px;
+            background: rgba(245, 158, 11, 0.14);
+            border-radius: 999px;
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 900;
+        }
+
+        .card strong {
+            font-size: 34px;
+            letter-spacing: -0.04em;
+        }
+
+        .section {
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            font-size: 21px;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+            background: white;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 15px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        th {
+            color: var(--muted);
+            font-size: 13px;
+            background: #f8fafc;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        tr:hover td {
+            background: #fbfdff;
+        }
+
+        .empty {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            color: var(--muted);
+            border: 1px dashed #cbd5e1;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #111827;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 13px;
+            text-decoration: none;
+            font-weight: 900;
+            border: 0;
+            cursor: pointer;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.20);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #111827;
+            box-shadow: none;
+        }
+
+        .btn-small {
+            padding: 8px 11px;
+            border-radius: 10px;
+            font-size: 13px;
+            box-shadow: none;
+        }
+
+        .page-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        label {
+            color: #111827;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-error {
+            background:#fee2e2;
+            color:#991b1b;
+            padding:14px;
+            border-radius:12px;
+            margin-bottom:18px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1050px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            .content {
+                padding: 22px 16px 40px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                padding: 14px 16px;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .brand small {
+                display: none;
+            }
+
+            .brand-logo {
+                width: 38px;
+                height: 38px;
+            }
+
+            .user-pill {
+                display: none;
+            }
+
+            .logout-btn {
+                padding: 9px 11px;
+                font-size: 13px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 26px;
+            }
+
+            .page-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 16px;
+            }
+
+            table {
+                min-width: 820px;
+            }
+        }
+    
+/* =========================
+   DARK MODE PREMIUM
+========================= */
+
+body.dark-mode {
+    background:
+        radial-gradient(circle at top left, rgba(245, 158, 11, 0.10), transparent 28%),
+        linear-gradient(180deg, #020617 0%, #0f172a 45%, #111827 100%) !important;
+    color: #f8fafc !important;
+}
+
+body.dark-mode .topbar {
+    background: rgba(2, 6, 23, 0.98) !important;
+    border-bottom: 1px solid #1e293b;
+}
+
+body.dark-mode .sidebar-inner,
+body.dark-mode .card,
+body.dark-mode .section,
+body.dark-mode .table-wrap,
+body.dark-mode table,
+body.dark-mode .mobile-nav,
+body.dark-mode .mobile-nav a {
+    background: rgba(15, 23, 42, 0.96) !important;
+    color: #f8fafc !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode th {
+    background: #020617 !important;
+    color: #cbd5e1 !important;
+}
+
+body.dark-mode td {
+    color: #f8fafc !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode tr:hover td {
+    background: #1e293b !important;
+}
+
+body.dark-mode .page-title,
+body.dark-mode .section h2,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode strong,
+body.dark-mode label {
+    color: #ffffff !important;
+}
+
+body.dark-mode .page-subtitle,
+body.dark-mode .nav-label {
+    color: #94a3b8 !important;
+}
+
+body.dark-mode .sidebar a,
+body.dark-mode .mobile-nav a {
+    color: #f8fafc !important;
+}
+
+body.dark-mode .sidebar a:hover {
+    background: #1e293b !important;
+}
+
+body.dark-mode .sidebar a.active,
+body.dark-mode .mobile-nav a.active {
+    background: linear-gradient(135deg, #f59e0b, #facc15) !important;
+    color: #111827 !important;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background: #020617 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .badge {
+    background: #334155 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .empty {
+    background: #0f172a !important;
+    color: #cbd5e1 !important;
+    border-color: #475569 !important;
+}
+
+body.dark-mode .user-pill {
+    background: #111827 !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .btn-secondary {
+    background: #334155 !important;
+    color: #ffffff !important;
+}
+
+
+/* =========================
+   HAMBURGER MOBILE MENU
+========================= */
+
+.hamburger-btn {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.10);
+    color: white;
+    font-size: 22px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.mobile-drawer {
+    display: none;
+}
+
+.mobile-drawer-card a {
+    display: block;
+    color: #111827;
+    text-decoration: none;
+    background: white;
+    border: 1px solid #e5e7eb;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.mobile-drawer-card a.active {
+    background: #111827;
+    color: white;
+    border-color: #111827;
+}
+
+body.dark-mode .mobile-drawer-card {
+    background: #0f172a !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .mobile-drawer-card a {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .mobile-drawer-card a.active {
+    background: linear-gradient(135deg, #f59e0b, #facc15) !important;
+    color: #111827 !important;
+}
+
+@media (max-width: 1050px) {
+    .hamburger-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-nav {
+        display: none !important;
+    }
+
+    .mobile-drawer {
+        display: none;
+        padding: 12px 14px;
+        background: rgba(255,255,255,0.86);
+        border-bottom: 1px solid #e5e7eb;
+        position: sticky;
+        top: 74px;
+        z-index: 16;
+    }
+
+    .mobile-drawer.open {
+        display: block;
+    }
+
+    .mobile-drawer-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        padding: 14px;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    }
+}
+
+@media (max-width: 640px) {
+    .hamburger-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        font-size: 20px;
+    }
+}
+
+
+/* =========================
+   MOBILE COMPACT PREMIUM
+========================= */
+
+@media (max-width: 760px) {
+    .topbar {
+        padding: 10px 12px !important;
+        min-height: auto !important;
+    }
+
+    .brand-wrap {
+        gap: 8px !important;
+    }
+
+    .brand-logo {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 11px !important;
+        font-size: 13px !important;
+    }
+
+    .brand {
+        font-size: 15px !important;
+    }
+
+    .brand small {
+        display: none !important;
+    }
+
+    .top-actions {
+        gap: 6px !important;
+    }
+
+    .logout-btn {
+        padding: 8px 9px !important;
+        font-size: 12px !important;
+    }
+
+    .hamburger-btn {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 18px !important;
+        border-radius: 10px !important;
+    }
+
+    .mobile-drawer {
+        top: 54px !important;
+        padding: 8px 10px !important;
+    }
+
+    .mobile-drawer-card {
+        border-radius: 18px !important;
+        padding: 10px !important;
+    }
+
+    .mobile-drawer-card a {
+        padding: 11px 12px !important;
+        border-radius: 12px !important;
+        font-size: 13px !important;
+        margin-bottom: 7px !important;
+    }
+
+    .content {
+        padding: 14px 10px 28px !important;
+    }
+
+    .content-shell {
+        width: 100% !important;
+    }
+
+    .page-title {
+        font-size: 23px !important;
+        line-height: 1.1 !important;
+        letter-spacing: -0.04em !important;
+    }
+
+    .page-subtitle {
+        font-size: 13px !important;
+        margin-top: 6px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 9px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .card {
+        padding: 12px !important;
+        border-radius: 15px !important;
+        min-height: 86px !important;
+    }
+
+    .card h3 {
+        font-size: 11px !important;
+        margin-bottom: 6px !important;
+        line-height: 1.25 !important;
+    }
+
+    .card strong {
+        font-size: 19px !important;
+        line-height: 1.15 !important;
+        word-break: break-word !important;
+    }
+
+    .section {
+        padding: 14px !important;
+        border-radius: 16px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .section h2 {
+        font-size: 17px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .chart-box {
+        height: 190px !important;
+    }
+
+    .charts-grid {
+        gap: 12px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .table-wrap {
+        border-radius: 15px !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    table {
+        min-width: 680px !important;
+        font-size: 12px !important;
+    }
+
+    th, td {
+        padding: 10px 9px !important;
+        font-size: 12px !important;
+        white-space: nowrap !important;
+    }
+
+    .badge {
+        font-size: 11px !important;
+        padding: 5px 8px !important;
+    }
+
+    .btn {
+        padding: 10px 12px !important;
+        font-size: 12px !important;
+        border-radius: 11px !important;
+    }
+
+    .btn-small {
+        padding: 7px 9px !important;
+        font-size: 11px !important;
+        margin-bottom: 4px !important;
+    }
+
+    input, select, textarea {
+        padding: 11px !important;
+        border-radius: 11px !important;
+        font-size: 14px !important;
+    }
+
+    .form-grid {
+        gap: 12px !important;
+    }
+
+    .empty {
+        padding: 14px !important;
+        font-size: 13px !important;
+        border-radius: 14px !important;
+    }
+}
+
+@media (max-width: 430px) {
+    .cards {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .card strong {
+        font-size: 17px !important;
+    }
+
+    .chart-box {
+        height: 170px !important;
+    }
+
+    table {
+        min-width: 620px !important;
+    }
+}
+
+
+/* =========================
+   RESPONSIVE FINAL TAXIGE
+========================= */
+
+/* PC grande: sidebar visible, sin hamburguesa */
+@media (min-width: 1051px) {
+    .hamburger-btn {
+        display: none !important;
+    }
+
+    .mobile-drawer {
+        display: none !important;
+    }
+
+    .layout {
+        grid-template-columns: 280px 1fr !important;
+    }
+
+    .sidebar {
+        display: block !important;
+    }
+}
+
+/* Tablet y móvil: sidebar oculto, hamburguesa visible */
+@media (max-width: 1050px) {
+    .hamburger-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .sidebar {
+        display: none !important;
+    }
+
+    .layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .mobile-drawer {
+        display: none !important;
+    }
+
+    .mobile-drawer.open {
+        display: block !important;
+    }
+}
+
+/* Móvil compacto */
+@media (max-width: 760px) {
+    .topbar {
+        padding: 10px 12px !important;
+    }
+
+    .content {
+        padding: 14px 10px 28px !important;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 9px !important;
+    }
+
+    .card {
+        padding: 12px !important;
+        border-radius: 15px !important;
+    }
+
+    .card strong {
+        font-size: 18px !important;
+    }
+
+    .chart-box {
+        height: 175px !important;
+    }
+}
+
+/* Teléfonos muy pequeños */
+@media (max-width: 390px) {
+    .cards {
+        grid-template-columns: 1fr !important;
+    }
+
+    .top-actions {
+        gap: 4px !important;
+    }
+
+    .logout-btn {
+        padding: 7px 8px !important;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="brand-wrap">
+        <button class="hamburger-btn" id="hamburgerBtn" type="button">☰</button>
+        <div class="brand-logo">TG</div>
+        <div class="brand">
+            TaxiGE Platform
+            <small>Panel privado de gestión de taxis</small>
+        </div>
+    </div>
+
+    <div class="top-actions">
+        <div class="user-pill">Usuario: {{ request.user.username }}</div>
+        
+<button id="themeToggle" class="logout-btn" type="button" style="background:#334155;color:white;">
+    🌙
+</button>
+
+<a class="logout-btn" href="/accounts/logout/">Salir</a>
+
+    </div>
+</div>
+
+<div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-card">
+        <a href="/panel/" class="{% if request.path == '/panel/' %}active{% endif %}">Panel principal</a>
+        <a href="/panel/vehicles/" class="{% if '/panel/vehicles/' in request.path %}active{% endif %}">Mis taxis</a>
+        <a href="/panel/drivers/" class="{% if '/panel/drivers/' in request.path %}active{% endif %}">Mis conductores</a>
+        <a href="/panel/payments/" class="{% if '/panel/payments/' in request.path %}active{% endif %}">Pagos</a>
+        <a href="/panel/damages/" class="{% if '/panel/damages/' in request.path %}active{% endif %}">Daños</a>
+        <a href="/accounts/logout/">Cerrar sesión</a>
+    </div>
+</div>
+
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="sidebar-inner">
+            <div class="nav-label">Gestión</div>
+            <a href="/panel/" class="{% if request.path == '/panel/' %}active{% endif %}">Panel principal</a>
+            <a href="/panel/vehicles/" class="{% if '/panel/vehicles/' in request.path %}active{% endif %}">Mis taxis</a>
+            <a href="/panel/drivers/" class="{% if '/panel/drivers/' in request.path %}active{% endif %}">Mis conductores</a>
+            <a href="/panel/payments/" class="{% if '/panel/payments/' in request.path %}active{% endif %}">Pagos</a>
+            <a href="/panel/damages/" class="{% if '/panel/damages/' in request.path %}active{% endif %}">Daños</a>
+
+            <div class="nav-label">Cuenta</div>
+            <a href="/accounts/logout/">Cerrar sesión</a>
+        </div>
+    </aside>
+
+    <main class="content">
+        <div class="content-shell">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const body = document.body;
+    const toggle = document.getElementById('themeToggle');
+
+    const savedTheme = localStorage.getItem('taxige-theme');
+
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        if (toggle) toggle.innerHTML = '☀️';
+    }
+
+    if (toggle) {
+        toggle.addEventListener('click', function () {
+            body.classList.toggle('dark-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('taxige-theme', 'dark');
+                toggle.innerHTML = '☀️';
+            } else {
+                localStorage.setItem('taxige-theme', 'light');
+                toggle.innerHTML = '🌙';
+            }
+        });
+    }
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+
+    if (hamburgerBtn && mobileDrawer) {
+        hamburgerBtn.addEventListener('click', function () {
+            mobileDrawer.classList.toggle('open');
+            hamburgerBtn.innerHTML = mobileDrawer.classList.contains('open') ? '×' : '☰';
+        });
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+﻿from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+
+class User(AbstractUser):
+    ROLE_PLATFORM_OWNER = 'platform_owner'
+    ROLE_ADMIN = 'admin'
+    ROLE_USER = 'user'
+
+    ROLE_CHOICES = [
+        (ROLE_PLATFORM_OWNER, 'Superusuario / Dueño de la plataforma'),
+        (ROLE_ADMIN, 'Administrador / Dueño de taxis'),
+        (ROLE_USER, 'Usuario normal'),
+    ]
+
+    role = models.CharField(
+        max_length=30,
+        choices=ROLE_CHOICES,
+        default=ROLE_USER
+    )
+
+    phone = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True
+    )
+
+    avatar = models.ImageField(
+        upload_to='users/avatars/',
+        blank=True,
+        null=True
+    )
+
+    is_platform_owner = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def is_owner(self):
+        return self.role == self.ROLE_PLATFORM_OWNER or self.is_platform_owner or self.is_superuser
+
+    def is_taxi_admin(self):
+        return self.role == self.ROLE_ADMIN
+
+    def is_normal_user(self):
+        return self.role == self.ROLE_USER
+
+    def __str__(self):
+        return f"{self.username} - {self.get_role_display()}"

@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}TaxiGE Panel{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #111827;
+        }
+
+        .topbar {
+            background: #111827;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .user {
+            color: #d1d5db;
+            font-size: 14px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: calc(100vh - 62px);
+        }
+
+        .sidebar {
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 24px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 13px 14px;
+            margin-bottom: 8px;
+            color: #111827;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar a:hover {
+            background: #f3f4f6;
+        }
+
+        .sidebar a.active {
+            background: #111827;
+            color: white;
+        }
+
+        .content {
+            padding: 30px 40px;
+        }
+
+        .page-title {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+            margin-top: -10px;
+            margin-bottom: 24px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .card, .section {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            color: #6b7280;
+        }
+
+        .card strong {
+            font-size: 30px;
+        }
+
+        .section {
+            margin-bottom: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        th, td {
+            text-align: left;
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            color: #6b7280;
+            font-size: 14px;
+            background: #f9fafb;
+        }
+
+        .empty {
+            background: white;
+            padding: 24px;
+            border-radius: 14px;
+            color: #6b7280;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: #f3f4f6;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 950px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: 0;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="brand">TaxiGE Platform</div>
+    <div class="user">Usuario: {{ request.user.username }}</div>
+</div>
+
+<div class="layout">
+    <aside class="sidebar">
+        <a href="/panel/" class="{% if request.path == '/panel/' %}active{% endif %}">Panel principal</a>
+        <a href="/panel/vehicles/" class="{% if '/panel/vehicles/' in request.path %}active{% endif %}">Mis taxis</a>
+        <a href="/panel/drivers/" class="{% if '/panel/drivers/' in request.path %}active{% endif %}">Mis conductores</a>
+        <a href="/panel/payments/" class="{% if '/panel/payments/' in request.path %}active{% endif %}">Pagos</a>
+        <a href="/panel/damages/" class="{% if '/panel/damages/' in request.path %}active{% endif %}">Daños</a>
+        <a href="/accounts/logout/">Cerrar sesión</a>
+    </aside>
+
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block content %}
+<div class="panel-section">
+    <h1>Acceso compartido</h1>
+    <p>Genera enlaces para que socios, gestores o contables puedan acceder a la información de tus taxis.</p>
+
+    <div class="card" style="padding:20px; margin-bottom:25px;">
+        <h2>Crear enlace de invitación</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label>Empresa</label>
+            <select name="company_id" required>
+                {% for company in companies %}
+                    <option value="{{ company.id }}">{{ company.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Rol</label>
+            <select name="role">
+                {% for value, label in roles %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Número máximo de usos</label>
+            <input type="number" name="max_uses" value="1" min="1">
+
+            <button type="submit">Crear enlace</button>
+        </form>
+    </div>
+
+    <div class="card" style="padding:20px; margin-bottom:25px;">
+        <h2>Enlaces creados</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Rol</th>
+                    <th>Usos</th>
+                    <th>Estado</th>
+                    <th>Enlace</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invite in invites %}
+                <tr>
+                    <td>{{ invite.company.name }}</td>
+                    <td>{{ invite.get_role_display }}</td>
+                    <td>{{ invite.used_count }}/{{ invite.max_uses }}</td>
+                    <td>{% if invite.is_active %}Activo{% else %}Cerrado{% endif %}</td>
+                    <td>
+                        <div style="display:flex; gap:8px;">
+                            <input id="invite-{{ invite.id }}" style="width:100%;" readonly value="{{ request.scheme }}://{{ request.get_host }}/invite/{{ invite.token }}/">
+                            <button type="button" onclick="copiarInvitacion('invite-{{ invite.id }}')">Copiar</button>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">Todavía no hay invitaciones.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="padding:20px;">
+        <h2>Socios con acceso</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                <tr>
+                    <td>{{ member.company.name }}</td>
+                    <td>{{ member.user.username }}</td>
+                    <td>{{ member.get_role_display }}</td>
+                    <td>{% if member.is_active %}Activo{% else %}Inactivo{% endif %}</td>
+                    <td>{{ member.created_at|date:"d/m/Y H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">Todavía no hay socios vinculados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function copiarInvitacion(inputId) {
+    const input = document.getElementById(inputId);
+    input.select();
+    input.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(input.value);
+    alert("Enlace copiado correctamente");
+}
+</script>
+
+{% endblock %}

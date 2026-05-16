@@ -1,0 +1,39 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}Mis taxis - TaxiGE{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Mis taxis</h1>
+<p class="page-subtitle">Lista de vehículos registrados en tu empresa.</p>
+
+{% if vehicles %}
+<table>
+    <thead>
+        <tr>
+            <th>Matrícula</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Color</th>
+            <th>Año</th>
+            <th>Meta diaria</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vehicle in vehicles %}
+            <tr>
+                <td>{{ vehicle.plate_number }}</td>
+                <td>{{ vehicle.brand }}</td>
+                <td>{{ vehicle.model }}</td>
+                <td>{{ vehicle.color }}</td>
+                <td>{{ vehicle.year }}</td>
+                <td>{{ vehicle.daily_target_amount }} XAF</td>
+                <td><span class="badge">{{ vehicle.get_status_display }}</span></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">Todavía no tienes taxis registrados.</p>
+{% endif %}
+{% endblock %}

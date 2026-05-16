@@ -1,0 +1,60 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}{{ title }} - TaxiGE{% endblock %}
+
+{% block content %}
+<h1 class="page-title">{{ title }}</h1>
+<p class="page-subtitle">Completa los datos del vehículo. La empresa se asigna automáticamente a tu cuenta.</p>
+
+<div class="section">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div style="background:#fee2e2; color:#991b1b; padding:14px; border-radius:10px; margin-bottom:18px;">
+                Revisa los campos marcados. Hay información inválida o incompleta.
+            </div>
+        {% endif %}
+
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:18px;">
+            {% for field in form %}
+                <div>
+                    <label style="display:block; font-weight:bold; margin-bottom:6px;">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small style="color:#6b7280;">{{ field.help_text }}</small>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <div style="color:#991b1b; margin-top:6px;">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top:24px; display:flex; gap:12px;">
+            <button type="submit" style="background:#111827; color:white; border:0; padding:13px 18px; border-radius:10px; font-weight:bold; cursor:pointer;">
+                {{ button_text }}
+            </button>
+
+            <a href="/panel/vehicles/" style="background:#e5e7eb; color:#111827; padding:13px 18px; border-radius:10px; text-decoration:none; font-weight:bold;">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+<style>
+    input, select, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+</style>
+{% endblock %}

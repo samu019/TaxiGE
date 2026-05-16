@@ -1,0 +1,22 @@
+﻿from django.urls import path
+from . import views
+
+app_name = 'dashboard'
+
+urlpatterns = [
+    path('', views.panel_home, name='panel_home'),
+
+    path('vehicles/', views.panel_vehicles, name='panel_vehicles'),
+    path('vehicles/create/', views.panel_vehicle_create, name='panel_vehicle_create'),
+    path('vehicles/<int:vehicle_id>/edit/', views.panel_vehicle_edit, name='panel_vehicle_edit'),
+
+    path('drivers/', views.panel_drivers, name='panel_drivers'),
+    path('drivers/create/', views.panel_driver_create, name='panel_driver_create'),
+    path('drivers/<int:driver_id>/edit/', views.panel_driver_edit, name='panel_driver_edit'),
+
+    path('payments/', views.panel_payments, name='panel_payments'),
+    path('payments/create/', views.panel_payment_create, name='panel_payment_create'),
+
+    path('damages/', views.panel_damages, name='panel_damages'),
+    path('damages/create/', views.panel_damage_create, name='panel_damage_create'),
+]

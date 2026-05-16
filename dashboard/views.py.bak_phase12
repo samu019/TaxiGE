@@ -1,0 +1,234 @@
+﻿from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
+
+from companies.models import Company
+from vehicles.models import Vehicle
+from drivers.models import Driver
+from payments.models import DriverPayment
+from damages.models import VehicleDamage
+from .forms import VehicleForm, DriverForm, DriverPaymentForm
+
+
+def user_can_access_panel(user):
+    return bool(
+        user.is_authenticated
+        and user.is_active
+        and user.role == 'admin'
+        and user.admin_approved
+    )
+
+
+def panel_guard(request):
+    user = request.user
+
+    if user.is_superuser and user.is_platform_owner:
+        return redirect('/admin/')
+
+    if not user_can_access_panel(user):
+        return HttpResponseForbidden(
+            'Acceso denegado. Tu cuenta aún no está aprobada como dueño de taxi.'
+        )
+
+    return None
+
+
+def get_user_company(user):
+    return Company.objects.filter(owner=user, status='active').first()
+
+
+def calculate_payment_status(expected_amount, paid_amount):
+    if paid_amount <= 0:
+        return 'pending'
+
+    if paid_amount >= expected_amount:
+        return 'paid'
+
+    return 'partial'
+
+
+@login_required
+def panel_home(request):
+    guard_response = panel_guard(request)
+    if guard_response:
+        return guard_response
+
+    user = request.user
+
+    companies = Company.objects.filter(owner=user)
+    vehicles = Vehicle.objects.filter(company__owner=user)
+    drivers = Driver.objects.filter(company__owner=user)
+    payments = DriverPayment.objects.filter(company__owner=user)
+    damages = VehicleDamage.objects.filter(company__owner=user)
+
+    context = {
+        'companies_count': companies.count(),
+        'vehicles_count': vehicles.count(),
+        'drivers_count': drivers.count(),
+        'payments_count': payments.count(),
+        'damages_count': damages.count(),
+        'recent_payments': payments.order_by('-payment_date', '-created_at')[:5],
+        'recent_damages': damages.order_by('-damage_date', '-created_at')[:5],
+    }
+
+    return render(request, 'dashboard/panel_home.html', context)
+
+
+@login_required
+def panel_vehicles(request):
+    guard_response = panel_guard(request)
+    if guard_response:
+        return guard_response
+
+    vehicles = Vehicle.objects.filter(company__owner=request.user).select_related('company')
+
+    return render(request, 'dashboard/panel_vehicles.html', {
+        'vehicles': vehicles,
+    })
+
+
+@login_required
+def panel_vehicle_create(request):
+    guard_response = panel_guard(request)
+    if guard_response:
+        return guard_response
+
+    company = get_user_company(request.user)
+
+    if not company:
+        return HttpResponseForbidden(
+            'No tienes una empresa activa asignada. Contacta con el soporte de TaxiGE.'
+        )
+
+    if request.method == 'POST':
+        form = VehicleForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            vehicle = form.save(commit=False)
+            vehicle.company = company
+            vehicle.created_by = request.user
+            vehicle.save()
+            return redirect('/panel/vehicles/')
+    else:
+        form = VehicleForm()
+
+    return render(request, 'dashboard/panel_vehicle_form.html', {
+        'form': form,
+        'title': 'Registrar nuevo taxi',
+        'button_text': 'Guardar taxi',
+    })
+
+
+@login_required
+def panel_drivers(request):
+    guard_response = panel_guard(request)
+    if guard_response:
+        return guard_response
+
+    drivers = Driver.objects.filter(company__owner=request.user).select_related('company', 'assigned_vehicle')
+
+    return render(request, 'dashboard/panel_drivers.html', {
+        'drivers': drivers,
+    })
+
+
+@login_required
+def panel_driver_create(request):
+    guard_response = panel_guard(request)
+    if guard_response:
+        return guard_response
+
+    company = get_user_company(request.user)
+
+    if not company:
+        return HttpResponseForbidden(
+            'No tienes una empresa activa asignada. Contacta con el soporte de TaxiGE.'
+        )
+
+    if request.method == 'POST':
+        form = DriverForm(request.POST, request.FILES, company=company)
+
+        if form.is_valid():
+            driver = form.save(commit=False)
+            driver.company = company
+            driver.created_by = request.user
+            driver.save()
+            return redirect('/panel/drivers/')
+    else:
+        form = DriverForm(company=company)
+
+    return render(request, 'dashboard/panel_driver_form.html', {
+        'form': form,
+        'title': 'Registrar nuevo conductor',
+        'button_text': 'Guardar conductor',
+    })
+
+
+@login_required
+def panel_payments(request):
+    guard_response = panel_guard(request)
+    if guard_response:
+        return guard_response
+
+    payments = DriverPayment.objects.filter(company__owner=request.user).select_related(
+        'company',
+        'driver',
+        'vehicle',
+    ).order_by('-payment_date', '-created_at')
+
+    return render(request, 'dashboard/panel_payments.html', {
+        'payments': payments,
+    })
+
+
+@login_required
+def panel_payment_create(request):
+    guard_response = panel_guard(request)
+    if guard_response:
+        return guard_response
+
+    company = get_user_company(request.user)
+
+    if not company:
+        return HttpResponseForbidden(
+            'No tienes una empresa activa asignada. Contacta con el soporte de TaxiGE.'
+        )
+
+    if request.method == 'POST':
+        form = DriverPaymentForm(request.POST, company=company)
+
+        if form.is_valid():
+            payment = form.save(commit=False)
+            payment.company = company
+            payment.registered_by = request.user
+            payment.status = calculate_payment_status(
+                payment.expected_amount,
+                payment.paid_amount
+            )
+            payment.save()
+            return redirect('/panel/payments/')
+    else:
+        form = DriverPaymentForm(company=company)
+
+    return render(request, 'dashboard/panel_payment_form.html', {
+        'form': form,
+        'title': 'Registrar pago',
+        'button_text': 'Guardar pago',
+    })
+
+
+@login_required
+def panel_damages(request):
+    guard_response = panel_guard(request)
+    if guard_response:
+        return guard_response
+
+    damages = VehicleDamage.objects.filter(company__owner=request.user).select_related(
+        'company',
+        'driver',
+        'vehicle',
+    ).order_by('-damage_date', '-created_at')
+
+    return render(request, 'dashboard/panel_damages.html', {
+        'damages': damages,
+    })

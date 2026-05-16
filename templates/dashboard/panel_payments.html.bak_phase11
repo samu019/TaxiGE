@@ -1,0 +1,39 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}Pagos - TaxiGE{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Pagos</h1>
+<p class="page-subtitle">Historial de pagos de tus conductores.</p>
+
+{% if payments %}
+<table>
+    <thead>
+        <tr>
+            <th>Conductor</th>
+            <th>Taxi</th>
+            <th>Fecha</th>
+            <th>Esperado</th>
+            <th>Pagado</th>
+            <th>Deuda</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payment in payments %}
+            <tr>
+                <td>{{ payment.driver.full_name }}</td>
+                <td>{% if payment.vehicle %}{{ payment.vehicle.plate_number }}{% else %}Sin taxi{% endif %}</td>
+                <td>{{ payment.payment_date }}</td>
+                <td>{{ payment.expected_amount }} XAF</td>
+                <td>{{ payment.paid_amount }} XAF</td>
+                <td>{{ payment.debt_amount }} XAF</td>
+                <td><span class="badge">{{ payment.get_status_display }}</span></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">Todavía no hay pagos registrados.</p>
+{% endif %}
+{% endblock %}

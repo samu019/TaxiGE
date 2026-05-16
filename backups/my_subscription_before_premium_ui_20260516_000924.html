@@ -1,0 +1,102 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block content %}
+<section class="panel-section">
+    <div class="section-header">
+        <div>
+            <h1>Mi suscripción SaaS</h1>
+            <p>Consulta el estado de tu acceso mensual, fecha de vencimiento e historial de pagos.</p>
+        </div>
+
+        <a href="/panel/subscription/renew/" class="btn btn-primary">
+            Renovar suscripción
+        </a>
+    </div>
+
+    {% if subscription %}
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span>Estado</span>
+                <strong>{{ subscription.get_status_display }}</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Inicio</span>
+                <strong>{{ subscription.start_date }}</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Vencimiento</span>
+                <strong>{{ subscription.end_date }}</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Cuota mensual</span>
+                <strong>{{ subscription.monthly_fee }} XAF</strong>
+            </div>
+        </div>
+
+        <div class="content-card" style="margin-top: 24px;">
+            <h2>Último pago registrado</h2>
+
+            <p><strong>Referencia:</strong> {{ subscription.last_payment_reference|default:"No registrada" }}</p>
+
+            {% if subscription.last_payment_receipt %}
+                <p>
+                    <strong>Comprobante:</strong>
+                    <a href="{{ subscription.last_payment_receipt.url }}" target="_blank">Ver archivo</a>
+                </p>
+            {% else %}
+                <p><strong>Comprobante:</strong> No registrado</p>
+            {% endif %}
+
+            <p><strong>Notas:</strong> {{ subscription.notes|default:"Sin notas" }}</p>
+        </div>
+
+        <div class="content-card" style="margin-top: 24px;">
+            <h2>Historial de pagos SaaS</h2>
+
+            {% if payments %}
+                <div class="table-responsive">
+                    <table class="panel-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                                <th>Referencia</th>
+                                <th>Estado</th>
+                                <th>Comprobante</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payments %}
+                                <tr>
+                                    <td>{{ payment.created_at|date:"d/m/Y H:i" }}</td>
+                                    <td>{{ payment.amount }} XAF</td>
+                                    <td>{{ payment.reference }}</td>
+                                    <td>{{ payment.get_status_display }}</td>
+                                    <td>
+                                        {% if payment.receipt %}
+                                            <a href="{{ payment.receipt.url }}" target="_blank">Ver</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No hay pagos registrados todavía.</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="content-card">
+            <h2>No tienes una suscripción registrada</h2>
+            <p>Contacta con administración para activar tu cuenta SaaS.</p>
+            <a href="/panel/subscription/renew/" class="btn btn-primary">Solicitar renovación</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

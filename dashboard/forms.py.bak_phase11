@@ -1,0 +1,62 @@
+﻿from django import forms
+from vehicles.models import Vehicle
+from drivers.models import Driver
+
+
+class VehicleForm(forms.ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = [
+            'internal_code',
+            'plate_number',
+            'brand',
+            'model',
+            'color',
+            'year',
+            'daily_target_amount',
+            'status',
+            'photo',
+            'registration_document',
+            'insurance_document',
+            'notes',
+        ]
+
+        widgets = {
+            'notes': forms.Textarea(attrs={'rows': 4}),
+        }
+
+
+class DriverForm(forms.ModelForm):
+    class Meta:
+        model = Driver
+        fields = [
+            'assigned_vehicle',
+            'full_name',
+            'phone',
+            'email',
+            'identity_number',
+            'license_number',
+            'address',
+            'photo',
+            'identity_document',
+            'license_document',
+            'start_date',
+            'daily_payment_amount',
+            'payment_day',
+            'status',
+            'notes',
+        ]
+
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'notes': forms.Textarea(attrs={'rows': 4}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        company = kwargs.pop('company', None)
+        super().__init__(*args, **kwargs)
+
+        if company:
+            self.fields['assigned_vehicle'].queryset = Vehicle.objects.filter(company=company)
+        else:
+            self.fields['assigned_vehicle'].queryset = Vehicle.objects.none()

@@ -1,0 +1,187 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block content %}
+<style>
+.calendar-page {
+    display: grid;
+    gap: 22px;
+}
+
+.calendar-hero {
+    padding: 20px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(59,130,246,.16), rgba(245,158,11,.10));
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.calendar-hero h1 {
+    margin: 0 0 8px;
+}
+
+.calendar-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.calendar-stat {
+    padding: 16px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.calendar-stat strong {
+    display: block;
+    font-size: 26px;
+    margin-top: 6px;
+}
+
+.timeline {
+    display: grid;
+    gap: 10px;
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.timeline-item.danger {
+    border-color: rgba(239,68,68,.45);
+    background: rgba(239,68,68,.08);
+}
+
+.timeline-item.warning {
+    border-color: rgba(245,158,11,.45);
+    background: rgba(245,158,11,.08);
+}
+
+.timeline-date {
+    font-weight: 700;
+    opacity: .9;
+}
+
+.timeline-title {
+    font-weight: 700;
+}
+
+.timeline-meta {
+    margin-top: 4px;
+    opacity: .75;
+    font-size: 13px;
+}
+
+.timeline-badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.10);
+    font-size: 12px;
+}
+
+.timeline-actions a {
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.10);
+    color: inherit;
+}
+
+.empty-calendar {
+    text-align: center;
+    padding: 42px 20px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.04);
+    border: 1px dashed rgba(255,255,255,.16);
+}
+
+@media (max-width: 820px) {
+    .calendar-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline-item {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="calendar-page">
+    <section class="calendar-hero">
+        <h1>Calendario operativo</h1>
+        <p>Seguimiento de pagos pendientes, atrasos y daños activos de tus taxis.</p>
+    </section>
+
+    <section class="calendar-stats">
+        <div class="calendar-stat">
+            <span>Pagos pendientes</span>
+            <strong>{{ pending_payments_count }}</strong>
+        </div>
+
+        <div class="calendar-stat">
+            <span>Pagos atrasados</span>
+            <strong>{{ late_payments_count }}</strong>
+        </div>
+
+        <div class="calendar-stat">
+            <span>Daños activos</span>
+            <strong>{{ pending_damages_count }}</strong>
+        </div>
+    </section>
+
+    <section class="card" style="padding:18px;">
+        <div style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; align-items:center; margin-bottom:18px;">
+            <div>
+                <h2 style="margin:0;">Agenda de vencimientos</h2>
+                <p style="margin:6px 0 0; opacity:.75;">Hoy: {{ today|date:"d/m/Y" }}</p>
+            </div>
+        </div>
+
+        
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
+            <a href="/panel/calendar/" style="padding:8px 12px; border-radius:12px; text-decoration:none; color:inherit; background:{% if active_filter == 'all' %}rgba(59,130,246,.35){% else %}rgba(255,255,255,.08){% endif %};">Todos</a>
+
+            <a href="/panel/calendar/?filter=payments" style="padding:8px 12px; border-radius:12px; text-decoration:none; color:inherit; background:{% if active_filter == 'payments' %}rgba(59,130,246,.35){% else %}rgba(255,255,255,.08){% endif %};">Pagos</a>
+
+            <a href="/panel/calendar/?filter=damages" style="padding:8px 12px; border-radius:12px; text-decoration:none; color:inherit; background:{% if active_filter == 'damages' %}rgba(59,130,246,.35){% else %}rgba(255,255,255,.08){% endif %};">Daños</a>
+
+            <a href="/panel/calendar/?filter=late" style="padding:8px 12px; border-radius:12px; text-decoration:none; color:inherit; background:{% if active_filter == 'late' %}rgba(239,68,68,.35){% else %}rgba(255,255,255,.08){% endif %};">Atrasados</a>
+        </div>
+
+        <div class="timeline">
+            {% for event in events %}
+                <div class="timeline-item {{ event.level }}">
+                    <div class="timeline-date">
+                        {{ event.date|date:"d/m/Y" }}
+                    </div>
+
+                    <div>
+                        <div class="timeline-title">{{ event.title }}</div>
+                        <div class="timeline-meta">
+                            Taxi: {{ event.vehicle|default:"No asignado" }} |
+                            Estado: {{ event.status }} |
+                            Importe: {{ event.amount }} XAF
+                        </div>
+                    </div>
+
+                    <div class="timeline-actions">
+                        <a href="{{ event.link }}">Abrir</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-calendar">
+                    <strong>No hay vencimientos pendientes</strong>
+                    <p>Cuando existan pagos atrasados, deudas o daños pendientes, aparecerán aquí.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

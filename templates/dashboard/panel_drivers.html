@@ -1,0 +1,96 @@
+﻿{% extends "dashboard/panel_base.html" %}
+
+{% block title %}Mis conductores - TaxiGE
+<div style="display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:22px;">
+    {% if drivers.has_previous %}
+        <a href="?page={{ drivers.previous_page_number }}" style="padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.08); color:inherit; text-decoration:none;">Anterior</a>
+    {% endif %}
+
+    {% if drivers.paginator.num_pages > 1 %}
+        <span style="opacity:.8;">Página {{ drivers.number }} de {{ drivers.paginator.num_pages }}</span>
+    {% endif %}
+
+    {% if drivers.has_next %}
+        <a href="?page={{ drivers.next_page_number }}" style="padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.08); color:inherit; text-decoration:none;">Siguiente</a>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+    <div>
+        
+<div class="page-head">
+    <div class="page-head-text">
+        <h1 class="page-title">Mis conductores</h1>
+        <p class="page-subtitle">Conductores asignados a tu empresa.</p>
+    </div>
+
+    
+    <div class="page-actions">
+        <a href="/panel/reports/drivers.csv" class="btn btn-secondary">Exportar CSV</a>
+        <a href="/panel/reports/drivers.pdf" class="btn btn-secondary">Exportar PDF</a>
+        <a href="/panel/drivers/create/" class="btn">Registrar conductor</a>
+    </div>
+
+</div>
+
+</div>
+
+    <a
+        <a href="/panel/drivers/create/" style="background:#111827; color:white; padding:12px 16px; border-radius:10px; text-decoration:none; font-weight:bold;">
+        Registrar conductor
+    </a>
+</div>
+
+{% if drivers %}
+<div class="table-wrap">
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Taxi asignado</th>
+            <th>Pago diario</th>
+            <th>Día de pago</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for driver in drivers %}
+            <tr>
+                <td>{{ driver.full_name }}</td>
+                <td>{{ driver.phone }}</td>
+                <td>{% if driver.assigned_vehicle %}{{ driver.assigned_vehicle.plate_number }}{% else %}Sin taxi{% endif %}</td>
+                <td>{{ driver.daily_payment_amount }} XAF</td>
+                <td>{{ driver.payment_day }}</td>
+                <td><span class="badge">{{ driver.get_status_display }}</span></td>
+                <td>
+                    <a href="/panel/drivers/{{ driver.id }}/edit/" class="btn btn-secondary btn-small">Editar</a> <a href="/panel/drivers/{{ driver.id }}/delete/" class="btn btn-small" style="background:#dc2626;">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<p class="empty">Todavía no tienes conductores registrados.</p>
+{% endif %}
+
+<div style="display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:22px;">
+    {% if drivers.has_previous %}
+        <a href="?page={{ drivers.previous_page_number }}" style="padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.08); color:inherit; text-decoration:none;">Anterior</a>
+    {% endif %}
+
+    {% if drivers.paginator.num_pages > 1 %}
+        <span style="opacity:.8;">Página {{ drivers.number }} de {{ drivers.paginator.num_pages }}</span>
+    {% endif %}
+
+    {% if drivers.has_next %}
+        <a href="?page={{ drivers.next_page_number }}" style="padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.08); color:inherit; text-decoration:none;">Siguiente</a>
+    {% endif %}
+</div>
+
+{% endblock %}
