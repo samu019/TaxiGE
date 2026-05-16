@@ -4,96 +4,168 @@
 <style>
 .drivers-page {
     display: grid;
-    gap: 22px;
+    gap: 24px;
 }
 
-.drivers-hero,
-.drivers-card {
-    background: rgba(15, 23, 42, 0.92);
-    border: 1px solid rgba(96, 165, 250, 0.18);
-    border-radius: 24px;
-    padding: 24px;
-    box-shadow: 0 20px 40px rgba(2, 6, 23, 0.28);
+.drivers-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    padding: 28px;
+    background:
+        radial-gradient(circle at top right, rgba(37,99,235,.34), transparent 36%),
+        radial-gradient(circle at bottom left, rgba(245,158,11,.18), transparent 30%),
+        linear-gradient(135deg, rgba(15,23,42,.98), rgba(30,41,59,.94));
+    border: 1px solid rgba(96,165,250,.25);
+    box-shadow: 0 26px 70px rgba(2,6,23,.35);
 }
 
 .drivers-hero h1 {
     margin: 0 0 8px;
-    font-size: 2rem;
+    font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: -0.05em;
 }
 
 .drivers-hero p {
     margin: 0;
-    color: #94a3b8;
+    max-width: 760px;
+    color: #cbd5e1;
+    line-height: 1.6;
 }
 
 .drivers-actions {
+    margin-top: 22px;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 18px;
+}
+
+.drivers-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.driver-kpi {
+    padding: 18px;
+    border-radius: 22px;
+    background: rgba(15,23,42,.92);
+    border: 1px solid rgba(148,163,184,.20);
+    box-shadow: 0 18px 42px rgba(2,6,23,.22);
+}
+
+.driver-kpi span {
+    display: block;
+    color: #94a3b8;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.driver-kpi strong {
+    display: block;
+    color: #f8fafc;
+    font-size: 26px;
 }
 
 .btn-premium {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 18px;
-    border-radius: 14px;
-    border: none;
+    gap: 8px;
+    padding: 13px 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.10);
     text-decoration: none;
     cursor: pointer;
-    font-weight: 800;
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    font-weight: 900;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
     color: #fff;
-    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.32);
+    box-shadow: 0 14px 34px rgba(37,99,235,.30);
 }
 
-.btn-danger-soft {
-    background: rgba(239, 68, 68, 0.16);
-    color: #fecaca;
-    border: 1px solid rgba(248, 113, 113, 0.25);
+.btn-gold {
+    background: linear-gradient(135deg, #f59e0b, #facc15);
+    color: #020617;
+    box-shadow: 0 14px 34px rgba(245,158,11,.25);
+}
+
+.drivers-card {
+    border-radius: 26px;
+    padding: 24px;
+    background: rgba(15,23,42,.94);
+    border: 1px solid rgba(148,163,184,.20);
+    box-shadow: 0 22px 55px rgba(2,6,23,.30);
+}
+
+.drivers-card h2 {
+    margin: 0;
+    font-size: 24px;
+    letter-spacing: -0.03em;
 }
 
 .table-wrap {
+    margin-top: 18px;
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    border-radius: 18px;
+    border-radius: 20px;
 }
 
 .drivers-table {
     width: 100%;
-    min-width: 900px;
-    border-collapse: collapse;
-}
-
-.drivers-table th,
-.drivers-table td {
-    padding: 14px 12px;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.14);
-    text-align: left;
-    vertical-align: middle;
+    min-width: 950px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
 }
 
 .drivers-table th {
-    color: #cbd5e1;
-    font-size: 0.82rem;
+    padding: 0 14px 8px;
+    text-align: left;
+    color: #94a3b8;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: .06em;
 }
 
 .drivers-table td {
+    padding: 16px 14px;
+    background: rgba(30,41,59,.82);
+    border-top: 1px solid rgba(148,163,184,.14);
+    border-bottom: 1px solid rgba(148,163,184,.14);
     color: #f8fafc;
+    vertical-align: middle;
+}
+
+.drivers-table td:first-child {
+    border-left: 1px solid rgba(148,163,184,.14);
+    border-radius: 18px 0 0 18px;
+}
+
+.drivers-table td:last-child {
+    border-right: 1px solid rgba(148,163,184,.14);
+    border-radius: 0 18px 18px 0;
+}
+
+.driver-name {
+    font-weight: 950;
+}
+
+.driver-sub {
+    display: block;
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 13px;
 }
 
 .status-badge {
-    display: inline-block;
-    padding: 6px 10px;
+    display: inline-flex;
+    padding: 7px 11px;
     border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 800;
-    background: rgba(37, 99, 235, 0.16);
-    color: #93c5fd;
+    font-size: 12px;
+    font-weight: 900;
+    background: rgba(34,197,94,.13);
+    color: #4ade80;
+    border: 1px solid rgba(34,197,94,.22);
 }
 
 .driver-mobile-list {
@@ -101,19 +173,25 @@
 }
 
 .driver-mobile-card {
-    background: rgba(30, 41, 59, 0.86);
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    border-radius: 18px;
-    padding: 16px;
-    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    padding: 18px;
+    margin-bottom: 16px;
+    background:
+        radial-gradient(circle at top right, rgba(37,99,235,.22), transparent 36%),
+        linear-gradient(135deg, rgba(15,23,42,.96), rgba(30,41,59,.90));
+    border: 1px solid rgba(96,165,250,.22);
+    box-shadow: 0 18px 42px rgba(2,6,23,.28);
 }
 
 .driver-mobile-card h3 {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
+    font-size: 21px;
 }
 
 .driver-mobile-card p {
-    margin: 7px 0;
+    margin: 8px 0;
     color: #cbd5e1;
     overflow-wrap: anywhere;
 }
@@ -121,18 +199,26 @@
 .mobile-actions {
     display: grid;
     gap: 10px;
-    margin-top: 14px;
+    margin-top: 16px;
+}
+
+.empty-state {
+    padding: 24px;
+    border-radius: 22px;
+    background: rgba(245,158,11,.10);
+    border: 1px solid rgba(245,158,11,.22);
+    color: #fde68a;
 }
 
 @media (max-width: 768px) {
     .drivers-hero,
     .drivers-card {
         padding: 18px;
-        border-radius: 20px;
+        border-radius: 22px;
     }
 
-    .drivers-hero h1 {
-        font-size: 1.6rem !important;
+    .drivers-kpis {
+        grid-template-columns: 1fr;
     }
 
     .drivers-actions {
@@ -157,27 +243,45 @@
 <div class="drivers-page">
     <section class="drivers-hero">
         <h1>👥 Mis conductores</h1>
-        <p>Gestiona los conductores registrados, sus datos principales y su taxi asignado.</p>
+        <p>
+            Gestiona tu equipo de conductores, revisa sus datos principales y controla rápidamente
+            qué taxi tiene asignado cada miembro de tu flota.
+        </p>
 
         <div class="drivers-actions">
-            <a href="/panel/drivers/create/" class="btn-premium">➕ Añadir conductor</a>
+            <a href="/panel/drivers/create/" class="btn-premium btn-gold">➕ Añadir conductor</a>
+            <a href="/panel/vehicles/" class="btn-premium">🚕 Ver taxis</a>
+        </div>
+    </section>
+
+    <section class="drivers-kpis">
+        <div class="driver-kpi">
+            <span>Total de conductores</span>
+            <strong>{{ drivers|length }}</strong>
+        </div>
+        <div class="driver-kpi">
+            <span>Gestión de flota</span>
+            <strong>Activa</strong>
+        </div>
+        <div class="driver-kpi">
+            <span>Vista móvil</span>
+            <strong>Premium</strong>
         </div>
     </section>
 
     <section class="drivers-card desktop-drivers-table">
-        <h2>📋 Lista de conductores</h2>
-        <br>
+        <h2>📋 Lista profesional de conductores</h2>
 
         <div class="table-wrap">
             <table class="drivers-table">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
+                        <th>Conductor</th>
                         <th>Teléfono</th>
                         <th>Documento</th>
                         <th>Taxi asignado</th>
                         <th>Estado</th>
-                        <th>Fecha</th>
+                        <th>Registro</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -185,12 +289,15 @@
                 <tbody>
                     {% for driver in drivers %}
                     <tr>
-                        <td>{{ driver.full_name }}</td>
+                        <td>
+                            <span class="driver-name">👤 {{ driver.full_name }}</span>
+                            <span class="driver-sub">ID #{{ driver.id }}</span>
+                        </td>
                         <td>{{ driver.phone }}</td>
                         <td>{{ driver.license_number|default:"-" }}</td>
                         <td>
                             {% if driver.assigned_vehicle %}
-                                {{ driver.assigned_vehicle.plate_number }}
+                                🚕 {{ driver.assigned_vehicle.plate_number }}
                             {% else %}
                                 -
                             {% endif %}
@@ -203,7 +310,9 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="7">No hay conductores registrados todavía.</td>
+                        <td colspan="7">
+                            <div class="empty-state">Aún no hay conductores registrados.</div>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -226,7 +335,7 @@
                 {% endif %}
             </p>
             <p><strong>📌 Estado:</strong> {{ driver.get_status_display }}</p>
-            <p><strong>📅 Fecha:</strong> {{ driver.created_at|date:"d/m/Y" }}</p>
+            <p><strong>📅 Registro:</strong> {{ driver.created_at|date:"d/m/Y" }}</p>
 
             <div class="mobile-actions">
                 <a href="/panel/drivers/{{ driver.id }}/edit/" class="btn-premium">✏️ Editar conductor</a>
@@ -234,7 +343,10 @@
         </div>
         {% empty %}
         <div class="driver-mobile-card">
-            <p>No hay conductores registrados todavía.</p>
+            <p>Aún no hay conductores registrados.</p>
+            <div class="mobile-actions">
+                <a href="/panel/drivers/create/" class="btn-premium btn-gold">➕ Añadir primer conductor</a>
+            </div>
         </div>
         {% endfor %}
     </section>
