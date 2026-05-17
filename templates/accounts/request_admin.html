@@ -432,6 +432,66 @@
     .news-grid{grid-template-columns:1fr;}
 }
 
+
+.sim-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+    margin-top:18px;
+}
+.sim-input{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+.sim-input label{
+    font-weight:800;
+    color:#e2e8f0;
+    font-size:14px;
+}
+.sim-input input{
+    width:100%;
+    padding:14px 16px;
+    border-radius:14px;
+    border:1px solid rgba(148,163,184,.25);
+    background:rgba(15,23,42,.7);
+    color:#fff;
+    font-weight:800;
+    outline:none;
+}
+.sim-results{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+}
+.sim-result{
+    padding:20px;
+    border-radius:20px;
+    background:rgba(30,41,59,.78);
+    border:1px solid rgba(148,163,184,.16);
+    text-align:center;
+}
+.sim-result span{
+    display:block;
+    color:#cbd5e1;
+    font-size:13px;
+    font-weight:700;
+}
+.sim-result strong{
+    display:block;
+    margin-top:8px;
+    font-size:24px;
+    font-weight:900;
+    color:#22c55e;
+}
+@media(max-width:900px){
+    .sim-grid,
+    .sim-results{
+        grid-template-columns:1fr;
+    }
+}
+
 </style>
 </head>
 
@@ -554,6 +614,54 @@
 
         
         
+        
+        <section class="card">
+            <h2>💰 Simulador de ingresos</h2>
+            <p>
+                Estima cuánto podría generar tu empresa administrando taxis con TaxiGE.
+                Los resultados son orientativos y pueden variar según la ciudad, demanda y costes operativos.
+            </p>
+
+            <div class="sim-grid">
+                <div class="sim-input">
+                    <label>🚕 Número de taxis</label>
+                    <input type="number" id="sim-taxis" value="5" min="1">
+                </div>
+
+                <div class="sim-input">
+                    <label>💵 Ingreso diario por taxi (XAF)</label>
+                    <input type="number" id="sim-daily" value="15000" min="0">
+                </div>
+
+                <div class="sim-input">
+                    <label>📅 Días trabajados al mes</label>
+                    <input type="number" id="sim-days" value="26" min="1" max="31">
+                </div>
+            </div>
+
+            <div class="sim-results">
+                <div class="sim-result">
+                    <span>📈 Ingreso diario total</span>
+                    <strong id="sim-total-daily">0 XAF</strong>
+                </div>
+
+                <div class="sim-result">
+                    <span>🗓️ Ingreso mensual estimado</span>
+                    <strong id="sim-total-monthly">0 XAF</strong>
+                </div>
+
+                <div class="sim-result">
+                    <span>🏆 Ingreso anual estimado</span>
+                    <strong id="sim-total-yearly">0 XAF</strong>
+                </div>
+            </div>
+
+            <div class="notice">
+                🚀 Esta simulación te ayuda a visualizar el potencial económico de gestionar tu flota con TaxiGE.
+            </div>
+        </section>
+
+
         <section class="card">
             <h2>📰 Noticias y novedades del transporte</h2>
             <p>
@@ -840,6 +948,39 @@ async function cargarNoticiasTransporte() {
 }
 
 document.addEventListener('DOMContentLoaded', cargarNoticiasTransporte);
+</script>
+
+
+<script>
+function formatXAF(value) {
+    return Number(value).toLocaleString('es-ES') + ' XAF';
+}
+
+function calcularSimulacion() {
+    const taxis = parseFloat(document.getElementById('sim-taxis')?.value || 0);
+    const daily = parseFloat(document.getElementById('sim-daily')?.value || 0);
+    const days = parseFloat(document.getElementById('sim-days')?.value || 0);
+
+    const totalDaily = taxis * daily;
+    const totalMonthly = totalDaily * days;
+    const totalYearly = totalMonthly * 12;
+
+    const d = document.getElementById('sim-total-daily');
+    const m = document.getElementById('sim-total-monthly');
+    const y = document.getElementById('sim-total-yearly');
+
+    if (d) d.textContent = formatXAF(totalDaily);
+    if (m) m.textContent = formatXAF(totalMonthly);
+    if (y) y.textContent = formatXAF(totalYearly);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    ['sim-taxis', 'sim-daily', 'sim-days'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calcularSimulacion);
+    });
+    calcularSimulacion();
+});
 </script>
 
 </body>
