@@ -1,3 +1,6 @@
+import json
+import urllib.request
+from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -143,3 +146,57 @@ def request_admin_access(request):
 
 def terms_page(request):
     return render(request, 'accounts/terms.html')
+
+
+def public_live_stats_api(request):
+    from django.contrib.auth import get_user_model
+    from accounts.models import AdminRequest, SaaSPaymentSettings
+    from companies.models import Company
+    from vehicles.models import Vehicle
+    from drivers.models import Driver
+    from payments.models import DriverPayment
+    from damages.models import VehicleDamage
+
+    User = get_user_model()
+
+    usd_xaf = None
+    try:
+        with urllib.request.urlopen("https://open.er-api.com/v6/latest/USD", timeout=4) as response:
+            data = json.loads(response.read().decode("utf-8"))
+            usd_xaf = data.get("rates", {}).get("XAF")
+    except Exception:
+        usd_xaf = None
+
+    payment_settings = SaaSPaymentSettings.get_active()
+
+    payload = {
+        "users": User.objects.filter(is_active=True).count(),
+        "owners": User.objects.filter(role="admin", admin_approved=True).count(),
+        "pending_kyc": AdminRequest.objects.filter(status="pending").count(),
+        "companies": Company.objects.count(),
+        "vehicles": Vehicle.objects.count(),
+        "drivers": Driver.objects.count(),
+        "payments": DriverPayment.objects.count(),
+        "damages": VehicleDamage.objects.count(),
+
+        "currency": {
+            "usd_xaf": usd_xaf,
+            "source": "ExchangeRate-API",
+        },
+
+        "pricing": {
+            "activation_fee_xaf": float(payment_settings.activation_fee) if payment_settings else 0,
+            "saas_monthly_xaf": 50000,
+            "estimated_city_trip_xaf": {
+                "Malabo": 1000,
+                "Bata": 1000,
+                "Ebibeyin": 800,
+                "Mongomo": 800,
+                "Evinayong": 800,
+            },
+            "fuel_estimate_xaf_per_liter": 540,
+            "note": "Tarifas informativas. Los precios finales pueden variar por ciudad, distancia, combustible y acuerdos locales."
+        }
+    }
+
+    return JsonResponse(payload)

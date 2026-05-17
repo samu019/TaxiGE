@@ -12,6 +12,7 @@ from accounts.views import (
     SmartLoginView,
     home_page,
     terms_page,
+    public_live_stats_api,
 )
 
 from accounts.admin import CustomUserAdmin, AdminRequestAdmin, SaaSPaymentSettingsAdmin, SaaSSubscriptionAdmin, SaaSPaymentHistoryAdmin
@@ -55,6 +56,8 @@ urlpatterns = [
     path('invite/<str:token>/', dashboard_views.accept_taxi_invite, name='accept_taxi_invite'),
     path('', home_page, name='home'),
     path('terms/', terms_page, name='terms'),
+    path('api/public-stats/', public_live_stats_api, name='public_live_stats_api'),
+    
 
     path('admin/', platform_admin_site.urls),
 

@@ -506,6 +506,36 @@
         </section>
 
 
+        
+        <section class="card">
+            <h2>💹 Datos actualizados TaxiGE</h2>
+            <p>Información dinámica obtenida desde la API interna de TaxiGE y datos externos disponibles.</p>
+
+            <div class="kpis">
+                <div class="kpi"><span>USD/XAF</span><strong id="api-usd-xaf">Cargando...</strong></div>
+                <div class="kpi"><span>Activación propietario</span><strong id="api-activation">Cargando...</strong></div>
+                <div class="kpi"><span>Mensualidad SaaS</span><strong id="api-saas">Cargando...</strong></div>
+                <div class="kpi"><span>Combustible estimado</span><strong id="api-fuel">Cargando...</strong></div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3>🏙️ Tarifa estimada por ciudad</h3>
+                    <canvas id="cityPriceChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <h3>📈 Ecosistema TaxiGE en vivo</h3>
+                    <canvas id="liveEcoChart"></canvas>
+                </div>
+            </div>
+
+            <div class="notice" id="api-note">
+                Actualizando datos...
+            </div>
+        </section>
+
+
         <section class="section-grid">
             <div class="card">
                 <h2>🌍 Cobertura inicial TaxiGE</h2>
@@ -638,6 +668,78 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 });
+</script>
+
+
+<script>
+async function cargarDatosTaxiGE() {
+    try {
+        const response = await fetch('/api/public-stats/');
+        const data = await response.json();
+
+        document.getElementById('api-usd-xaf').textContent =
+            data.currency.usd_xaf ? Math.round(data.currency.usd_xaf) + ' XAF' : 'No disponible';
+
+        document.getElementById('api-activation').textContent =
+            Number(data.pricing.activation_fee_xaf).toLocaleString('es-ES') + ' XAF';
+
+        document.getElementById('api-saas').textContent =
+            Number(data.pricing.saas_monthly_xaf).toLocaleString('es-ES') + ' XAF';
+
+        document.getElementById('api-fuel').textContent =
+            Number(data.pricing.fuel_estimate_xaf_per_liter).toLocaleString('es-ES') + ' XAF/L';
+
+        document.getElementById('api-note').textContent = data.pricing.note;
+
+        const cityLabels = Object.keys(data.pricing.estimated_city_trip_xaf);
+        const cityValues = Object.values(data.pricing.estimated_city_trip_xaf);
+
+        const cityCtx = document.getElementById('cityPriceChart');
+        if (cityCtx) {
+            new Chart(cityCtx, {
+                type: 'bar',
+                data: {
+                    labels: cityLabels,
+                    datasets: [{
+                        label: 'XAF',
+                        data: cityValues
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        const ecoCtx = document.getElementById('liveEcoChart');
+        if (ecoCtx) {
+            new Chart(ecoCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Usuarios', 'Propietarios', 'Empresas', 'Taxis', 'Conductores'],
+                    datasets: [{
+                        label: 'Registros',
+                        data: [data.users, data.owners, data.companies, data.vehicles, data.drivers],
+                        tension: 0.35
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+    } catch (e) {
+        document.getElementById('api-note').textContent =
+            'No se pudieron actualizar los datos externos en este momento.';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarDatosTaxiGE);
 </script>
 
 </body>
