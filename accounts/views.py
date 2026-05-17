@@ -117,3 +117,7 @@ def request_admin_access(request):
         'form': form,
         'existing_request': existing_request,
     })
+
+
+def terms_page(request):
+    return render(request, 'accounts/terms.html')

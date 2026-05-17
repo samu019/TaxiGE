@@ -11,6 +11,7 @@ from accounts.views import (
     request_admin_access,
     SmartLoginView,
     home_page,
+    terms_page,
 )
 
 from accounts.admin import CustomUserAdmin, AdminRequestAdmin, SaaSPaymentSettingsAdmin, SaaSSubscriptionAdmin, SaaSPaymentHistoryAdmin
@@ -53,6 +54,7 @@ platform_admin_site.register(AuditLog, AuditLogAdmin)
 urlpatterns = [
     path('invite/<str:token>/', dashboard_views.accept_taxi_invite, name='accept_taxi_invite'),
     path('', home_page, name='home'),
+    path('terms/', terms_page, name='terms'),
 
     path('admin/', platform_admin_site.urls),
 
