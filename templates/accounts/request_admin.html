@@ -613,6 +613,55 @@
     .legal-grid{grid-template-columns:1fr;}
 }
 
+
+.contact-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:16px;
+    margin-top:22px;
+}
+.contact-card{
+    display:block;
+    padding:18px;
+    border-radius:22px;
+    background:rgba(30,41,59,.78);
+    border:1px solid rgba(96,165,250,.20);
+    text-decoration:none;
+    color:#f8fafc;
+    box-shadow:0 16px 38px rgba(2,6,23,.22);
+}
+.contact-card strong{
+    display:block;
+    margin-bottom:8px;
+    color:#93c5fd;
+    font-size:17px;
+}
+.contact-card span{
+    color:#cbd5e1;
+    line-height:1.5;
+}
+.app-badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:20px;
+}
+.app-badge{
+    padding:13px 16px;
+    border-radius:18px;
+    background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(37,99,235,.16));
+    border:1px solid rgba(250,204,21,.22);
+    color:#f8fafc;
+    font-weight:900;
+}
+@media(max-width:1000px){
+    .contact-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:650px){
+    .contact-grid{grid-template-columns:1fr;}
+    .app-badges{display:grid;grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 
@@ -740,6 +789,48 @@
         
         
         
+        
+        <section class="card">
+            <h2>📱 App móvil y canales oficiales</h2>
+            <p>
+                TaxiGE está preparado para crecer hacia una experiencia móvil completa.
+                Mientras tanto, puedes seguir la plataforma y contactar por canales directos.
+            </p>
+
+            <div class="app-badges">
+                <div class="app-badge">📲 App Android · Próximamente</div>
+                <div class="app-badge">🍎 App iOS · Próximamente</div>
+                <div class="app-badge">🌐 Web App TaxiGE · Disponible</div>
+            </div>
+
+            <div class="contact-grid">
+                <a href="https://t.me/" target="_blank" class="contact-card">
+                    <strong>📢 Telegram</strong>
+                    <span>Canal de novedades, avisos y comunidad TaxiGE.</span>
+                </a>
+
+                <a href="https://wa.me/240000000000" target="_blank" class="contact-card">
+                    <strong>💬 WhatsApp</strong>
+                    <span>Contacto rápido para soporte, propietarios y consultas.</span>
+                </a>
+
+                <a href="mailto:soporte@taxige.local" class="contact-card">
+                    <strong>📧 Email</strong>
+                    <span>Canal formal para solicitudes, soporte y documentación.</span>
+                </a>
+
+                <a href="/accounts/register/owner/" class="contact-card">
+                    <strong>🚕 Propietarios</strong>
+                    <span>Solicita acceso empresarial y activa tu panel de gestión.</span>
+                </a>
+            </div>
+
+            <div class="notice">
+                🔔 Los enlaces oficiales podrán actualizarse desde la administración cuando TaxiGE active sus canales definitivos.
+            </div>
+        </section>
+
+
         <section class="card">
             <h2>📄 Centro legal y documentación</h2>
             <p>
