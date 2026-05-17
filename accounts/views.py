@@ -58,7 +58,7 @@ def public_register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/request-admin/')
+            return render(request, 'accounts/normal_register_success.html')
     else:
         form = PublicRegisterForm()
 
