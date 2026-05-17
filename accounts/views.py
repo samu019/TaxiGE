@@ -1,9 +1,16 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from .forms import PublicRegisterForm, AdminRequestForm, OwnerKYCRegisterForm
 from .models import AdminRequest, SaaSPaymentSettings
+from companies.models import Company
+from vehicles.models import Vehicle
+from drivers.models import Driver
+from payments.models import DriverPayment
+from damages.models import VehicleDamage
+
 
 
 class SmartLoginView(LoginView):
@@ -89,7 +96,10 @@ def owner_kyc_register(request):
 
 
 @login_required
+@login_required
 def request_admin_access(request):
+    User = get_user_model()
+
     existing_request = AdminRequest.objects.filter(
         user=request.user,
         status='pending'
@@ -113,9 +123,21 @@ def request_admin_access(request):
     else:
         form = AdminRequestForm()
 
+    public_stats = {
+        'users': User.objects.filter(is_active=True).count(),
+        'owners': User.objects.filter(role='admin', admin_approved=True).count(),
+        'pending_kyc': AdminRequest.objects.filter(status='pending').count(),
+        'companies': Company.objects.count(),
+        'vehicles': Vehicle.objects.count(),
+        'drivers': Driver.objects.count(),
+        'payments': DriverPayment.objects.count(),
+        'damages': VehicleDamage.objects.count(),
+    }
+
     return render(request, 'accounts/request_admin.html', {
         'form': form,
         'existing_request': existing_request,
+        'public_stats': public_stats,
     })
 
 

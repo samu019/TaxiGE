@@ -360,6 +360,32 @@
     }
 }
 
+
+.chart-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+    margin-top:22px;
+}
+.chart-card{
+    padding:20px;
+    border-radius:24px;
+    background:rgba(30,41,59,.76);
+    border:1px solid rgba(148,163,184,.16);
+}
+.chart-card h3{
+    margin:0 0 14px;
+}
+.chart-card canvas{
+    width:100% !important;
+    max-height:320px;
+}
+@media(max-width:900px){
+    .chart-grid{
+        grid-template-columns:1fr;
+    }
+}
+
 </style>
 </head>
 
@@ -446,6 +472,40 @@
         </section>
 
 
+        
+        <section class="card">
+            <h2>📊 Panel público de estadísticas TaxiGE</h2>
+            <p>
+                Información agregada del ecosistema TaxiGE. Los datos privados de cada flota solo son visibles
+                para propietarios verificados.
+            </p>
+
+            <div class="kpis">
+                <div class="kpi"><span>Usuarios activos</span><strong>{{ public_stats.users }}</strong></div>
+                <div class="kpi"><span>Propietarios aprobados</span><strong>{{ public_stats.owners }}</strong></div>
+                <div class="kpi"><span>Solicitudes pendientes</span><strong>{{ public_stats.pending_kyc }}</strong></div>
+                <div class="kpi"><span>Taxis registrados</span><strong>{{ public_stats.vehicles }}</strong></div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3>🚕 Operación general</h3>
+                    <canvas id="publicMainChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <h3>📌 Estado de la plataforma</h3>
+                    <canvas id="publicStatusChart"></canvas>
+                </div>
+            </div>
+
+            <div class="notice">
+                🔒 Estas estadísticas son públicas y agregadas. No muestran datos personales, pagos privados
+                ni información interna de ninguna empresa.
+            </div>
+        </section>
+
+
         <section class="section-grid">
             <div class="card">
                 <h2>🌍 Cobertura inicial TaxiGE</h2>
@@ -524,6 +584,62 @@
             </div>
         </section>
     </main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const mainCtx = document.getElementById('publicMainChart');
+    const statusCtx = document.getElementById('publicStatusChart');
+
+    if (mainCtx) {
+        new Chart(mainCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Empresas', 'Taxis', 'Conductores', 'Pagos', 'Daños'],
+                datasets: [{
+                    label: 'Registros',
+                    data: [
+                        {{ public_stats.companies|default:0 }},
+                        {{ public_stats.vehicles|default:0 }},
+                        {{ public_stats.drivers|default:0 }},
+                        {{ public_stats.payments|default:0 }},
+                        {{ public_stats.damages|default:0 }}
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    if (statusCtx) {
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Usuarios activos', 'Propietarios aprobados', 'Solicitudes pendientes'],
+                datasets: [{
+                    data: [
+                        {{ public_stats.users|default:0 }},
+                        {{ public_stats.owners|default:0 }},
+                        {{ public_stats.pending_kyc|default:0 }}
+                    ]
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    }
+});
+</script>
+
 </body>
 </html>
 
