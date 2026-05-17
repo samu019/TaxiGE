@@ -512,7 +512,7 @@
             <p>Información dinámica obtenida desde la API interna de TaxiGE y datos externos disponibles.</p>
 
             <div class="kpis">
-                <div class="kpi"><span>USD/XAF</span><strong id="api-usd-xaf">Cargando...</strong></div>
+                <div class="kpi"><span>Moneda oficial</span><strong>XAF</strong></div>
                 <div class="kpi"><span>Activación propietario</span><strong id="api-activation">Cargando...</strong></div>
                 <div class="kpi"><span>Mensualidad SaaS</span><strong id="api-saas">Cargando...</strong></div>
                 <div class="kpi"><span>Combustible estimado</span><strong id="api-fuel">Cargando...</strong></div>
@@ -677,8 +677,7 @@ async function cargarDatosTaxiGE() {
         const response = await fetch('/api/public-stats/');
         const data = await response.json();
 
-        document.getElementById('api-usd-xaf').textContent =
-            data.currency.usd_xaf ? Math.round(data.currency.usd_xaf) + ' XAF' : 'No disponible';
+        
 
         document.getElementById('api-activation').textContent =
             Number(data.pricing.activation_fee_xaf).toLocaleString('es-ES') + ' XAF';
