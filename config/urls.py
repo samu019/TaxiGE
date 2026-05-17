@@ -13,6 +13,7 @@ from accounts.views import (
     home_page,
     terms_page,
     public_live_stats_api,
+    public_transport_news_api,
 )
 
 from accounts.admin import CustomUserAdmin, AdminRequestAdmin, SaaSPaymentSettingsAdmin, SaaSSubscriptionAdmin, SaaSPaymentHistoryAdmin
@@ -57,6 +58,7 @@ urlpatterns = [
     path('', home_page, name='home'),
     path('terms/', terms_page, name='terms'),
     path('api/public-stats/', public_live_stats_api, name='public_live_stats_api'),
+    path('api/transport-news/', public_transport_news_api, name='public_transport_news_api'),
     
 
     path('admin/', platform_admin_site.urls),

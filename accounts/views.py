@@ -200,3 +200,38 @@ def public_live_stats_api(request):
     }
 
     return JsonResponse(payload)
+
+
+def public_transport_news_api(request):
+    news = [
+        {
+            "category": "Regulación",
+            "title": "Modernización del transporte urbano",
+            "summary": "TaxiGE impulsa herramientas digitales para mejorar la organización de taxis, conductores y flotas.",
+            "city": "Guinea Ecuatorial",
+            "tag": "Transporte"
+        },
+        {
+            "category": "Combustible",
+            "title": "Control de costes operativos",
+            "summary": "El seguimiento de combustible, pagos y mantenimiento ayuda a propietarios a tomar mejores decisiones.",
+            "city": "Malabo · Bata",
+            "tag": "Costes"
+        },
+        {
+            "category": "Expansión",
+            "title": "Cobertura nacional progresiva",
+            "summary": "La plataforma está orientada a crecer desde Malabo y Bata hacia más ciudades del país.",
+            "city": "Malabo · Bata · Ebibeyín",
+            "tag": "Expansión"
+        },
+        {
+            "category": "Seguridad vial",
+            "title": "Gestión responsable de conductores",
+            "summary": "Registrar conductores, documentos y responsabilidades mejora la transparencia del servicio.",
+            "city": "Nacional",
+            "tag": "Seguridad"
+        }
+    ]
+
+    return JsonResponse({"news": news})

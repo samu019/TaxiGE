@@ -386,6 +386,52 @@
     }
 }
 
+
+.news-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:16px;
+    margin-top:22px;
+}
+.news-card{
+    padding:18px;
+    border-radius:22px;
+    background:rgba(30,41,59,.78);
+    border:1px solid rgba(148,163,184,.18);
+    box-shadow:0 16px 38px rgba(2,6,23,.22);
+}
+.news-badge{
+    display:inline-flex;
+    padding:7px 10px;
+    border-radius:999px;
+    background:rgba(245,158,11,.14);
+    color:#facc15;
+    font-size:12px;
+    font-weight:900;
+    margin-bottom:12px;
+}
+.news-card h3{
+    margin:0 0 10px;
+    font-size:18px;
+}
+.news-card p{
+    margin:0;
+    color:#cbd5e1;
+    line-height:1.55;
+}
+.news-meta{
+    margin-top:14px;
+    color:#93c5fd;
+    font-weight:800;
+    font-size:13px;
+}
+@media(max-width:1000px){
+    .news-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:650px){
+    .news-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 
@@ -507,6 +553,24 @@
 
 
         
+        
+        <section class="card">
+            <h2>📰 Noticias y novedades del transporte</h2>
+            <p>
+                Información útil para usuarios, conductores y propietarios sobre transporte,
+                costes operativos, expansión y seguridad vial.
+            </p>
+
+            <div id="transport-news-grid" class="news-grid">
+                <div class="news-card">
+                    <span class="news-badge">Cargando...</span>
+                    <h3>Actualizando noticias</h3>
+                    <p>Estamos obteniendo información actualizada del panel TaxiGE.</p>
+                </div>
+            </div>
+        </section>
+
+
         <section class="card">
             <h2>💹 Datos actualizados TaxiGE</h2>
             <p>Información dinámica obtenida desde la API interna de TaxiGE y datos externos disponibles.</p>
@@ -739,6 +803,43 @@ async function cargarDatosTaxiGE() {
 }
 
 document.addEventListener('DOMContentLoaded', cargarDatosTaxiGE);
+</script>
+
+
+<script>
+async function cargarNoticiasTransporte() {
+    const grid = document.getElementById('transport-news-grid');
+    if (!grid) return;
+
+    try {
+        const response = await fetch('/api/transport-news/');
+        const data = await response.json();
+
+        grid.innerHTML = '';
+
+        data.news.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'news-card';
+            card.innerHTML = `
+                <span class="news-badge">${item.category}</span>
+                <h3>${item.title}</h3>
+                <p>${item.summary}</p>
+                <div class="news-meta">📍 ${item.city} · ${item.tag}</div>
+            `;
+            grid.appendChild(card);
+        });
+    } catch (e) {
+        grid.innerHTML = `
+            <div class="news-card">
+                <span class="news-badge">Información</span>
+                <h3>No se pudieron cargar las noticias</h3>
+                <p>Inténtalo nuevamente más tarde.</p>
+            </div>
+        `;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarNoticiasTransporte);
 </script>
 
 </body>
