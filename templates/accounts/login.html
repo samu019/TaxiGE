@@ -266,6 +266,51 @@ input[type=file]{
     .copy h1{font-size:38px}
     .copy p{font-size:16px}
 }
+
+.password-tools{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:6px;
+}
+.toggle-password{
+    border:0;
+    background:none;
+    color:#2563eb;
+    font-weight:800;
+    cursor:pointer;
+    font-size:13px;
+}
+.password-meter{
+    margin-top:8px;
+    padding:10px 12px;
+    border-radius:12px;
+    background:#f8fafc;
+    border:1px solid #cbd5e1;
+    font-size:13px;
+    font-weight:800;
+}
+.password-meter.weak{color:#dc2626;}
+.password-meter.medium{color:#d97706;}
+.password-meter.strong{color:#059669;}
+.terms-box{
+    margin-top:18px;
+    padding:14px 16px;
+    border-radius:16px;
+    background:#f8fafc;
+    border:1px solid #cbd5e1;
+}
+.terms-box label{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-weight:700;
+    color:#0f172a;
+    line-height:1.6;
+}
+.terms-box input{
+    margin-top:4px;
+}
+
 </style>
 
 
@@ -465,12 +510,35 @@ input[type="file"] {
             {% csrf_token %}
             <div class="grid">
                 <div class="full"><label>Usuario</label>{{ form.username }}</div>
-                <div class="full"><label>Contraseña</label>{{ form.password }}</div>
+                <div class="full"><label>Contraseña</label>{{ form.password }}
+                    <div class="password-tools">
+                        <button type="button" class="toggle-password" data-target="{{ form.password.id_for_label }}">👁️ Mostrar contraseña</button>
+                    </div>
+                </div>
             </div>
             <button class="btn btn-dark" type="submit" style="margin-top:20px;">Entrar</button>
         </form>
         <div class="bottom-link">¿No tienes cuenta? <a href="/accounts/register/">Registrarte</a></div>
     </section>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.toggle-password').forEach(function(btn){
+        btn.addEventListener('click', function(){
+            const field = document.getElementById(btn.dataset.target);
+            if (!field) return;
+            if (field.type === 'password') {
+                field.type = 'text';
+                btn.textContent = '🙈 Ocultar contraseña';
+            } else {
+                field.type = 'password';
+                btn.textContent = '👁️ Mostrar contraseña';
+            }
+        });
+    });
+});
+</script>
+
 </body>
 </html>

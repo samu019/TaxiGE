@@ -1,0 +1,1263 @@
+[
+{
+  "model": "accounts.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$oXTzizsmNddBmmCJNn6uTQ$1OC13n3monaIklUtTTx4lWJUU9xRKvaDgw4tBzkWecQ=",
+    "last_login": "2026-05-15T15:39:23.221Z",
+    "is_superuser": true,
+    "username": "Samuelmba",
+    "first_name": "",
+    "last_name": "",
+    "email": "Slimmysamuelmba@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-05-12T10:17:47.468Z",
+    "role": "platform_owner",
+    "phone": null,
+    "avatar": "",
+    "is_platform_owner": true,
+    "admin_approved": true,
+    "created_at": "2026-05-12T10:17:48.071Z",
+    "updated_at": "2026-05-12T11:48:30.415Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$Nk9X9KkqHkuuWBJZ24TMkF$sN3KOkmGm20TRJxQKLZ1UpEfES7oOu+AwZXlHIuL0tw=",
+    "last_login": "2026-05-12T17:13:32.855Z",
+    "is_superuser": false,
+    "username": "admin_taxi_malabo",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@taxige.local",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-12T10:22:17.017Z",
+    "role": "admin",
+    "phone": "+240222000001",
+    "avatar": "",
+    "is_platform_owner": false,
+    "admin_approved": true,
+    "created_at": "2026-05-12T10:22:17.017Z",
+    "updated_at": "2026-05-12T10:31:05.909Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$MKqEsTuNNXePayqnsvv9FF$o7ES630TDfHzRxac2mcPJSilTGxVQSK4mzBF7qOy1EI=",
+    "last_login": "2026-05-12T17:14:29.516Z",
+    "is_superuser": false,
+    "username": "propietario_test",
+    "first_name": "SAMUEL MBA",
+    "last_name": "ESONO MANGUE",
+    "email": "propietario@test.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-12T17:05:16.732Z",
+    "role": "admin",
+    "phone": "+240555123456",
+    "avatar": "",
+    "is_platform_owner": false,
+    "admin_approved": true,
+    "created_at": "2026-05-12T17:05:17.440Z",
+    "updated_at": "2026-05-12T17:10:06.052Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$L4Gla91fV8ymfGrOkkl6jq$+DMD8WibLdsxO55O7afoXdcp7KqFkXysPetJK6K4ves=",
+    "last_login": "2026-05-16T17:22:52.582Z",
+    "is_superuser": false,
+    "username": "propietario_test2",
+    "first_name": "Samuel",
+    "last_name": "Esono Mangue",
+    "email": "propietario2@test.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-12T17:22:11.947Z",
+    "role": "admin",
+    "phone": "+240555123457",
+    "avatar": "",
+    "is_platform_owner": false,
+    "admin_approved": true,
+    "created_at": "2026-05-12T17:22:12.790Z",
+    "updated_at": "2026-05-13T14:47:23.010Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$nZrlmfBtr6AsragsN07PsQ$8B060usUvD/pqXlA1F5DxjFNjZxeDRpGYVjEAsQ9zuI=",
+    "last_login": "2026-05-13T14:39:02.058Z",
+    "is_superuser": false,
+    "username": "Slimmysamuel",
+    "first_name": "",
+    "last_name": "",
+    "email": "Slimmysamuelmba@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-13T14:09:20.352Z",
+    "role": "admin",
+    "phone": null,
+    "avatar": "",
+    "is_platform_owner": false,
+    "admin_approved": true,
+    "created_at": "2026-05-13T14:09:20.900Z",
+    "updated_at": "2026-05-15T19:48:07.143Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$QEzSlEPjFTVimLHhlCuEdf$xsuA2iEz/rI/xLy6RehgSzKSQwsy9J7Dj3iybTr+YqA=",
+    "last_login": "2026-05-13T14:36:28.799Z",
+    "is_superuser": true,
+    "username": "Admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@taxige.local",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-05-13T14:20:34.588Z",
+    "role": "user",
+    "phone": null,
+    "avatar": "",
+    "is_platform_owner": false,
+    "admin_approved": false,
+    "created_at": "2026-05-13T14:20:35.166Z",
+    "updated_at": "2026-05-13T14:35:53.026Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$S3hgc9hZhLhqRymVmQxcuu$aCn0Kte2MSGvQMKxOjHsb/0/YAmRtqsNucq/1CzrEJk=",
+    "last_login": "2026-05-17T16:29:06.058Z",
+    "is_superuser": false,
+    "username": "MRSAM",
+    "first_name": "Slimmy",
+    "last_name": "Mangue",
+    "email": "slimmysamuelmbaesonomangue@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-17T16:29:05.163Z",
+    "role": "user",
+    "phone": "+240 222 43 11 01",
+    "avatar": "",
+    "is_platform_owner": false,
+    "admin_approved": false,
+    "created_at": "2026-05-17T16:29:06.004Z",
+    "updated_at": "2026-05-17T16:29:06.004Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$V1OmG2mUPNuV1UcZ6CePgN$jFrkCCx5loV38VhpKqjFFwdAQRIz7uThfbOZp0RkA7w=",
+    "last_login": "2026-05-17T17:11:52.549Z",
+    "is_superuser": false,
+    "username": "MRBEEN",
+    "first_name": "Slimmy",
+    "last_name": "Mangue",
+    "email": "slimmysamuelmbaesonomangue@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-17T17:11:51.905Z",
+    "role": "user",
+    "phone": "+240 222 43 11 01",
+    "avatar": "",
+    "is_platform_owner": false,
+    "admin_approved": false,
+    "created_at": "2026-05-17T17:11:52.513Z",
+    "updated_at": "2026-05-17T17:11:52.513Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$A4EEmLOiYvlEoE7bZfYfxG$EnA8FSxDppw+Rm/96ePOn08Im+FIn3yZPs4XDup1J38=",
+    "last_login": "2026-05-17T17:21:12.941Z",
+    "is_superuser": false,
+    "username": "ROQUEJULIAN",
+    "first_name": "JULLIAN MBA",
+    "last_name": "MBA",
+    "email": "slimmysamuelmbaesonomangue@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-17T17:20:36.384Z",
+    "role": "user",
+    "phone": "+240 222 43 11 01",
+    "avatar": "",
+    "is_platform_owner": false,
+    "admin_approved": false,
+    "created_at": "2026-05-17T17:20:37.254Z",
+    "updated_at": "2026-05-17T17:20:37.254Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.adminrequest",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "owner_full_name": "SAMUEL MBA ESONO MANGUE",
+    "phone": "+7 (991)761-14-62",
+    "city": "Malabo",
+    "address": "13K, BORISA GALUSHKINA 12",
+    "identity_number": "P10036100",
+    "identity_document": "kyc/identity_documents/WhatsApp_Image_2026-05-06_at_16.53.48.jpeg",
+    "selfie_photo": "kyc/selfies/WhatsApp_Image_2026-04-30_at_12.03.53.jpeg",
+    "company_name": "Taxi Samuel Premium",
+    "taxi_count": 1,
+    "main_taxi_brand": "TOYOTA",
+    "main_taxi_model": "Corolla",
+    "main_taxi_plate": "GE-SM-001",
+    "main_taxi_color": "blanco",
+    "taxi_registration_document": "kyc/taxi_documents/WhatsApp_Image_2026-05-06_at_16.53.48.jpeg",
+    "taxi_license_document": "kyc/taxi_licenses/WhatsApp_Image_2026-04-01_at_17.15.44.jpeg",
+    "ownership_proof_document": "kyc/ownership_proofs/ooooo.png",
+    "activation_fee": "50000.00",
+    "payment_reference": null,
+    "payment_receipt": "",
+    "payment_verified": false,
+    "payment_verified_at": null,
+    "payment_note": null,
+    "message": "Soy propietario de un taxi en Malabo y deseo utilizar TaxiGE Platform para gestionar mis vehículos, conductores, pagos diarios y daños. Adjunto la documentación requerida para la verificación KYC.",
+    "status": "approved",
+    "reviewed_by": null,
+    "reviewed_at": null,
+    "review_note": "",
+    "created_at": "2026-05-12T17:05:17.483Z",
+    "updated_at": "2026-05-12T17:06:32.116Z"
+  }
+},
+{
+  "model": "accounts.adminrequest",
+  "pk": 2,
+  "fields": {
+    "user": 4,
+    "owner_full_name": "Samuel Esono Mangue",
+    "phone": "+240222111222",
+    "city": "Malabo",
+    "address": "Barrio Ela Nguema, Malabo, Guinea Ecuatorial",
+    "identity_number": "P10036101",
+    "identity_document": "kyc/identity_documents/WhatsApp_Image_2026-05-12_at_17.04.48.jpeg",
+    "selfie_photo": "kyc/selfies/WhatsApp_Image_2026-05-06_at_16.53.48.jpeg",
+    "company_name": "Taxi Esono Premium",
+    "taxi_count": 3,
+    "main_taxi_brand": "Toyota",
+    "main_taxi_model": "Corolla",
+    "main_taxi_plate": "GE-ES-002",
+    "main_taxi_color": "negro",
+    "taxi_registration_document": "kyc/taxi_documents/WhatsApp_Image_2026-04-30_at_12.03.53.jpeg",
+    "taxi_license_document": "kyc/taxi_licenses/WhatsApp_Image_2026-05-06_at_16.53.48.jpeg",
+    "ownership_proof_document": "kyc/ownership_proofs/WhatsApp_Image_2026-05-07_at_19.18.33.jpeg",
+    "activation_fee": "50000.00",
+    "payment_reference": null,
+    "payment_receipt": "",
+    "payment_verified": true,
+    "payment_verified_at": "2026-05-15T20:03:33.655Z",
+    "payment_note": "",
+    "message": "Soy propietario de una flota de taxis en Malabo y deseo utilizar TaxiGE Platform para gestionar vehículos, conductores, pagos diarios y control de daños.",
+    "status": "approved",
+    "reviewed_by": 1,
+    "reviewed_at": "2026-05-12T17:23:17.952Z",
+    "review_note": "Solicitud KYC aprobada manualmente desde el formulario. Empresa y taxi inicial creados automáticamente.",
+    "created_at": "2026-05-12T17:22:12.824Z",
+    "updated_at": "2026-05-15T20:03:33.655Z"
+  }
+},
+{
+  "model": "accounts.adminrequest",
+  "pk": 3,
+  "fields": {
+    "user": 5,
+    "owner_full_name": "Samuel Mba",
+    "phone": "+240 555 123 456",
+    "city": "Malabo",
+    "address": null,
+    "identity_number": null,
+    "identity_document": "",
+    "selfie_photo": "",
+    "company_name": "TaxiGE Malabo",
+    "taxi_count": 10,
+    "main_taxi_brand": null,
+    "main_taxi_model": null,
+    "main_taxi_plate": null,
+    "main_taxi_color": null,
+    "taxi_registration_document": "",
+    "taxi_license_document": "",
+    "ownership_proof_document": "",
+    "activation_fee": "50000.00",
+    "payment_reference": null,
+    "payment_receipt": "",
+    "payment_verified": true,
+    "payment_verified_at": "2026-05-15T19:48:07.137Z",
+    "payment_note": "",
+    "message": "Solicito acceso como propietario para gestionar mi flota de taxis.",
+    "status": "approved",
+    "reviewed_by": 1,
+    "reviewed_at": "2026-05-15T19:48:07.147Z",
+    "review_note": "Solicitud KYC aprobada manualmente desde el formulario. Empresa y taxi inicial creados automáticamente.",
+    "created_at": "2026-05-13T14:11:39.246Z",
+    "updated_at": "2026-05-15T19:48:07.148Z"
+  }
+},
+{
+  "model": "accounts.saaspaymentsettings",
+  "pk": 2,
+  "fields": {
+    "activation_fee": "25000.00",
+    "primary_bank_name": "ECOBANK",
+    "primary_account_holder": "MBA ESONO",
+    "primary_account_number": "39360016104",
+    "secondary_bank_name": null,
+    "secondary_account_holder": null,
+    "secondary_account_number": null,
+    "payment_instructions": "Realiza el pago de activación y sube el comprobante. Tu solicitud será revisada por el administrador antes de activar tu cuenta de propietario.",
+    "is_active": true,
+    "updated_at": "2026-05-16T16:27:07.299Z"
+  }
+},
+{
+  "model": "accounts.saassubscription",
+  "pk": 1,
+  "fields": {
+    "user": 4,
+    "monthly_fee": "50000.00",
+    "start_date": "2026-05-15",
+    "end_date": "2026-06-14",
+    "status": "active",
+    "last_payment_reference": "15000",
+    "last_payment_receipt": "subscriptions/payment_history/root_idiomas_3.pdf",
+    "notes": "Renovación aprobada desde historial de pagos SaaS. Pago ID: 1",
+    "created_at": "2026-05-15T20:05:01.898Z",
+    "updated_at": "2026-05-15T21:02:37.796Z"
+  }
+},
+{
+  "model": "accounts.saaspaymenthistory",
+  "pk": 1,
+  "fields": {
+    "subscription": 1,
+    "user": 4,
+    "amount": "50000.00",
+    "reference": "15000",
+    "receipt": "subscriptions/payment_history/root_idiomas_3.pdf",
+    "status": "approved",
+    "reviewed_by": 1,
+    "reviewed_at": "2026-05-15T21:02:37.793Z",
+    "admin_note": "",
+    "created_at": "2026-05-15T20:58:20.267Z"
+  }
+},
+{
+  "model": "companies.company",
+  "pk": 1,
+  "fields": {
+    "owner": 2,
+    "name": "Taxi Malabo Express",
+    "legal_name": null,
+    "tax_id": null,
+    "phone": "+240222000002",
+    "email": "malabo@taxige.local",
+    "city": "Malabo",
+    "address": "Malabo, Guinea Ecuatorial",
+    "logo": "",
+    "status": "active",
+    "notes": null,
+    "created_by": 1,
+    "created_at": "2026-05-12T10:22:17.616Z",
+    "updated_at": "2026-05-12T10:22:17.616Z"
+  }
+},
+{
+  "model": "companies.company",
+  "pk": 2,
+  "fields": {
+    "owner": 3,
+    "name": "Taxi Samuel Premium",
+    "legal_name": "Taxi Samuel Premium",
+    "tax_id": null,
+    "phone": "+7 (991)761-14-62",
+    "email": "propietario@test.com",
+    "city": "Malabo",
+    "address": "13K, BORISA GALUSHKINA 12",
+    "logo": "",
+    "status": "active",
+    "notes": "Empresa creada por reparación automática desde solicitud KYC ID: 1",
+    "created_by": null,
+    "created_at": "2026-05-12T17:10:06.059Z",
+    "updated_at": "2026-05-12T17:10:06.059Z"
+  }
+},
+{
+  "model": "companies.company",
+  "pk": 3,
+  "fields": {
+    "owner": 4,
+    "name": "Taxi Esono Premium",
+    "legal_name": "Taxi Esono Premium",
+    "tax_id": null,
+    "phone": "+240222111222",
+    "email": "propietario2@test.com",
+    "city": "Malabo",
+    "address": "Barrio Ela Nguema, Malabo, Guinea Ecuatorial",
+    "logo": "",
+    "status": "active",
+    "notes": "Empresa creada automáticamente al aprobar solicitud KYC. Solicitud ID: 2",
+    "created_by": 1,
+    "created_at": "2026-05-12T17:23:17.944Z",
+    "updated_at": "2026-05-12T17:23:17.944Z"
+  }
+},
+{
+  "model": "companies.company",
+  "pk": 4,
+  "fields": {
+    "owner": 5,
+    "name": "TaxiGE Malabo",
+    "legal_name": "TaxiGE Malabo",
+    "tax_id": null,
+    "phone": "+240 555 123 456",
+    "email": "Slimmysamuelmba@gmail.com",
+    "city": "Malabo",
+    "address": null,
+    "logo": "",
+    "status": "active",
+    "notes": "Empresa creada automáticamente al aprobar solicitud KYC. Solicitud ID: 3",
+    "created_by": 1,
+    "created_at": "2026-05-13T14:39:54.980Z",
+    "updated_at": "2026-05-13T14:39:54.980Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "internal_code": "TX-001",
+    "plate_number": "GE-MB-001",
+    "brand": "Toyota",
+    "model": "Corolla",
+    "color": "Blanco",
+    "year": 2015,
+    "photo": "",
+    "registration_document": "",
+    "insurance_document": "",
+    "daily_target_amount": "15000.00",
+    "status": "active",
+    "notes": null,
+    "created_by": 2,
+    "created_at": "2026-05-12T10:22:17.616Z",
+    "updated_at": "2026-05-12T10:22:17.616Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "internal_code": "GE-MS234",
+    "plate_number": "GE-MB-002",
+    "brand": "Accent",
+    "model": "Hyundai",
+    "color": null,
+    "year": 2018,
+    "photo": "",
+    "registration_document": "",
+    "insurance_document": "",
+    "daily_target_amount": "12000.00",
+    "status": "active",
+    "notes": "",
+    "created_by": 2,
+    "created_at": "2026-05-12T10:55:51.628Z",
+    "updated_at": "2026-05-12T10:55:51.628Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 3,
+  "fields": {
+    "company": 2,
+    "internal_code": "TX-KYC-1",
+    "plate_number": "GE-SM-001",
+    "brand": "TOYOTA",
+    "model": "Corolla",
+    "color": "blanco",
+    "year": null,
+    "photo": "",
+    "registration_document": "kyc/taxi_documents/WhatsApp_Image_2026-05-06_at_16.53.48.jpeg",
+    "insurance_document": "kyc/taxi_licenses/WhatsApp_Image_2026-04-01_at_17.15.44.jpeg",
+    "daily_target_amount": "0.00",
+    "status": "active",
+    "notes": "Taxi creado por reparación automática desde solicitud KYC ID: 1",
+    "created_by": null,
+    "created_at": "2026-05-12T17:10:06.060Z",
+    "updated_at": "2026-05-12T17:10:06.060Z"
+  }
+},
+{
+  "model": "vehicles.vehicle",
+  "pk": 4,
+  "fields": {
+    "company": 3,
+    "internal_code": "TX-2",
+    "plate_number": "GE-ES-002",
+    "brand": "Toyota",
+    "model": "Corolla",
+    "color": "negro",
+    "year": null,
+    "photo": "",
+    "registration_document": "kyc/taxi_documents/WhatsApp_Image_2026-04-30_at_12.03.53.jpeg",
+    "insurance_document": "kyc/taxi_licenses/WhatsApp_Image_2026-05-06_at_16.53.48.jpeg",
+    "daily_target_amount": "0.00",
+    "status": "active",
+    "notes": "Taxi creado automáticamente desde solicitud KYC. Solicitud ID: 2",
+    "created_by": 1,
+    "created_at": "2026-05-12T17:23:17.952Z",
+    "updated_at": "2026-05-13T18:10:55.283Z"
+  }
+},
+{
+  "model": "drivers.driver",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "assigned_vehicle": 1,
+    "full_name": "Pedro Nguema Obiang",
+    "phone": "+240555000001",
+    "email": null,
+    "identity_number": "ID-DEMO-001",
+    "license_number": "LIC-DEMO-001",
+    "address": "Malabo",
+    "photo": "",
+    "identity_document": "",
+    "license_document": "",
+    "start_date": "2026-05-12",
+    "daily_payment_amount": "15000.00",
+    "payment_day": "Diario",
+    "status": "active",
+    "notes": null,
+    "created_by": 2,
+    "created_at": "2026-05-12T10:22:17.623Z",
+    "updated_at": "2026-05-12T10:22:17.623Z"
+  }
+},
+{
+  "model": "drivers.driver",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "assigned_vehicle": 2,
+    "full_name": "Juan Ondo Mba",
+    "phone": "+240555000002",
+    "email": "slimmysamuelmbaesonomangue@gmail.com",
+    "identity_number": null,
+    "license_number": null,
+    "address": "http://slimmybarrios.blogspot.com/?m=1",
+    "photo": "",
+    "identity_document": "",
+    "license_document": "",
+    "start_date": null,
+    "daily_payment_amount": "0.00",
+    "payment_day": "Diario",
+    "status": "active",
+    "notes": "",
+    "created_by": 2,
+    "created_at": "2026-05-12T11:01:08.505Z",
+    "updated_at": "2026-05-12T11:01:08.505Z"
+  }
+},
+{
+  "model": "drivers.driver",
+  "pk": 3,
+  "fields": {
+    "company": 3,
+    "assigned_vehicle": 4,
+    "full_name": "Carlos Ndong Mba",
+    "phone": "+240555778899",
+    "email": null,
+    "identity_number": "ID-FIN-001",
+    "license_number": "LIC-FIN-001",
+    "address": "Malabo",
+    "photo": "",
+    "identity_document": "",
+    "license_document": "",
+    "start_date": "2026-05-12",
+    "daily_payment_amount": "15000.00",
+    "payment_day": "Diario",
+    "status": "active",
+    "notes": null,
+    "created_by": 4,
+    "created_at": "2026-05-12T20:56:40.191Z",
+    "updated_at": "2026-05-12T20:56:40.191Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "driver": 1,
+    "vehicle": 1,
+    "payment_date": "2026-05-12",
+    "expected_amount": "15000.00",
+    "paid_amount": "10000.00",
+    "status": "partial",
+    "notes": "Pago parcial de prueba",
+    "registered_by": 2,
+    "created_at": "2026-05-12T10:22:17.633Z",
+    "updated_at": "2026-05-12T10:22:17.633Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "driver": 1,
+    "vehicle": 1,
+    "payment_date": "2026-05-12",
+    "expected_amount": "15000.00",
+    "paid_amount": "15000.00",
+    "status": "paid",
+    "notes": "Pago completo del día",
+    "registered_by": 2,
+    "created_at": "2026-05-12T11:13:04.763Z",
+    "updated_at": "2026-05-12T11:13:04.763Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 3,
+  "fields": {
+    "company": 3,
+    "driver": 3,
+    "vehicle": 4,
+    "payment_date": "2026-05-12",
+    "expected_amount": "15000.00",
+    "paid_amount": "15000.00",
+    "status": "paid",
+    "notes": "Pago financiero de prueba",
+    "registered_by": 4,
+    "created_at": "2026-05-12T20:56:40.203Z",
+    "updated_at": "2026-05-12T20:56:40.203Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 4,
+  "fields": {
+    "company": 3,
+    "driver": 3,
+    "vehicle": 4,
+    "payment_date": "2026-05-11",
+    "expected_amount": "15000.00",
+    "paid_amount": "10000.00",
+    "status": "partial",
+    "notes": "Pago financiero de prueba",
+    "registered_by": 4,
+    "created_at": "2026-05-12T20:56:40.217Z",
+    "updated_at": "2026-05-12T20:56:40.217Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 5,
+  "fields": {
+    "company": 3,
+    "driver": 3,
+    "vehicle": 4,
+    "payment_date": "2026-05-10",
+    "expected_amount": "15000.00",
+    "paid_amount": "15000.00",
+    "status": "paid",
+    "notes": "Pago financiero de prueba",
+    "registered_by": 4,
+    "created_at": "2026-05-12T20:56:40.220Z",
+    "updated_at": "2026-05-12T20:56:40.220Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 6,
+  "fields": {
+    "company": 3,
+    "driver": 3,
+    "vehicle": 4,
+    "payment_date": "2026-05-09",
+    "expected_amount": "15000.00",
+    "paid_amount": "8000.00",
+    "status": "partial",
+    "notes": "Pago financiero de prueba",
+    "registered_by": 4,
+    "created_at": "2026-05-12T20:56:40.232Z",
+    "updated_at": "2026-05-12T20:56:40.232Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 7,
+  "fields": {
+    "company": 3,
+    "driver": 3,
+    "vehicle": 4,
+    "payment_date": "2026-04-20",
+    "expected_amount": "15000.00",
+    "paid_amount": "15000.00",
+    "status": "paid",
+    "notes": "Pago financiero de prueba",
+    "registered_by": 4,
+    "created_at": "2026-05-13T06:16:55.619Z",
+    "updated_at": "2026-05-13T20:32:13.259Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 8,
+  "fields": {
+    "company": 3,
+    "driver": 3,
+    "vehicle": 4,
+    "payment_date": "2026-02-13",
+    "expected_amount": "1.00",
+    "paid_amount": "15000.00",
+    "status": "paid",
+    "notes": "",
+    "registered_by": 4,
+    "created_at": "2026-05-13T20:33:50.872Z",
+    "updated_at": "2026-05-13T20:33:50.872Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 9,
+  "fields": {
+    "company": 3,
+    "driver": 3,
+    "vehicle": 4,
+    "payment_date": "2026-05-13",
+    "expected_amount": "20000.00",
+    "paid_amount": "15000.00",
+    "status": "partial",
+    "notes": "",
+    "registered_by": 4,
+    "created_at": "2026-05-13T20:40:42.045Z",
+    "updated_at": "2026-05-13T20:40:42.045Z"
+  }
+},
+{
+  "model": "payments.driverpayment",
+  "pk": 10,
+  "fields": {
+    "company": 3,
+    "driver": 3,
+    "vehicle": 4,
+    "payment_date": "2026-05-13",
+    "expected_amount": "20000.00",
+    "paid_amount": "15000.00",
+    "status": "partial",
+    "notes": "",
+    "registered_by": 4,
+    "created_at": "2026-05-13T20:48:37.750Z",
+    "updated_at": "2026-05-13T20:48:37.750Z"
+  }
+},
+{
+  "model": "damages.vehicledamage",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "vehicle": 1,
+    "driver": 1,
+    "title": "Golpe en puerta derecha",
+    "description": "Daño de prueba registrado para verificar el sistema.",
+    "estimated_cost": "25000.00",
+    "final_cost": "0.00",
+    "photo": "",
+    "damage_date": "2026-05-12",
+    "repaired_date": null,
+    "status": "pending",
+    "registered_by": 2,
+    "created_at": "2026-05-12T10:22:17.642Z",
+    "updated_at": "2026-05-12T10:22:17.642Z"
+  }
+},
+{
+  "model": "damages.vehicledamage",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "vehicle": 1,
+    "driver": 1,
+    "title": "Rasguño en parachoques",
+    "description": "Daño menor detectado al finalizar la jornada.",
+    "estimated_cost": "8000.00",
+    "final_cost": "0.00",
+    "photo": "",
+    "damage_date": "2026-05-12",
+    "repaired_date": null,
+    "status": "pending",
+    "registered_by": 2,
+    "created_at": "2026-05-12T11:19:59.085Z",
+    "updated_at": "2026-05-12T11:19:59.085Z"
+  }
+},
+{
+  "model": "damages.vehicledamage",
+  "pk": 3,
+  "fields": {
+    "company": 3,
+    "vehicle": 4,
+    "driver": 3,
+    "title": "Cambio de faro delantero",
+    "description": "Daño de prueba para dashboard financiero.",
+    "estimated_cost": "12000.00",
+    "final_cost": "0.00",
+    "photo": "",
+    "damage_date": "2026-05-12",
+    "repaired_date": null,
+    "status": "pending",
+    "registered_by": 4,
+    "created_at": "2026-05-12T20:56:40.232Z",
+    "updated_at": "2026-05-12T20:56:40.232Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 1,
+  "fields": {
+    "user": 4,
+    "title": "Invitación compartida creada",
+    "message": "Se creó un enlace de acceso para Taxi Esono Premium con rol Gestor.",
+    "level": "success",
+    "link": "/panel/shared-access/",
+    "is_read": true,
+    "created_at": "2026-05-13T20:24:13.548Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 2,
+  "fields": {
+    "user": 4,
+    "title": "Deuda pendiente registrada",
+    "message": "El conductor Carlos Ndong Mba tiene una deuda pendiente de 5000 XAF.",
+    "level": "warning",
+    "link": "/panel/payments/",
+    "is_read": false,
+    "created_at": "2026-05-13T20:40:42.054Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 1",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.512Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 4,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 2",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.518Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 5,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 3",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.525Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 6,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 4",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.529Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 7,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 5",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.536Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 8,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 6",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.542Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 9,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 7",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.547Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 10,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 8",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.553Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 11,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 9",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.558Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 12,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 10",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.564Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 13,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 11",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.569Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 14,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 12",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.574Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 15,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 13",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.578Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 16,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 14",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.587Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 17,
+  "fields": {
+    "user": 4,
+    "title": "Prueba 15",
+    "message": "Notificación de prueba para paginación",
+    "level": "info",
+    "link": null,
+    "is_read": false,
+    "created_at": "2026-05-13T20:57:02.593Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 18,
+  "fields": {
+    "user": 5,
+    "title": "Pago de activación verificado",
+    "message": "Tu pago de activación para TaxiGE Malabo fue verificado correctamente. Tu solicitud KYC ya puede ser aprobada.",
+    "level": "success",
+    "link": "/panel/",
+    "is_read": false,
+    "created_at": "2026-05-15T19:48:07.141Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 19,
+  "fields": {
+    "user": 5,
+    "title": "Solicitud KYC aprobada",
+    "message": "Tu cuenta de propietario para TaxiGE Malabo fue aprobada. Ya puedes acceder al panel de gestión.",
+    "level": "success",
+    "link": "/panel/",
+    "is_read": false,
+    "created_at": "2026-05-15T19:48:07.147Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 20,
+  "fields": {
+    "user": 4,
+    "title": "Pago de activación verificado",
+    "message": "Tu pago de activación para Taxi Esono Premium fue verificado correctamente. Tu solicitud KYC ya puede ser aprobada.",
+    "level": "success",
+    "link": "/panel/",
+    "is_read": false,
+    "created_at": "2026-05-15T20:03:33.659Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 21,
+  "fields": {
+    "user": 4,
+    "title": "Suscripción SaaS reactivada",
+    "message": "Tu suscripción SaaS fue reactivada correctamente hasta 2026-06-14. Ya puedes acceder al panel.",
+    "level": "success",
+    "link": "/panel/",
+    "is_read": false,
+    "created_at": "2026-05-15T20:28:32.913Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 22,
+  "fields": {
+    "user": 4,
+    "title": "Suscripción SaaS reactivada",
+    "message": "Tu suscripción SaaS fue reactivada correctamente hasta 2026-06-14. Ya puedes acceder al panel.",
+    "level": "success",
+    "link": "/panel/",
+    "is_read": false,
+    "created_at": "2026-05-15T20:45:08.411Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 23,
+  "fields": {
+    "user": 4,
+    "title": "Pago SaaS aprobado",
+    "message": "Tu pago SaaS fue aprobado. Tu suscripción queda activa hasta 2026-06-14.",
+    "level": "success",
+    "link": "/panel/",
+    "is_read": false,
+    "created_at": "2026-05-15T21:02:37.798Z"
+  }
+},
+{
+  "model": "audits.auditlog",
+  "pk": 1,
+  "fields": {
+    "user": 4,
+    "action": "create",
+    "app_label": "sharing",
+    "model_name": "TaxiShareInvite",
+    "object_id": "3",
+    "object_repr": "Taxi Esono Premium",
+    "description": "Invitación creada para empresa Taxi Esono Premium con rol partner",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 OPR/130.0.0.0",
+    "created_at": "2026-05-13T20:05:26.186Z"
+  }
+},
+{
+  "model": "audits.auditlog",
+  "pk": 2,
+  "fields": {
+    "user": 4,
+    "action": "update",
+    "app_label": "sharing",
+    "model_name": "TaxiShareInvite",
+    "object_id": "3",
+    "object_repr": "Taxi Esono Premium",
+    "description": "Invitación desactivada para empresa Taxi Esono Premium",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 OPR/130.0.0.0",
+    "created_at": "2026-05-13T20:24:08.024Z"
+  }
+},
+{
+  "model": "audits.auditlog",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "action": "create",
+    "app_label": "sharing",
+    "model_name": "TaxiShareInvite",
+    "object_id": "4",
+    "object_repr": "Taxi Esono Premium",
+    "description": "Invitación creada para empresa Taxi Esono Premium con rol manager",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 OPR/130.0.0.0",
+    "created_at": "2026-05-13T20:24:13.543Z"
+  }
+},
+{
+  "model": "sharing.taxishareinvite",
+  "pk": 1,
+  "fields": {
+    "company": 3,
+    "invited_by": 4,
+    "token": "m6FBEKYBF6-Z5a4OV6gEM62T09RirTw3vVJ3sTNFXrI",
+    "role": "owner",
+    "max_uses": 1,
+    "used_count": 0,
+    "is_active": true,
+    "expires_at": null,
+    "created_at": "2026-05-13T18:38:11.475Z"
+  }
+},
+{
+  "model": "sharing.taxishareinvite",
+  "pk": 2,
+  "fields": {
+    "company": 3,
+    "invited_by": 4,
+    "token": "B6tWIdEIwgsBsRNq17zkFTJQuvgTf95mmYXLjB01NGw",
+    "role": "viewer",
+    "max_uses": 1,
+    "used_count": 0,
+    "is_active": false,
+    "expires_at": null,
+    "created_at": "2026-05-13T18:42:19.582Z"
+  }
+},
+{
+  "model": "sharing.taxishareinvite",
+  "pk": 3,
+  "fields": {
+    "company": 3,
+    "invited_by": 4,
+    "token": "elAW4RKO_jfUjHqhe2NRMd_Xly8f08kkALZoyZ6gHAE",
+    "role": "partner",
+    "max_uses": 1,
+    "used_count": 0,
+    "is_active": false,
+    "expires_at": null,
+    "created_at": "2026-05-13T20:05:26.177Z"
+  }
+},
+{
+  "model": "sharing.taxishareinvite",
+  "pk": 4,
+  "fields": {
+    "company": 3,
+    "invited_by": 4,
+    "token": "3TZj0u7PAEIfgnv3nCdwyDXm1X3ro5FFT7bUvup41AM",
+    "role": "manager",
+    "max_uses": 1,
+    "used_count": 0,
+    "is_active": true,
+    "expires_at": null,
+    "created_at": "2026-05-13T20:24:13.537Z"
+  }
+}
+]

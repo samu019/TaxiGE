@@ -1,0 +1,119 @@
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect, render
+from .forms import PublicRegisterForm, AdminRequestForm, OwnerKYCRegisterForm
+from .models import AdminRequest, SaaSPaymentSettings
+
+
+class SmartLoginView(LoginView):
+    template_name = 'accounts/login.html'
+    redirect_authenticated_user = False
+
+    def get_success_url(self):
+        user = self.request.user
+
+        if user.is_superuser and getattr(user, 'is_platform_owner', False):
+            return '/admin/'
+
+        if user.role == 'admin' and user.admin_approved:
+            return '/panel/'
+
+        return '/request-admin/'
+
+
+def home_page(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser and getattr(request.user, 'is_platform_owner', False):
+            return redirect('/admin/')
+
+        if request.user.role == 'admin' and request.user.admin_approved:
+            return redirect('/panel/')
+
+    return render(request, 'accounts/home.html')
+
+
+def register_choice(request):
+    return render(request, 'accounts/register_choice.html')
+
+
+def custom_logout(request):
+    logout(request)
+    return redirect('/accounts/login/')
+
+
+def public_register(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser and getattr(request.user, 'is_platform_owner', False):
+            return redirect('/admin/')
+
+        if request.user.role == 'admin' and request.user.admin_approved:
+            return redirect('/panel/')
+
+        return redirect('/request-admin/')
+
+    if request.method == 'POST':
+        form = PublicRegisterForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return render(request, 'accounts/request_admin_success.html')
+    else:
+        form = PublicRegisterForm()
+
+    return render(request, 'accounts/register.html', {
+        'form': form,
+    })
+
+
+def owner_kyc_register(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
+    if request.method == 'POST':
+        form = OwnerKYCRegisterForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            user, admin_request = form.save()
+            login(request, user)
+            return render(request, 'accounts/request_admin_success.html')
+    else:
+        form = OwnerKYCRegisterForm()
+
+    payment_settings = SaaSPaymentSettings.get_active()
+
+    return render(request, 'accounts/register_owner_kyc.html', {
+        'form': form,
+    })
+
+
+@login_required
+def request_admin_access(request):
+    existing_request = AdminRequest.objects.filter(
+        user=request.user,
+        status='pending'
+    ).first()
+
+    if request.user.is_superuser and getattr(request.user, 'is_platform_owner', False):
+        return redirect('/admin/')
+
+    if request.user.role == 'admin' and request.user.admin_approved:
+        return redirect('/panel/')
+
+    if request.method == 'POST':
+        form = AdminRequestForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            admin_request = form.save(commit=False)
+            admin_request.user = request.user
+            admin_request.status = 'pending'
+            admin_request.save()
+            return render(request, 'accounts/request_admin_success.html')
+    else:
+        form = AdminRequestForm()
+
+    return render(request, 'accounts/request_admin.html', {
+        'form': form,
+        'existing_request': existing_request,
+    })

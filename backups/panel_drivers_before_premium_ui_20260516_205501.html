@@ -1,0 +1,243 @@
+﻿{% extends "dashboard/panel_base.html" %}
+{% block content %}
+
+<style>
+.drivers-page {
+    display: grid;
+    gap: 22px;
+}
+
+.drivers-hero,
+.drivers-card {
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(96, 165, 250, 0.18);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(2, 6, 23, 0.28);
+}
+
+.drivers-hero h1 {
+    margin: 0 0 8px;
+    font-size: 2rem;
+}
+
+.drivers-hero p {
+    margin: 0;
+    color: #94a3b8;
+}
+
+.drivers-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.btn-premium {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 800;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.32);
+}
+
+.btn-danger-soft {
+    background: rgba(239, 68, 68, 0.16);
+    color: #fecaca;
+    border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 18px;
+}
+
+.drivers-table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+}
+
+.drivers-table th,
+.drivers-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.drivers-table th {
+    color: #cbd5e1;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.drivers-table td {
+    color: #f8fafc;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    background: rgba(37, 99, 235, 0.16);
+    color: #93c5fd;
+}
+
+.driver-mobile-list {
+    display: none;
+}
+
+.driver-mobile-card {
+    background: rgba(30, 41, 59, 0.86);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 18px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.driver-mobile-card h3 {
+    margin: 0 0 10px;
+}
+
+.driver-mobile-card p {
+    margin: 7px 0;
+    color: #cbd5e1;
+    overflow-wrap: anywhere;
+}
+
+.mobile-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+@media (max-width: 768px) {
+    .drivers-hero,
+    .drivers-card {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .drivers-hero h1 {
+        font-size: 1.6rem !important;
+    }
+
+    .drivers-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .btn-premium {
+        width: 100%;
+    }
+
+    .desktop-drivers-table {
+        display: none;
+    }
+
+    .driver-mobile-list {
+        display: block;
+    }
+}
+</style>
+
+<div class="drivers-page">
+    <section class="drivers-hero">
+        <h1>👥 Mis conductores</h1>
+        <p>Gestiona los conductores registrados, sus datos principales y su taxi asignado.</p>
+
+        <div class="drivers-actions">
+            <a href="/panel/drivers/create/" class="btn-premium">➕ Añadir conductor</a>
+        </div>
+    </section>
+
+    <section class="drivers-card desktop-drivers-table">
+        <h2>📋 Lista de conductores</h2>
+        <br>
+
+        <div class="table-wrap">
+            <table class="drivers-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Documento</th>
+                        <th>Taxi asignado</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for driver in drivers %}
+                    <tr>
+                        <td>{{ driver.full_name }}</td>
+                        <td>{{ driver.phone }}</td>
+                        <td>{{ driver.license_number|default:"-" }}</td>
+                        <td>
+                            {% if driver.assigned_vehicle %}
+                                {{ driver.assigned_vehicle.plate_number }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td><span class="status-badge">{{ driver.get_status_display }}</span></td>
+                        <td>{{ driver.created_at|date:"d/m/Y" }}</td>
+                        <td>
+                            <a href="/panel/drivers/{{ driver.id }}/edit/" class="btn-premium">✏️ Editar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">No hay conductores registrados todavía.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="driver-mobile-list">
+        {% for driver in drivers %}
+        <div class="driver-mobile-card">
+            <h3>👤 {{ driver.full_name }}</h3>
+            <p><strong>📞 Teléfono:</strong> {{ driver.phone }}</p>
+            <p><strong>🪪 Documento:</strong> {{ driver.license_number|default:"-" }}</p>
+            <p>
+                <strong>🚕 Taxi:</strong>
+                {% if driver.assigned_vehicle %}
+                    {{ driver.assigned_vehicle.plate_number }}
+                {% else %}
+                    -
+                {% endif %}
+            </p>
+            <p><strong>📌 Estado:</strong> {{ driver.get_status_display }}</p>
+            <p><strong>📅 Fecha:</strong> {{ driver.created_at|date:"d/m/Y" }}</p>
+
+            <div class="mobile-actions">
+                <a href="/panel/drivers/{{ driver.id }}/edit/" class="btn-premium">✏️ Editar conductor</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="driver-mobile-card">
+            <p>No hay conductores registrados todavía.</p>
+        </div>
+        {% endfor %}
+    </section>
+</div>
+
+{% endblock %}
