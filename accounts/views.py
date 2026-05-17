@@ -222,7 +222,7 @@ def public_transport_news_api(request):
             "category": "Expansión",
             "title": "Cobertura nacional progresiva",
             "summary": "La plataforma está orientada a crecer desde Malabo y Bata hacia más ciudades del país.",
-            "city": "Malabo · Bata · Ebibeyín",
+            "city": "Malabo · Bata · Ebibeyin",
             "tag": "Expansión"
         },
         {
