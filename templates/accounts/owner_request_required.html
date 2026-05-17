@@ -1,0 +1,157 @@
+﻿{% extends "dashboard/panel_base.html" %}
+{% block content %}
+
+<style>
+.upgrade-page {
+    display: grid;
+    gap: 24px;
+}
+
+.hero-card,
+.info-card {
+    background:
+        radial-gradient(circle at top right, rgba(37,99,235,.28), transparent 35%),
+        linear-gradient(135deg, rgba(15,23,42,.98), rgba(30,41,59,.94));
+    border: 1px solid rgba(96,165,250,.22);
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 24px 60px rgba(2,6,23,.30);
+}
+
+.hero-card h1 {
+    margin: 0 0 10px;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+}
+
+.hero-card p {
+    margin: 0;
+    color: #cbd5e1;
+    max-width: 760px;
+    line-height: 1.7;
+}
+
+.badge {
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 800;
+    background: rgba(245,158,11,.14);
+    color: #fcd34d;
+    border: 1px solid rgba(245,158,11,.22);
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.feature {
+    padding: 18px;
+    border-radius: 20px;
+    background: rgba(15,23,42,.75);
+    border: 1px solid rgba(148,163,184,.16);
+}
+
+.feature strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 1rem;
+}
+
+.btn-premium {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 14px 22px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-weight: 900;
+    background: linear-gradient(135deg, #f59e0b, #facc15);
+    color: #020617;
+    box-shadow: 0 14px 34px rgba(245,158,11,.25);
+}
+
+.alert-pending {
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(245,158,11,.10);
+    border: 1px solid rgba(245,158,11,.24);
+    color: #fde68a;
+}
+
+@media (max-width: 768px) {
+    .hero-card,
+    .info-card {
+        padding: 20px;
+        border-radius: 22px;
+    }
+
+    .btn-premium {
+        width: 100%;
+    }
+}
+</style>
+
+<div class="upgrade-page">
+
+    {% if pending_request %}
+        <div class="hero-card">
+            <span class="badge">⏳ Solicitud pendiente</span>
+            <h1>Tu solicitud está en revisión.</h1>
+            <p>
+                Ya has enviado tu documentación y comprobante de pago.
+                Nuestro equipo revisará tu solicitud y te notificará cuando sea aprobada.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <div class="alert-pending">
+                ✅ No necesitas enviar la información nuevamente.<br>
+                📩 Recibirás una notificación cuando tu cuenta de propietario sea activada.
+            </div>
+        </div>
+
+    {% else %}
+        <div class="hero-card">
+            <span class="badge">👤 Cuenta normal activa</span>
+            <h1>Tu cuenta ya está lista.</h1>
+            <p>
+                Puedes usar TaxiGE como usuario normal. Si deseas administrar taxis,
+                conductores, pagos y daños, puedes solicitar una cuenta de propietario.
+            </p>
+
+            <div class="features">
+                <div class="feature">
+                    <strong>🚕 Gestión de taxis</strong>
+                    Control total de tu flota.
+                </div>
+                <div class="feature">
+                    <strong>👥 Conductores</strong>
+                    Administra tu equipo.
+                </div>
+                <div class="feature">
+                    <strong>💳 Pagos</strong>
+                    Seguimiento financiero.
+                </div>
+                <div class="feature">
+                    <strong>🛡️ Verificación KYC</strong>
+                    Plataforma segura.
+                </div>
+            </div>
+
+            <a href="/accounts/register/owner/" class="btn-premium">
+                🚀 Solicitar cuenta de propietario
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
