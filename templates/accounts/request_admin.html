@@ -492,6 +492,35 @@
     }
 }
 
+
+.fuel-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+    margin-top:20px;
+}
+.fuel-card{
+    padding:20px;
+    border-radius:22px;
+    background:rgba(30,41,59,.78);
+    border:1px solid rgba(148,163,184,.18);
+}
+.fuel-card span{
+    display:block;
+    color:#cbd5e1;
+    font-size:13px;
+    font-weight:800;
+}
+.fuel-card strong{
+    display:block;
+    margin-top:8px;
+    font-size:24px;
+    color:#facc15;
+}
+@media(max-width:850px){
+    .fuel-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 
@@ -615,6 +644,37 @@
         
         
         
+        
+        <section class="card">
+            <h2>⛽ Costes de combustible</h2>
+            <p>
+                Consulta una referencia operativa para calcular costes de movilidad.
+                Estos datos son informativos y pueden variar según ciudad, proveedor y disponibilidad.
+            </p>
+
+            <div class="fuel-grid">
+                <div class="fuel-card">
+                    <span>⛽ Gasolina estimada</span>
+                    <strong id="fuel-gasoline">Cargando...</strong>
+                </div>
+
+                <div class="fuel-card">
+                    <span>🚚 Diésel estimado</span>
+                    <strong id="fuel-diesel">Cargando...</strong>
+                </div>
+
+                <div class="fuel-card">
+                    <span>📅 Actualización</span>
+                    <strong id="fuel-updated">Hoy</strong>
+                </div>
+            </div>
+
+            <div class="notice">
+                💡 TaxiGE usa estos valores como referencia para ayudar a propietarios a estimar sus costes.
+            </div>
+        </section>
+
+
         <section class="card">
             <h2>💰 Simulador de ingresos</h2>
             <p>
@@ -981,6 +1041,33 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calcularSimulacion();
 });
+</script>
+
+
+<script>
+async function cargarCombustibleTaxiGE() {
+    try {
+        const response = await fetch('/api/public-stats/');
+        const data = await response.json();
+
+        const fuel = Number(data.pricing.fuel_estimate_xaf_per_liter || 540);
+        const diesel = Math.round(fuel * 0.98);
+
+        const g = document.getElementById('fuel-gasoline');
+        const d = document.getElementById('fuel-diesel');
+        const u = document.getElementById('fuel-updated');
+
+        if (g) g.textContent = fuel.toLocaleString('es-ES') + ' XAF/L';
+        if (d) d.textContent = diesel.toLocaleString('es-ES') + ' XAF/L';
+        if (u) u.textContent = new Date().toLocaleDateString('es-ES');
+    } catch (e) {
+        const g = document.getElementById('fuel-gasoline');
+        const d = document.getElementById('fuel-diesel');
+        if (g) g.textContent = '540 XAF/L';
+        if (d) d.textContent = '529 XAF/L';
+    }
+}
+document.addEventListener('DOMContentLoaded', cargarCombustibleTaxiGE);
 </script>
 
 </body>
