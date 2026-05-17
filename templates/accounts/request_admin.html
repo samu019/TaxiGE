@@ -684,7 +684,15 @@
             <div class="weather-grid">
                 <div class="weather-card">
                     <span>🏙️ Ciudad</span>
-                    <strong id="weather-city">Malabo</strong>
+                    
+<select id="weather-city-select" style="width:100%;padding:12px;border-radius:14px;background:rgba(15,23,42,.7);color:white;border:1px solid rgba(148,163,184,.25);font-weight:900;">
+    <option value="malabo">Malabo</option>
+    <option value="bata">Bata</option>
+    <option value="mongomo">Mongomo</option>
+    <option value="ebibeyin">Ebibeyín</option>
+    <option value="evinayong">Evinayong</option>
+</select>
+
                 </div>
                 <div class="weather-card">
                     <span>🌡️ Temperatura</span>
@@ -1128,13 +1136,30 @@ document.addEventListener('DOMContentLoaded', cargarCombustibleTaxiGE);
 </script>
 
 
+
 <script>
 async function cargarClimaTaxiGE() {
+    const citySelect = document.getElementById('weather-city-select');
     const temp = document.getElementById('weather-temp');
     const condition = document.getElementById('weather-condition');
 
+    const cities = {
+        malabo: { name: 'Malabo', lat: 3.75, lon: 8.78 },
+        bata: { name: 'Bata', lat: 1.86, lon: 9.77 },
+        mongomo: { name: 'Mongomo', lat: 1.63, lon: 11.31 },
+        ebibeyin: { name: 'Ebibeyín', lat: 2.15, lon: 11.33 },
+        evinayong: { name: 'Evinayong', lat: 1.44, lon: 10.55 }
+    };
+
+    const selected = citySelect ? citySelect.value : 'malabo';
+    const city = cities[selected] || cities.malabo;
+
+    if (temp) temp.textContent = 'Cargando...';
+    if (condition) condition.textContent = 'Actualizando...';
+
     try {
-        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=3.75&longitude=8.78&current_weather=true');
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true`;
+        const response = await fetch(url);
         const data = await response.json();
         const current = data.current_weather;
 
@@ -1152,8 +1177,16 @@ async function cargarClimaTaxiGE() {
         if (condition) condition.textContent = 'Sin conexión';
     }
 }
-document.addEventListener('DOMContentLoaded', cargarClimaTaxiGE);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const citySelect = document.getElementById('weather-city-select');
+    if (citySelect) {
+        citySelect.addEventListener('change', cargarClimaTaxiGE);
+    }
+    cargarClimaTaxiGE();
+});
 </script>
+
 
 </body>
 </html>
