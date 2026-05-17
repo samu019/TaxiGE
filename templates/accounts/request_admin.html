@@ -521,6 +521,35 @@
     .fuel-grid{grid-template-columns:1fr;}
 }
 
+
+.weather-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+    margin-top:20px;
+}
+.weather-card{
+    padding:20px;
+    border-radius:22px;
+    background:rgba(30,41,59,.78);
+    border:1px solid rgba(148,163,184,.18);
+}
+.weather-card span{
+    display:block;
+    color:#cbd5e1;
+    font-size:13px;
+    font-weight:800;
+}
+.weather-card strong{
+    display:block;
+    margin-top:8px;
+    font-size:24px;
+    color:#93c5fd;
+}
+@media(max-width:850px){
+    .weather-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 
@@ -645,6 +674,34 @@
         
         
         
+        
+        <section class="card">
+            <h2>🌦️ Clima y movilidad</h2>
+            <p>
+                Referencia climática para planificar actividad de taxis en ciudades clave.
+            </p>
+
+            <div class="weather-grid">
+                <div class="weather-card">
+                    <span>🏙️ Ciudad</span>
+                    <strong id="weather-city">Malabo</strong>
+                </div>
+                <div class="weather-card">
+                    <span>🌡️ Temperatura</span>
+                    <strong id="weather-temp">Cargando...</strong>
+                </div>
+                <div class="weather-card">
+                    <span>☔ Condición</span>
+                    <strong id="weather-condition">Cargando...</strong>
+                </div>
+            </div>
+
+            <div class="notice">
+                🚕 En días de lluvia o alta demanda, la planificación de conductores y flotas puede ser clave.
+            </div>
+        </section>
+
+
         <section class="card">
             <h2>⛽ Costes de combustible</h2>
             <p>
@@ -1068,6 +1125,34 @@ async function cargarCombustibleTaxiGE() {
     }
 }
 document.addEventListener('DOMContentLoaded', cargarCombustibleTaxiGE);
+</script>
+
+
+<script>
+async function cargarClimaTaxiGE() {
+    const temp = document.getElementById('weather-temp');
+    const condition = document.getElementById('weather-condition');
+
+    try {
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=3.75&longitude=8.78&current_weather=true');
+        const data = await response.json();
+        const current = data.current_weather;
+
+        if (temp) temp.textContent = Math.round(current.temperature) + ' °C';
+
+        let label = 'Estable';
+        if (current.weathercode >= 51 && current.weathercode <= 67) label = 'Lluvia ligera';
+        if (current.weathercode >= 80 && current.weathercode <= 82) label = 'Lluvia';
+        if (current.weathercode === 0) label = 'Despejado';
+        if (current.weathercode >= 1 && current.weathercode <= 3) label = 'Parcialmente nublado';
+
+        if (condition) condition.textContent = label;
+    } catch (e) {
+        if (temp) temp.textContent = 'No disponible';
+        if (condition) condition.textContent = 'Sin conexión';
+    }
+}
+document.addEventListener('DOMContentLoaded', cargarClimaTaxiGE);
 </script>
 
 </body>
