@@ -550,6 +550,36 @@
     .weather-grid{grid-template-columns:1fr;}
 }
 
+
+.security-grid{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:16px;
+    margin-top:22px;
+}
+.security-card{
+    padding:18px;
+    border-radius:22px;
+    background:rgba(30,41,59,.78);
+    border:1px solid rgba(34,197,94,.20);
+    box-shadow:0 16px 38px rgba(2,6,23,.22);
+}
+.security-card strong{
+    display:block;
+    margin-bottom:8px;
+    color:#86efac;
+}
+.security-card span{
+    color:#cbd5e1;
+    line-height:1.5;
+}
+@media(max-width:1000px){
+    .security-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:650px){
+    .security-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 
@@ -675,6 +705,39 @@
         
         
         
+        
+        <section class="card">
+            <h2>🔒 Seguridad y confianza TaxiGE</h2>
+            <p>
+                TaxiGE aplica controles de acceso para proteger a usuarios normales, propietarios,
+                conductores y datos empresariales.
+            </p>
+
+            <div class="security-grid">
+                <div class="security-card">
+                    <strong>🛡️ Acceso protegido</strong>
+                    <span>Inicio de sesión con credenciales personales.</span>
+                </div>
+                <div class="security-card">
+                    <strong>🔐 Contraseñas cifradas</strong>
+                    <span>Las contraseñas no se guardan en texto plano.</span>
+                </div>
+                <div class="security-card">
+                    <strong>🧾 KYC obligatorio</strong>
+                    <span>Los propietarios deben enviar documentos antes de operar.</span>
+                </div>
+                <div class="security-card">
+                    <strong>👤 Usuario normal</strong>
+                    <span>Sin permisos para editar taxis, pagos ni daños.</span>
+                </div>
+                <div class="security-card">
+                    <strong>📋 Auditoría interna</strong>
+                    <span>Preparado para registrar actividad administrativa.</span>
+                </div>
+            </div>
+        </section>
+
+
         <section class="card">
             <h2>🌦️ Clima y movilidad</h2>
             <p>
