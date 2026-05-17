@@ -322,7 +322,45 @@
                 height: 120px;
             }
         }
-    </style>
+    
+/* FORCE REAL MAP FULL SIZE */
+.map-box.real-map-box,
+.real-map-box {
+    display: block !important;
+    width: 100% !important;
+    min-height: 520px !important;
+    height: auto !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 28px !important;
+}
+
+.map-box.real-map-box iframe,
+.real-map-box iframe,
+.taxige-map {
+    width: 100% !important;
+    min-width: 100% !important;
+    height: 520px !important;
+    min-height: 520px !important;
+    display: block !important;
+    border: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .map-box.real-map-box,
+    .real-map-box {
+        min-height: 420px !important;
+    }
+
+    .map-box.real-map-box iframe,
+    .real-map-box iframe,
+    .taxige-map {
+        height: 420px !important;
+        min-height: 420px !important;
+    }
+}
+
+</style>
 </head>
 
 <body>
@@ -387,6 +425,7 @@
 <div class="map-box real-map-box">
     <iframe
         class="taxige-map"
+        style="width:100% !important; height:520px !important; display:block !important; border:0 !important;"
         src="https://www.openstreetmap.org/export/embed.html?bbox=5.2%2C-2.2%2C12.5%2C3.9&amp;layer=mapnik&amp;marker=1.5186%2C10.3405"
         loading="lazy">
     </iframe>
