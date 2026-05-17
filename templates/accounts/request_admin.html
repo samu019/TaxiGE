@@ -580,6 +580,39 @@
     .security-grid{grid-template-columns:1fr;}
 }
 
+
+.legal-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:16px;
+    margin-top:22px;
+}
+.legal-card{
+    display:block;
+    padding:18px;
+    border-radius:22px;
+    background:rgba(30,41,59,.78);
+    border:1px solid rgba(148,163,184,.18);
+    text-decoration:none;
+    color:#f8fafc;
+    box-shadow:0 16px 38px rgba(2,6,23,.22);
+}
+.legal-card strong{
+    display:block;
+    margin-bottom:8px;
+    color:#facc15;
+}
+.legal-card span{
+    color:#cbd5e1;
+    line-height:1.5;
+}
+@media(max-width:1000px){
+    .legal-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:650px){
+    .legal-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 
@@ -706,6 +739,34 @@
         
         
         
+        
+        <section class="card">
+            <h2>📄 Centro legal y documentación</h2>
+            <p>
+                Consulta las reglas principales antes de usar TaxiGE o solicitar una cuenta de propietario.
+            </p>
+
+            <div class="legal-grid">
+                <a href="/terms/" class="legal-card">
+                    <strong>📘 Términos y Condiciones</strong>
+                    <span>Normas generales de uso de TaxiGE.</span>
+                </a>
+                <a href="/terms/" class="legal-card">
+                    <strong>🔐 Privacidad y datos</strong>
+                    <span>Uso responsable de información personal y documentos.</span>
+                </a>
+                <a href="/accounts/register/owner/" class="legal-card">
+                    <strong>🧾 Proceso KYC</strong>
+                    <span>Requisitos para convertirse en propietario aprobado.</span>
+                </a>
+                <a href="/request-admin/" class="legal-card">
+                    <strong>👤 Usuario normal</strong>
+                    <span>Permisos disponibles para cuentas públicas.</span>
+                </a>
+            </div>
+        </section>
+
+
         <section class="card">
             <h2>🔒 Seguridad y confianza TaxiGE</h2>
             <p>
